@@ -1,0 +1,94 @@
+<html>
+
+<head>
+  <link rel="stylesheet" type="text/css" href="./common/wl.css">
+  <script>
+    function openinput() {
+      document.getElementById('submits').style.visibility = "visible";
+    }
+
+    function checkInput() {
+      if (document.getElementById('formQuestion1').value != "NA" && document.getElementById('formQuestion2').value != "NA" && document.getElementById('formQuestion3').value != "NA" && document.getElementById('formQuestion4').value != "NA") {
+        document.getElementById('submit').style.visibility = "visible";
+      } else {
+        document.getElementById('submit').style.visibility = "hidden";
+      }
+    }
+  </script>
+</head>
+
+<body>
+  <form action="stimQuestions.php?idnumber=1472" method="post">
+
+    <table width="780" cellpadding="10" cellspacing="0" border="0" align="center">
+      <tr>
+        <td>
+          <h3>Questions about video</h3></td>
+        <td align="right"><img src="./logos/ucsd.jpg" width=150></tr>
+    </table>
+
+    <table width="780" cellpadding="10" cellspacing="0" border="0" align="center">
+      <tr>
+        <td colspan=2>
+          <p>Answer all of the questions below:</p>
+        </td>
+        <tr>
+          <td align="center">
+            <p>How many people were in the video?
+              <p>
+          </td>
+          <td align="center">
+            <select id="formQuestion1" name="formQuestion1" onChange="checkInput()">
+   <option value="NA"></option>
+       <option value="4">4</option>
+                   <option value="3">3</option>
+                   <option value="2">2</option>
+                   <option value="1">1</option>
+                 </td>
+</tr>
+<tr>
+ <td align="center">
+   <p>What crime was committed?
+<p>
+ </td>
+ <td align="center">
+   <select id="formQuestion2" name="formQuestion2" onChange="checkInput()">
+   <option value="NA"></option>
+       <option value="Drug Dealing">Drug Dealing</option>
+                   <option value="Graffiti">Graffiti</option>
+                   <option value="Theft">Theft</option>
+                   <option value="Assault">Assault</option>
+                 </td>
+</tr>
+<tr>
+ <td align="center">
+   <p>What was true about the scene?</p>
+ </td>
+ <td align="center">
+   <select id="formQuestion3" name="formQuestion3" onChange="checkInput()">
+   <option value="NA"></option>
+       <option value="The lights were off">The lights were off</option>
+                   <option value="It was in an office">It was in an office</option>
+                   <option value="It was outside">It was outside</option>
+                   <option value="It was sunny outside">It was sunny outside</option>
+                 </td>
+</tr>
+<tr>
+ <td align="center">
+   <p>What color were the chairs? </p>
+ </td>
+ <td align="center">
+   <select id="formQuestion4" name="formQuestion4" onChange="checkInput()">
+   <option value="NA"></option>
+       <option value="Orange">Orange</option>
+                   <option value="Blue">Blue</option>
+                   <option value="Black">Black</option>
+                   <option value="There were no chairs">There were no chairs</option>
+                 </td>
+</tr>
+</td>
+</tr>
+<tr><td align="center" colspan=2><input id="submit" type="submit" name="formSubmit" id="submit" value="Submit" style="visibility: hidden"></td></tr>
+</table>
+</body>
+</html>

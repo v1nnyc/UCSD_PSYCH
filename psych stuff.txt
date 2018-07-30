@@ -1,0 +1,24 @@
+
+http://wixtedweb.ucsd.edu/evs/
+
+info --> consent form --> instructions--> shown video (automatically goes to next page) --> distractor (tetris) (5 minutes add timer) --> instructions--> shown lineup* / is this the person from the video & confidence level --> questions (how many ppl in vid, which crime, what was true, what color were the chairs)
+--> questions (age, gender, level of education, ethnicity) --> debriefing --> possible mturk?
+
+
+can add timers to pages 
+*
+pick 5-6 random people from pool of pictures
+1) disappear/target present
+	pick someone and all the pictures disappear
+2) disappear/target not present
+	pick anyone and everyone else disappears
+3) don't disappear/target present
+4) don't disappear/ target not present
+
+data:
+email
+need to know which of the 4 conditions they are in
+whether or not the guess was correct
+confidence rating
+answer to questions
+about you info

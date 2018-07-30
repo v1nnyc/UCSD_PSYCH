@@ -1,0 +1,34 @@
+
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="./common/wl.css">
+<script>
+function onLoad() {
+    setTimeout(playAudio,1000);
+}
+function playAudio() {
+    console.log("playAudio\n");
+    var p = document.getElementsByTagName("audio")[0];
+    p.play();
+}
+</script>
+</head>
+
+<body onload="onLoad()">
+<form action="lineup1Instructions.php?idnumber=1472" method="post">
+
+<audio id="audio1" data-setup='{"controls" : true, "autoplay" : true, "preload" : "auto"}'>
+  <source src="./audio/simGridVideo.m4a" type="audio/mpeg">
+</audio>
+
+<table width="780" height="100%" cellpadding="0" cellspacing="0" border="0" align="center"><tr><td valign="top">
+<h3>Instructions</h3>
+<p>The person from the video may or may not be in the lineup you are about to see.</p>
+<ul>
+<li>If you do not see the person from the video, pick the "not present" option and then rate your confidence.
+<li>If you see the person from the video, pick the person and then rate your confidence.
+</ul>
+
+<input type="submit" name="formSubmit" value="Next" />
+</body>
+</html>

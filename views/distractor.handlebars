@@ -1,0 +1,61 @@
+
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="./common/wl.css">
+<script>
+function onLoad() {
+    setTimeout(playAudio,1000);
+    setTimeout(openNext,55000);
+}
+
+function playAudio() {
+    console.log("playAudio\n");
+    var p = document.getElementsByTagName("audio")[0];
+    p.play();
+}
+
+function openNext() {
+    document.getElementById('next').style.visibility = "visible";
+}
+
+</script>
+</head>
+
+<body onLoad="onLoad()">
+<form action="distractor.php?idnumber=1472" method="post">
+
+<audio id="audio1" data-setup='{"controls" : true, "autoplay" : true, "preload" : "auto"}'>
+  <source src="./audio/tetris.m4a" type="audio/mpeg">
+</audio>
+
+<table width="780" cellpadding="10" cellspacing="0" border="0" align="center">
+<tr><td><h3>Tetris!</h3></td><td></td></tr>
+</table>
+
+<table width="780" cellpadding="10" cellspacing="0" border="0" align="center"><tr><td>
+<p>You will now play Tetris for a short amount of time. First read these instructions before a &ldquo;To play&rdquo; button appears.</p>
+
+<p>How to play:</p>
+<ul>
+<li>Blocks of different shapes will fall from the top of the screen. </li>
+<li>With the arrow keys, rotate or move the shapes so every space in the box is filled.</li>
+<li>The box on the right shows the shape of the next block.</li>
+<li>When a horizontal row is filled, the row disappears, and you will earn points.</li>
+<li>The more rows that are incomplete, the higher the blocks above them stack, reducing the space in which the
+falling shapes can be rotated or moved. </li>
+<li>Eventually the blocks will reach the top of the screen and the game will end. </li>
+</ul>
+
+<p>Keep playing:</p>
+<ul>
+<li>Your scores will be recorded.
+<li>If you play more than one game, your goal is to improve your score as you go.
+<li>At the end of each game, you'll be asked to enter your name (do not worry about a message that says
+&ldquo;could not access scores&rdquo;), then click &ldquo;play&rdquo; to start another game.
+<li>Play the game until the page automatically redirects to the next part of the experiment.
+</ul>
+<input id="next" type="submit" name="formSubmit" value="To play" style="visibility: hidden"/>
+</td>
+</tr>
+</body>
+</html>

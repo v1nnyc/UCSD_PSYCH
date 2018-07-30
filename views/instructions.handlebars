@@ -1,0 +1,55 @@
+<html>
+<head manifest="experiment1.manifest">
+<link rel="stylesheet" type="text/css" href="./common/wl.css">
+<script>
+function onLoad() {
+    setTimeout(playAudio,1000);
+//    setTimeout(openNext,25000);
+    setTimeout(redirect,25000);
+}
+
+function playAudio() {
+    console.log("--> playAudio\n");
+    var p = document.getElementsByTagName("audio")[0];
+    p.play();
+    console.log("<-- playAudio\n");
+}
+
+
+
+function redirect() {
+   window.location.assign("stimulus.php?idnumber=1472");
+}
+</script>
+</head>
+
+<body onload="onLoad()">
+<form action="instructions.php?idnumber=1472" method="post">
+<audio id="audio1" data-setup='{"controls" : true, "autoplay" : true, "preload" : "auto"}'>
+  <source src="./audio/instructions.m4a" type="audio/mpeg">
+</audio>
+
+<table width="780" height="100%" cellpadding="0" cellspacing="0" border="0" align="center"><tr><td valign="top">
+<h3>Instructions</h3>
+<p> Please read the instructions below and wait for the page to automatically advance. </p>
+
+<ul>
+<li>You will watch a very brief video.
+<li>Pay special attention because you will be asked questions about it later.
+<li>Do not click on the video.
+<li>The page will automatically redirect after you have watched the video.
+<li>Do not refresh the page or use the browser back buttons throughout the experiment.
+</ul>
+
+<!-- <input id="next" type="submit" name="formSubmit" value="Next" /> -->
+
+<video id="video1" class="video-js vjs-default-skin" width="10" style="visibility: hidden"
+       data-setup='{"controls" : false, "autoplay" : false, "preload" : "auto"}' controls muted>
+       <source src="./video/1.mp4" type="video/mp4">
+       <source src="./video/1.ogg" type="video/ogg">
+       <source src="./video/1.wmv" type="video/wmv">
+</video>
+
+
+</body>
+</html>
