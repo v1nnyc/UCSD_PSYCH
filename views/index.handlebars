@@ -1,24 +1,32 @@
 <script>
 function onLoad() {
-	 document.getElementById('submits').addEventListener('keypress', function(event) {
-		 window.alert("Enter")
-			 if (event.keyCode == 13) {
-					 event.preventDefault();
-		 return false;
-			 }
-	 });
+	 // document.getElementById('submits').addEventListener('keypress', function(event) {
+		//  window.alert("Enter")
+		// 	 if (event.keyCode == 13) {
+		// 			 event.preventDefault();
+		//  return false;
+		// 	 }
+	 // });
 
-	 document.getElementById('formID').addEventListener('keypress', function(event) {
-			 if (event.keyCode == 13) {
-					 event.preventDefault();
-		 return false;
-			 }
-	 });
+	 // document.getElementById('formID').addEventListener('keypress', function(event) {
+		// 	 if (event.keyCode == 13) {
+		// 			 event.preventDefault();
+		//  return false;
+		// 	 }
+	 // });
 }
 
 function openinput() {
 		document.getElementById('submits').style.visibility = "visible";
 }
+
+function redirect(){
+	console.log(document.getElementById('formID').value);
+	sessionStorage.setItem("test", document.getElementById('formID').value)
+	//TODO submit email to database
+	window.location.href='/instructions';
+}
+
 </script>
 
 <html>
@@ -26,8 +34,7 @@ function openinput() {
 <link rel="stylesheet" type="text/css" href="./common/wl.css">
 </head>
 
-<body onload="onLoad()">
-<form action="consent.php?entity=ucsd" method="post">
+<body>
 
 <table width="780" cellpadding="10" cellspacing="0" border="0" align="center">
 <tr><td><h3>Eyewitness Identification Research </td><td align="right"><img src="./logos/ucsd_hrpp.jpg" width=150></tr>
@@ -118,7 +125,7 @@ project.
 <input size=40 type="text" name="formID" id="formID" maxlength="100"/></p>
 <p>Click here if you agree to participate: <input type="checkbox" name="agree" onClick="openinput()" value="agree" /> </p>
 <p>
-<input type="submit" name="formSubmit" id="submits" value="Submit Consent Form" style="visibility: hidden">
+<input type="submit" name="formSubmit" id="submits" value="Submit Consent Form" onClick="redirect()" style="visibility: hidden">
 </td>
 </tr>
 </table>

@@ -15,7 +15,6 @@ function checkInput() {
 </head>
 
 <body>
-<form action="demographics.php?idnumber=1472" method="post">
 <table width="780" cellpadding="0" cellspacing="0" border="0" align="center">
 <tr><td><h3>About you</h3></td><td align="right"><img src="./logos/ucsd.jpg" width=150></td></tr>
 </table>
@@ -184,7 +183,7 @@ Please answer the following questions about yourself:
 	</td>
 <tr>
 	<td align="center" colspan=2>
-		<input id="submit" type="submit" name="formSubmit" value="Submit" style="visibility: hidden"/>
+		<input id="submit" type="submit" name="formSubmit" onClick="{window.location.href='/debrief'}" value="Submit" style="visibility: hidden"/>
 	</td>
 </tr>
 </table>
