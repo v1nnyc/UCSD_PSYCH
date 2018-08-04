@@ -4,20 +4,78 @@
 <head>
 <link rel="stylesheet" type="text/css" href="./common/wl.css">
 
+<script src="https://www.gstatic.com/firebasejs/5.3.1/firebase.js">
+</script>
 <script>
-  // Initialize Firebase
-  var config = {
-    apiKey: "AIzaSyCa5_e0vkkiBXQxKcpvGKHyumnWyvQ_os8",
-    authDomain: "ucsd-psych.firebaseapp.com",
-    databaseURL: "https://ucsd-psych.firebaseio.com",
-    projectId: "ucsd-psych",
-    storageBucket: "",
-    messagingSenderId: "325328536445"
-  };
-  firebase.initializeApp(config);
+	// Initialize Firebase
+	var config = {
+		apiKey: "AIzaSyCa5_e0vkkiBXQxKcpvGKHyumnWyvQ_os8",
+		authDomain: "ucsd-psych.firebaseapp.com",
+		databaseURL: "https://ucsd-psych.firebaseio.com",
+		projectId: "ucsd-psych",
+		storageBucket: "ucsd-psych.appspot.com",
+		messagingSenderId: "325328536445"
+	};
+	firebase.initializeApp(config);
 </script>
 
 <script type="text/javascript">
+
+function shuffle(array) {
+  var currentIndex = array.length, temporaryValue, randomIndex;
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
+}
+
+function getPics(tp){
+  let lineup = [];
+  if(tp){lineup.push("media/target.jpg");}
+  while(lineup.length < 6){
+    lineup.push("media/fillers/" + Math.floor((Math.random() * 114) + 1) + ".jpg");
+  }
+  return shuffle(lineup);
+}
+
+function addPics(lineup){
+  for(let pic in lineup){
+    document.getElementById(pic).src = lineup[pic];
+  }
+
+}
+
+function onLoad(){
+  let user = sessionStorage.getItem("user");
+  const database = firebase.database();
+
+  database.ref('users/' + user).on('value', (snapshot) => {
+    const allUsers = snapshot.val();
+    let expType = allUsers["experiment type"];
+    //let types = ["dtp", "dtnp", "ddtp", "ddtnp"]
+    let types = {"dtp" : true, "dtnp" : false, "ddtp": true, "ddtnp": false}
+
+
+
+    let lineup = getPics(types[expType]);
+
+    addPics(lineup);
+
+    console.log(lineup);
+  });
+}
+
 function checkInput() {
     if(document.getElementById('formSelection').value != "NA"  && document.getElementById('formConfidence').value != "NA") {
       document.getElementById('Next').style.visibility = "visible";
@@ -28,12 +86,12 @@ function checkInput() {
 }
 
 function radioClicked(id) {
+  document.getElementById('0').setAttribute("style", "border-color : #FFFFFF");
   document.getElementById('1').setAttribute("style", "border-color : #FFFFFF");
   document.getElementById('2').setAttribute("style", "border-color : #FFFFFF");
   document.getElementById('3').setAttribute("style", "border-color : #FFFFFF");
   document.getElementById('4').setAttribute("style", "border-color : #FFFFFF");
   document.getElementById('5').setAttribute("style", "border-color : #FFFFFF");
-  document.getElementById('6').setAttribute("style", "border-color : #FFFFFF");
 
   document.getElementById('formSelection').selectedIndex     = 1;
 
@@ -44,12 +102,12 @@ function radioClicked(id) {
 
 function imageClicked(id) {
   document.getElementById("notPresentRadio").checked = false;
+  document.getElementById('0').setAttribute("style", "border-color : #FFFFFF");
   document.getElementById('1').setAttribute("style", "border-color : #FFFFFF");
   document.getElementById('2').setAttribute("style", "border-color : #FFFFFF");
   document.getElementById('3').setAttribute("style", "border-color : #FFFFFF");
   document.getElementById('4').setAttribute("style", "border-color : #FFFFFF");
   document.getElementById('5').setAttribute("style", "border-color : #FFFFFF");
-  document.getElementById('6').setAttribute("style", "border-color : #FFFFFF");
 
   id.setAttribute("style", "border-color : #FF0000");
 
@@ -69,36 +127,36 @@ function confidenceSelected() {
 </script>
 </head>
 
-<body>
+<body onload="onLoad()">
 
 <table width="780" cellpadding="3" cellspacing="0" border="0" align="center">
 <tr><td colspan=3>
 <p>If the person from the video is below, click on the image of that person. </p> </td></tr>
 <tr><td colspan=3>
 <p>If the person is not present click on the non-present button <input id="notPresentRadio" type="radio" onClick="radioClicked(this)"></p></td></tr>
-<tr>
-<td align="center">
-        <img id="1" src="media/fillers/D46951.jpg" onClick="imageClicked(this)" border=6 style="border-color : #FFFFFF" width=200>
-</td>
-<td align="center">
-        <img id="2" src="./images/040" onClick="imageClicked(this)" border=6 style="border-color : #FFFFFF" width=200>
-</td>
-  <td align="center">
-        <img id="3" src="./images/051" onClick="imageClicked(this)" border=6 style="border-color : #FFFFFF" width=200>
+  <tr>
+  <td align='center'>
+          <img id='0' src='media/fillers/blank.jpg' onClick='imageClicked(this)' border=6 style='border-color : #FFFFFF' width=200>
   </td>
-</tr>
+  <td align='center'>
+          <img id='1' src='media/fillers/blank.jpg' onClick='imageClicked(this)' border=6 style='border-color : #FFFFFF' width=200>
+  </td>
+    <td align='center'>
+          <img id='2' src='media/fillers/blank.jpg' onClick='imageClicked(this)' border=6 style='border-color : #FFFFFF' width=200>
+    </td>
+  </tr>
 
-<tr>
-<td align="center">
-        <img id="4" src="./images/111" onClick="imageClicked(this)" border=6 style="border-color : #FFFFFF" width=200>
-</td>
-<td align="center">
-        <img id="5" src="./images/049" onClick="imageClicked(this)" border=6 style="border-color : #FFFFFF" width=200>
-</td>
-<td align="center">
-        <img id="6" src="./images/010" onClick="imageClicked(this)" border=6 style="border-color : #FFFFFF" width=200>
-</td>
-</tr>
+  <tr>
+  <td align='center'>
+          <img id='3' src='media/fillers/blank.jpg' onClick='imageClicked(this)' border=6 style='border-color : #FFFFFF' width=200>
+  </td>
+  <td align='center'>
+          <img id='4' src='media/fillers/blank.jpg' onClick='imageClicked(this)' border=6 style='border-color : #FFFFFF' width=200>
+  </td>
+  <td align='center'>
+          <img id='5' src='media/fillers/blank.jpg' onClick='imageClicked(this)' border=6 style='border-color : #FFFFFF' width=200>
+  </td>
+  </tr>
 </table>
 
 <table width="780" cellpadding="10" cellspacing="0" border="0" align="center">
