@@ -59,20 +59,13 @@ function onLoad(){
   let user = sessionStorage.getItem("user");
   const database = firebase.database();
 
-  database.ref('users/' + user).on('value', (snapshot) => {
-    const allUsers = snapshot.val();
-    let expType = allUsers["experiment type"];
-    //let types = ["dtp", "dtnp", "ddtp", "ddtnp"]
-    let types = {"dtp" : true, "dtnp" : false, "ddtp": true, "ddtnp": false}
+  let types = {"dtp" : true, "dtnp" : false, "ddtp": true, "ddtnp": false}
 
+  let lineup = getPics(types[sessionStorage.getItem("expType")]);
 
+  addPics(lineup);
 
-    let lineup = getPics(types[expType]);
-
-    addPics(lineup);
-
-    console.log(lineup);
-  });
+  console.log(lineup);
 }
 
 function checkInput() {

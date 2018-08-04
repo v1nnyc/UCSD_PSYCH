@@ -20,7 +20,10 @@
 
 	function experimentType(){
 		let types = ["dtp", "dtnp", "ddtp", "ddtnp"]
-		return types[Math.floor((Math.random() * 4) + 1)];
+		let type = types[Math.floor((Math.random() * 4) + 1)];
+		sessionStorage.setItem("expType", type);
+		return type;
+
 	}
 
 	function getEmail(){
@@ -30,7 +33,7 @@
 		return {"email": email, "user": parsedEmail};
 	}
 
-	function redirect() {
+	function setDatabase(){
 		let emailInfo = getEmail();
 		const database = firebase.database();
 
@@ -52,7 +55,10 @@
 				"chair color" : "",
 			}
 		});
+	}
 
+	function redirect() {
+		setDatabase();
 		window.location.href = '/instructions';
 	}
 </script>
