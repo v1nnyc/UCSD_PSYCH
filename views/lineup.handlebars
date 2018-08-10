@@ -1,192 +1,218 @@
-
-
 <html>
+<meta charset="utf-8">
+
 <head>
 
-<script src="https://www.gstatic.com/firebasejs/5.3.1/firebase.js">
-</script>
-<script>
-	// Initialize Firebase
-	var config = {
-		apiKey: "AIzaSyCa5_e0vkkiBXQxKcpvGKHyumnWyvQ_os8",
-		authDomain: "ucsd-psych.firebaseapp.com",
-		databaseURL: "https://ucsd-psych.firebaseio.com",
-		projectId: "ucsd-psych",
-		storageBucket: "ucsd-psych.appspot.com",
-		messagingSenderId: "325328536445"
-	};
-	firebase.initializeApp(config);
-</script>
+	<script src="https://www.gstatic.com/firebasejs/5.3.1/firebase.js">
+	</script>
+	<script>
+		// Initialize Firebase
+		var config = {
+			apiKey: "AIzaSyCa5_e0vkkiBXQxKcpvGKHyumnWyvQ_os8",
+			authDomain: "ucsd-psych.firebaseapp.com",
+			databaseURL: "https://ucsd-psych.firebaseio.com",
+			projectId: "ucsd-psych",
+			storageBucket: "ucsd-psych.appspot.com",
+			messagingSenderId: "325328536445"
+		};
+		firebase.initializeApp(config);
+	</script>
 
-<script type="text/javascript">
+	<script type="text/javascript">
+		function shuffle(array) {
+			var currentIndex = array.length,
+				temporaryValue, randomIndex;
 
-function shuffle(array) {
-  var currentIndex = array.length, temporaryValue, randomIndex;
+			// While there remain elements to shuffle...
+			while (0 !== currentIndex) {
 
-  // While there remain elements to shuffle...
-  while (0 !== currentIndex) {
+				// Pick a remaining element...
+				randomIndex = Math.floor(Math.random() * currentIndex);
+				currentIndex -= 1;
 
-    // Pick a remaining element...
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex -= 1;
+				// And swap it with the current element.
+				temporaryValue = array[currentIndex];
+				array[currentIndex] = array[randomIndex];
+				array[randomIndex] = temporaryValue;
+			}
 
-    // And swap it with the current element.
-    temporaryValue = array[currentIndex];
-    array[currentIndex] = array[randomIndex];
-    array[randomIndex] = temporaryValue;
-  }
+			return array;
+		}
 
-  return array;
-}
+		function getPics(tp) {
+			let lineup = [];
+			if (tp) {
+				lineup.push("media/target.jpg");
+			}
+			while (lineup.length < 6) {
+				lineup.push("media/fillers/" + Math.floor((Math.random() * 114) + 1) + ".jpg");
+			}
+			return shuffle(lineup);
+		}
 
-function getPics(tp){
-  let lineup = [];
-  if(tp){lineup.push("media/target.jpg");}
-  while(lineup.length < 6){
-    lineup.push("media/fillers/" + Math.floor((Math.random() * 114) + 1) + ".jpg");
-  }
-  return shuffle(lineup);
-}
+		function addPics(lineup) {
+			for (let pic in lineup) {
+				document.getElementById(pic).src = lineup[pic];
+			}
 
-function addPics(lineup){
-  for(let pic in lineup){
-    document.getElementById(pic).src = lineup[pic];
-  }
+		}
 
-}
+		function onLoad() {
+			let user = sessionStorage.getItem("user");
+			const database = firebase.database();
 
-function onLoad(){
-  let user = sessionStorage.getItem("user");
-  const database = firebase.database();
+			let types = {
+				"dtp": true,
+				"dtnp": false,
+				"ddtp": true,
+				"ddtnp": false
+			}
 
-  let types = {"dtp" : true, "dtnp" : false, "ddtp": true, "ddtnp": false}
+			let lineup = getPics(types[sessionStorage.getItem("expType")]);
 
-  let lineup = getPics(types[sessionStorage.getItem("expType")]);
+			addPics(lineup);
 
-  addPics(lineup);
+			console.log(lineup);
+		}
 
-  console.log(lineup);
-}
+		function checkInput() {
+			if (document.getElementById('formSelection').value != "NA" && document.getElementById('formConfidence').value != "NA") {
+				document.getElementById('Next').style.visibility = "visible";
+			} else {
+				document.getElementById('Next').style.visibility = "hidden";
+			}
+		}
 
-function checkInput() {
-    if(document.getElementById('formSelection').value != "NA"  && document.getElementById('formConfidence').value != "NA") {
-      document.getElementById('Next').style.visibility = "visible";
-    }
-    else {
-      document.getElementById('Next').style.visibility = "hidden";
-    }
-}
+		function radioClicked(id) {
+			document.getElementById('0').setAttribute("style", "border-color : #FFFFFF");
+			document.getElementById('1').setAttribute("style", "border-color : #FFFFFF");
+			document.getElementById('2').setAttribute("style", "border-color : #FFFFFF");
+			document.getElementById('3').setAttribute("style", "border-color : #FFFFFF");
+			document.getElementById('4').setAttribute("style", "border-color : #FFFFFF");
+			document.getElementById('5').setAttribute("style", "border-color : #FFFFFF");
 
-function radioClicked(id) {
-  document.getElementById('0').setAttribute("style", "border-color : #FFFFFF");
-  document.getElementById('1').setAttribute("style", "border-color : #FFFFFF");
-  document.getElementById('2').setAttribute("style", "border-color : #FFFFFF");
-  document.getElementById('3').setAttribute("style", "border-color : #FFFFFF");
-  document.getElementById('4').setAttribute("style", "border-color : #FFFFFF");
-  document.getElementById('5').setAttribute("style", "border-color : #FFFFFF");
+			document.getElementById('formSelection').selectedIndex = 1;
 
-  document.getElementById('formSelection').selectedIndex     = 1;
+			document.getElementById('textConfidence').style.visibility = "visible";
+			document.getElementById('formConfidence').style.visibility = "visible";
+			//  document.getElementById('Next').style.visibility           = "visible";
+		}
 
-  document.getElementById('textConfidence').style.visibility = "visible";
-  document.getElementById('formConfidence').style.visibility = "visible";
-  //  document.getElementById('Next').style.visibility           = "visible";
-}
+		function imageClicked(id) {
+			document.getElementById("notPresentRadio").checked = false;
+			document.getElementById('0').setAttribute("style", "border-color : #FFFFFF");
+			document.getElementById('1').setAttribute("style", "border-color : #FFFFFF");
+			document.getElementById('2').setAttribute("style", "border-color : #FFFFFF");
+			document.getElementById('3').setAttribute("style", "border-color : #FFFFFF");
+			document.getElementById('4').setAttribute("style", "border-color : #FFFFFF");
+			document.getElementById('5').setAttribute("style", "border-color : #FFFFFF");
 
-function imageClicked(id) {
-  document.getElementById("notPresentRadio").checked = false;
-  document.getElementById('0').setAttribute("style", "border-color : #FFFFFF");
-  document.getElementById('1').setAttribute("style", "border-color : #FFFFFF");
-  document.getElementById('2').setAttribute("style", "border-color : #FFFFFF");
-  document.getElementById('3').setAttribute("style", "border-color : #FFFFFF");
-  document.getElementById('4').setAttribute("style", "border-color : #FFFFFF");
-  document.getElementById('5').setAttribute("style", "border-color : #FFFFFF");
+			id.setAttribute("style", "border-color : #FF0000");
 
-  id.setAttribute("style", "border-color : #FF0000");
+			iPhoto = id.id;
+			document.getElementById('formSelection').selectedIndex = parseInt(iPhoto) + 1;
+			//  document.getElementById('formSelection').selectedIndex = iPhoto;
 
-  iPhoto = id.id;
-  document.getElementById('formSelection').selectedIndex = parseInt(iPhoto)+1;
-  //  document.getElementById('formSelection').selectedIndex = iPhoto;
+			// document.getElementById('textConfidence').style.visibility = "visible";
+			// document.getElementById('formConfidence').style.visibility = "visible";
+			//  document.getElementById('Next').style.visibility           = "visible";
+			document.getElementById('confidence').classList.add("d-block");
+		}
 
-  document.getElementById('textConfidence').style.visibility = "visible";
-  document.getElementById('formConfidence').style.visibility = "visible";
-  //  document.getElementById('Next').style.visibility           = "visible";
-}
+		function confidenceSelected() {
+			document.getElementById('Next').style.visibility = "visible";
+		}
+	</script>
 
-function confidenceSelected() {
-  document.getElementById('Next').style.visibility = "visible";
-}
-
-</script>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
+	<link rel="stylesheet" href="css/styles.css" type="text/css" />
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
 </head>
 
 <body onload="onLoad()">
+	<div class="container">
+		<div class="row">
+			<p>If the person from the video is below, click on the image of that person. </p>
+			<p>If the person is not present click on the non-present button <input id="notPresentRadio" type="radio" onClick="radioClicked(this)"></p>
+		</div>
+		<div class="row justify-content-between">
+			<div class="col-auto">
+				<img id='0' src='media/fillers/blank.jpg' onClick='imageClicked(this)' border=6 style='border-color : #FFFFFF' width=200>
+			</div>
+			<div class="col-auto">
+				<img id='1' src='media/fillers/blank.jpg' onClick='imageClicked(this)' border=6 style='border-color : #FFFFFF' width=200>
+			</div>
+			<div class="col-auto">
+				<img id='2' src='media/fillers/blank.jpg' onClick='imageClicked(this)' border=6 style='border-color : #FFFFFF' width=200>
+			</div>
+		</div>
+		<div class="row justify-content-between mt-4">
+			<div class="col-auto">
+				<img id='3' src='media/fillers/blank.jpg' onClick='imageClicked(this)' border=6 style='border-color : #FFFFFF' width=200>
+			</div>
+			<div class="col-auto">
+				<img id='4' src='media/fillers/blank.jpg' onClick='imageClicked(this)' border=6 style='border-color : #FFFFFF' width=200>
+			</div>
+			<div class="col-auto">
+				<img id='5' src='media/fillers/blank.jpg' onClick='imageClicked(this)' border=6 style='border-color : #FFFFFF' width=200>
+			</div>
+		</div>
+		<div id="confidence" class="form-group row my-4 d-none">
+				<div class="form-inline">
+					<label id="textConfidence" class="col-auto">Indicate your level of confidence that you did or did not see the person in the video.</label>
+					<select name="formConfidence" id="formConfidence" class="form-control col-1" onChange="checkInput()">
+					<option value="NA"></option>
+					<option value="0">0%</option>
+					<option value="10">10%</option>
+					<option value="20">20%</option>
+					<option value="30">30%</option>
+					<option value="40">40%</option>
+					<option value="50">50%</option>
+					<option value="60">60%</option>
+					<option value="70">70%</option>
+					<option value="80">80%</option>
+					<option value="90">90%</option>
+					<option value="100">100%</option>
+					</select>
+				</div>
+		</div>
+		<div class="row">
+			<input id="Next" onClick="{window.location.href='/stimQuestions'}" class="btn btn-primary btn-lg" type="submit" name="formSubmit" value="Next" style="visibility: hidden" />
+		</div>
+	</div>
 
-<table width="780" cellpadding="3" cellspacing="0" border="0" align="center">
-<tr><td colspan=3>
-<p>If the person from the video is below, click on the image of that person. </p> </td></tr>
-<tr><td colspan=3>
-<p>If the person is not present click on the non-present button <input id="notPresentRadio" type="radio" onClick="radioClicked(this)"></p></td></tr>
-  <tr>
-  <td align='center'>
-          <img id='0' src='media/fillers/blank.jpg' onClick='imageClicked(this)' border=6 style='border-color : #FFFFFF' width=200>
-  </td>
-  <td align='center'>
-          <img id='1' src='media/fillers/blank.jpg' onClick='imageClicked(this)' border=6 style='border-color : #FFFFFF' width=200>
-  </td>
-    <td align='center'>
-          <img id='2' src='media/fillers/blank.jpg' onClick='imageClicked(this)' border=6 style='border-color : #FFFFFF' width=200>
-    </td>
-  </tr>
+	<table width="780" cellpadding="10" cellspacing="0" border="0" align="center">
+		<tr>
+			<td align="center">
+				<div>
+				</div>
+			</td>
+			<td align="center">
 
-  <tr>
-  <td align='center'>
-          <img id='3' src='media/fillers/blank.jpg' onClick='imageClicked(this)' border=6 style='border-color : #FFFFFF' width=200>
-  </td>
-  <td align='center'>
-          <img id='4' src='media/fillers/blank.jpg' onClick='imageClicked(this)' border=6 style='border-color : #FFFFFF' width=200>
-  </td>
-  <td align='center'>
-          <img id='5' src='media/fillers/blank.jpg' onClick='imageClicked(this)' border=6 style='border-color : #FFFFFF' width=200>
-  </td>
-  </tr>
-</table>
+			</td>
+		</tr>
+		<tr>
+			<td align="center" colspan=2></td>
+		</tr>
 
-<table width="780" cellpadding="10" cellspacing="0" border="0" align="center">
-  <tr><td align="center"><div><p id="textConfidence" style="visibility: hidden">Indicate your level of confidence that you did or did not see the person in the video.</p></div></td>
-<td align="center">
-        <select name="formConfidence" id="formConfidence" onChange="checkInput()" style="visibility: hidden"/>
+	</table>
+
+	<select name="formSelection" id="formSelection" onChange="checkInput()" style="visibility: hidden" />
 	<option value="NA"></option>
-                <option value="0">0&#37</option>
-                <option value="10">10&#37</option>
-                <option value="20">20&#37</option>
-                <option value="30">30&#37</option>
-                <option value="40">40&#37</option>
-                <option value="50">50&#37</option>
-                <option value="60">60&#37</option>
-                <option value="70">70&#37</option>
-                <option value="80">80&#37</option>
-                <option value="90">90&#37</option>
-                <option value="100">100&#37</option>
-                </select>
-</td></tr>
-<tr><td align="center" colspan=2><input id="Next" onClick="{window.location.href='/stimQuestions'}" type="submit" name="formSubmit" value="Next" style="visibility: hidden"/></td></tr>
-
-</table>
-
-<select name="formSelection" id="formSelection" onChange="checkInput()" style="visibility: hidden"/>
-<option value="NA"></option>
-<option value="Not present">Not present</option>
-<option value="063">1</option>
-<option value="040">2</option>
-<option value="051">3</option>
-<option value="111">4</option>
-<option value="049">5</option>
-<option value="010">6</option>
-</select>
+	<option value="Not present">Not present</option>
+	<option value="063">1</option>
+	<option value="040">2</option>
+	<option value="051">3</option>
+	<option value="111">4</option>
+	<option value="049">5</option>
+	<option value="010">6</option>
+	</select>
 
 
-<select name="formId" id="formId" onChange="checkInput()" style="visibility: hidden"/>
-<option value="1"></option>
+	<select name="formId" id="formId" onChange="checkInput()" style="visibility: hidden" />
+	<option value="1"></option>
 
 </body>
+
 </html>
