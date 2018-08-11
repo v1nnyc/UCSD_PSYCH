@@ -78,30 +78,52 @@ function checkInput() {
 }
 
 function radioClicked(id) {
-  document.getElementById('0').setAttribute("style", "border-color : #FFFFFF");
-  document.getElementById('1').setAttribute("style", "border-color : #FFFFFF");
-  document.getElementById('2').setAttribute("style", "border-color : #FFFFFF");
-  document.getElementById('3').setAttribute("style", "border-color : #FFFFFF");
-  document.getElementById('4').setAttribute("style", "border-color : #FFFFFF");
-  document.getElementById('5').setAttribute("style", "border-color : #FFFFFF");
-
+  let expType = sessionStorage.getItem("expType")
+  if( expType === "ddtp" || expType === "ddtnp"){
+    for(let i = 0; i < 6; i++){
+      document.getElementById(i).setAttribute("style", "border-color : #FFFFFF");
+    }
   document.getElementById('formSelection').selectedIndex     = 1;
+  } else {
+    for(let i = 0; i < 6; i++){
+      document.getElementById(i).style.visibility = "hidden";
+    }
+  }
 
   document.getElementById('textConfidence').style.visibility = "visible";
   document.getElementById('formConfidence').style.visibility = "visible";
+
+  if(expType === "ddtnp" || expType === "dtnp"){
+    sessionStorage.setItem("correct", true);
+  } else {
+    sessionStorage.setItem("correct", false);
+  }
   //  document.getElementById('Next').style.visibility           = "visible";
 }
 
 function imageClicked(id) {
-  document.getElementById("notPresentRadio").checked = false;
-  document.getElementById('0').setAttribute("style", "border-color : #FFFFFF");
-  document.getElementById('1').setAttribute("style", "border-color : #FFFFFF");
-  document.getElementById('2').setAttribute("style", "border-color : #FFFFFF");
-  document.getElementById('3').setAttribute("style", "border-color : #FFFFFF");
-  document.getElementById('4').setAttribute("style", "border-color : #FFFFFF");
-  document.getElementById('5').setAttribute("style", "border-color : #FFFFFF");
+  if(sessionStorage.getItem("expType") === "ddtp" || sessionStorage.getItem("expType") === "ddtnp"){
+    for(let i = 0; i < 6; i++){
+      document.getElementById(i).setAttribute("style", "border-color : #FFFFFF");
+    }
+  document.getElementById('formSelection').selectedIndex     = 1;
 
+  //TODO move this line outside of if statement if target shouldn't always dissappear
   id.setAttribute("style", "border-color : #FF0000");
+  } else {
+    for(let i = 0; i < 6; i++){
+      document.getElementById(i).style.visibility = "hidden";
+    }
+    document.getElementById('textConfidence').style.visibility = "visible";
+    document.getElementById('formConfidence').style.visibility = "visible";
+  }
+
+  //handle correctness
+  if(id.src.indexOf("media/target.jpg") >=0 ){
+    sessionStorage.setItem("correct", true);
+  } else {
+    sessionStorage.setItem("correct", false);
+  }
 
   iPhoto = id.id;
   document.getElementById('formSelection').selectedIndex = parseInt(iPhoto)+1;
