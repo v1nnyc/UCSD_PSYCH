@@ -11,37 +11,49 @@ function openNext() {
 }
 
 </script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css" type="text/css" />
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
 </head>
 
 <body onLoad="onLoad()">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <h2>Tetris!</h2>
+        <p>You will now play Tetris for a short amount of time. First read these instructions before continuing to the next page.</p>
+        <p><strong>How to play: </strong></p>
+        <ul>
+        <li>Blocks of different shapes will fall from the top of the screen. </li>
+        <li>With the arrow keys, rotate or move the shapes so every space in the box is filled.</li>
+        <li>The box on the right shows the shape of the next block.</li>
+        <li>When a horizontal row is filled, the row disappears, and you will earn points.</li>
+        <li>The more rows that are incomplete, the higher the blocks above them stack, reducing the space in which the
+        falling shapes can be rotated or moved. </li>
+        <li>Eventually the blocks will reach the top of the screen and the game will end. </li>
+        </ul>
+        <p><strong>Keep playing: </strong></p>
+        <ul>
+        <li>Your scores will be recorded.
+        <li>If you play more than one game, your goal is to improve your score as you go.
+        <li>At the end of each game, you'll be asked to enter your name (do not worry about a message that says
+        &ldquo;could not access scores&rdquo;), then click &ldquo;play&rdquo; to start another game.
+        <li>Play the game until the page automatically redirects to the next part of the experiment.
+        </ul>
+        <button id="redirect-button" class="btn btn-primary" onClick="{window.location.href='/tetris'}">Continue</button>
+      </div>
+    </div>
+  </div>
 
 <table width="780" cellpadding="10" cellspacing="0" border="0" align="center">
-<tr><td><h3>Tetris!</h3></td><td></td></tr>
 </table>
 
 <table width="780" cellpadding="10" cellspacing="0" border="0" align="center"><tr><td>
-<p>You will now play Tetris for a short amount of time. First read these instructions before continuing to the next page.</p>
 
-<p>How to play:</p>
-<ul>
-<li>Blocks of different shapes will fall from the top of the screen. </li>
-<li>With the arrow keys, rotate or move the shapes so every space in the box is filled.</li>
-<li>The box on the right shows the shape of the next block.</li>
-<li>When a horizontal row is filled, the row disappears, and you will earn points.</li>
-<li>The more rows that are incomplete, the higher the blocks above them stack, reducing the space in which the
-falling shapes can be rotated or moved. </li>
-<li>Eventually the blocks will reach the top of the screen and the game will end. </li>
-</ul>
 
-<p>Keep playing:</p>
-<ul>
-<li>Your scores will be recorded.
-<li>If you play more than one game, your goal is to improve your score as you go.
-<li>At the end of each game, you'll be asked to enter your name (do not worry about a message that says
-&ldquo;could not access scores&rdquo;), then click &ldquo;play&rdquo; to start another game.
-<li>Play the game until the page automatically redirects to the next part of the experiment.
-</ul>
-<button id="redirect-button" onClick="{window.location.href='/tetris'}">continue</button>
+
+
 <input id="next" type="submit" name="formSubmit" value="To play" style="visibility: hidden"/>
 </td>
 </tr>

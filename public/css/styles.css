@@ -9,7 +9,7 @@ p {
 }
 
 body {
-  background: #E2EFF7;
+  /* background: #E2EFF7; */
 }
 
 .container {
@@ -19,4 +19,8 @@ body {
   margin-top: 4rem;
   margin-bottom: 4rem;
   border-radius: 4px;
+}
+
+.selected-pic {
+  border: 6px solid red;
 }
