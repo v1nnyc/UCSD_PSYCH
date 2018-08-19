@@ -1,0 +1,22 @@
+h1, h2, h3, h4, h5 {
+  font-family: 'Roboto', sans-serif;
+}
+
+p {
+  font-family: 'Open Sans', sans-serif;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+body {
+  background: #E2EFF7;
+}
+
+.container {
+  background: rgba(256, 256, 256, 0.5);
+  padding-top: 1rem;
+  padding-bottom: 1.5rem;
+  margin-top: 4rem;
+  margin-bottom: 4rem;
+  border-radius: 4px;
+}

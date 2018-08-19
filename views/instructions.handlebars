@@ -1,4 +1,5 @@
 <html>
+<head>
 <script>
 
 function redirect() {
@@ -15,12 +16,18 @@ function redirect(){
 }
 
 </script>
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css" type="text/css" />
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+
+
 </head>
 
 <body>
 
-<div id="instructions-stuff">
-  <table width="780" height="100%" cellpadding="0" cellspacing="0" border="0" align="center"><tr><td valign="top">
+<div id="instructions-stuff" class="container">
   <h3>Instructions</h3>
   <p> Please read the instructions below and press the button when you are ready to continue. </p>
 
@@ -29,15 +36,20 @@ function redirect(){
   <li>Pay special attention because you will be asked questions about it later.
   <li>Do not refresh the page or use the browser back buttons throughout the experiment.
   </ul>
+
+  <button id="play button" class="btn btn-secondary btn-lg" onClick="play()"><i class="fas fa-play mr-2"></i>Play video</button>
+
 </div>
 
-<button id="play button"   onClick="play()">play video</button>
-<br>
-<div id="video-stuff" style="visibility: hidden">
-  <iframe id="video" width="560" height="315" src="https://www.youtube.com/embed/3Udczbm4-L0?rel=0&amp;showinfo=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-  <br />
-  <button id="redirect-button" onClick="{window.location.href='/distractor'}">continue</button>
+<div id="video-stuff" class="container" style="visibility: hidden">
+  <div class="embed-responsive embed-responsive-16by9" >
+    <iframe id="video" class="embed-responsive-item" width="560" height="315" src="https://www.youtube.com/embed/3Udczbm4-L0?rel=0&amp;showinfo=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    <br />
+  </div>
+  <button id="redirect-button" class="btn btn-primary" onClick="{window.location.href='/distractor'}">Continue</button>
+  
 </div>
+
 
 </body>
 </html>
