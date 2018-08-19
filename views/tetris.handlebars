@@ -1,27 +1,30 @@
-
 <html>
-<head>
-<script type="text/javascript">
-function redirect() {
-   setTimeout(f,30);
-}
-function f() {
-   window.location.href='/lineupinstructions'
 
-}
-</script>
+<head>
+  <script type="text/javascript">
+    function redirect() {
+      setTimeout(f, 30);
+    }
+
+    function f() {
+      window.location.href = '/lineupinstructions'
+
+    }
+  </script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css" type="text/css"/>
 </head>
 
 <body onload="redirect()">
-
-<table width="780" cellpadding="10" cellspacing="0" border="0" align="center">
-<tr><td><h3>Tetris!</h3></td><td></td></tr>
-
-<tr><td>
-  <!-- Hey Webmaster! Place this html code where you'd like the game to appear. -->
-  <!-- <iframe src="https://www.silvergames.com/en/2048/iframe" width="500" height="600" style="margin:0;padding:0;border:0"></iframe> -->
-  <!-- End of game embed code -->
-
-
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <!-- Hey Webmaster! Place this html code where you'd like the game to appear. -->
+        <iframe src="https://www.silvergames.com/en/2048/iframe" width="100%" height="1000" style="margin:0;padding:0;border:0"></iframe>
+        <!-- End of game embed code -->
+      </div>
+    </div>
+  </div>
 </body>
 </html>
