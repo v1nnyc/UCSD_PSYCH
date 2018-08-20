@@ -75,10 +75,22 @@
 
 		function checkInput() {
 			if (document.getElementById('formSelection').value != "NA" && document.getElementById('formConfidence').value != "NA") {
-				document.getElementById('Next').style.visibility = "visible";
+				let correctness = window.sessionStorage.getItem("correct");
+				let conf = document.querySelector('#formConfidence');
+				let confidence = conf.options[conf.selectedIndex].value;
+				const database = firebase.database();
+				database.ref('users/' + sessionStorage.getItem("user")).update({
+					"correct": correctness,
+					"confidence level": confidence,
+				}).then((response) => {
+					document.getElementById('Next').style.visibility = "visible";
+				});
 			} else {
 				document.getElementById('Next').style.visibility = "hidden";
 			}
+
+
+
 		}
 
 		function radioClicked(id) {
