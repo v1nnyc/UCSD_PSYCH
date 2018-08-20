@@ -43,18 +43,22 @@
 			console.log("Form submitted: ");
 			let ageField = document.querySelector('#formAge');
 			let age = ageField.options[ageField.selectedIndex].value;
-			console.log('age: ', age);
 			let genderField = document.querySelector('#formGender');
 			let gender = genderField.options[genderField.selectedIndex].value;
-			console.log('gender: ', gender);
 			let eduField = document.querySelector('#formEducation');
 			let education = eduField.options[eduField.selectedIndex].value;
-			console.log('education: ', education);
 			let ethnField = document.querySelector('#formEthnicity');
 			let ethnicity = ethnField.options[ethnField.selectedIndex].value;
-			console.log('ethnicity: ', ethnicity);
+			const database = firebase.database();
+			database.ref('users/' + sessionStorage.getItem("user") + "/demographics").set({
+					"age" : age,
+					"education level" : education,
+					"ethnicity" : ethnicity,
+					"gender" : gender,
+			}).then((response) => {
+				window.location.href = '/debrief';
+			});
 			// Comment me out if you want to keep submitting form without redirect
-			window.location.href = '/debrief';
 		}
 	</script>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
