@@ -82,91 +82,64 @@
 		}
 
 		function radioClicked(id) {
+			console.log("🤷🏻‍♂️")
 		  let expType = sessionStorage.getItem("expType")
 		  if( expType === "ddtp" || expType === "ddtnp"){
 		    for(let i = 0; i < 6; i++){
 		      document.getElementById(i).setAttribute("style", "border-color : #FFFFFF");
 		    }
-		  document.getElementById('formSelection').selectedIndex     = 1;
+
 		  } else {
 		    for(let i = 0; i < 6; i++){
 		      document.getElementById(i).style.visibility = "hidden";
 		    }
 		  }
-
-		  document.getElementById('textConfidence').style.visibility = "visible";
-		  document.getElementById('formConfidence').style.visibility = "visible";
-
+			document.getElementById('formSelection').selectedIndex     = 1;
 		  if(expType === "ddtnp" || expType === "dtnp"){
 		    sessionStorage.setItem("correct", true);
 		  } else {
 		    sessionStorage.setItem("correct", false);
 		  }
+			document.getElementById('confidence').classList.add("d-block");
 		  //  document.getElementById('Next').style.visibility           = "visible";
 		}
 
 		function imageClicked(id) {
 			console.log(id);
-			document.getElementById("notPresentRadio").checked = false;
-			// document.getElementById('0').setAttribute("style", "border-color : #FFFFFF");
-			// document.getElementById('1').setAttribute("style", "border-color : #FFFFFF");
-			// document.getElementById('2').setAttribute("style", "border-color : #FFFFFF");
-			// document.getElementById('3').setAttribute("style", "border-color : #FFFFFF");
-			// document.getElementById('4').setAttribute("style", "border-color : #FFFFFF");
-			// document.getElementById('5').setAttribute("style", "border-color : #FFFFFF");
+			//makes picture normal sized
 			if(document.querySelector(".selected-pic")) {
 				document.querySelector(".selected-pic").classList.remove("selected-pic");
 			}
+			document.getElementById("notPresentCheck").checked = false;
+		  if(sessionStorage.getItem("expType") === "ddtp" || sessionStorage.getItem("expType") === "ddtnp"){
+		    for(let i = 0; i < 6; i++){
+					document.getElementById("notPresentCheck").checked = false;
+		      document.getElementById(i).setAttribute("style", "border-color : #FFFFFF");
+		    }
 			id.classList.add("selected-pic");
-
-			// id.setAttribute("style", "border-color : #FF0000");
+			id.setAttribute("style", "border-color : #FF0000");
+		  document.getElementById('formSelection').selectedIndex     = 1;
+		  } else {
+		    for(let i = 0; i < 6; i++){
+		      document.getElementById(i).style.visibility = "hidden";
+		    }
+		    document.getElementById('textConfidence').style.visibility = "visible";
+		    document.getElementById('formConfidence').style.visibility = "visible";
+		  }
 
 			iPhoto = id.id;
 			document.getElementById('formSelection').selectedIndex = parseInt(iPhoto) + 1;
-			//  document.getElementById('formSelection').selectedIndex = iPhoto;
 
-			// document.getElementById('textConfidence').style.visibility = "visible";
-			// document.getElementById('formConfidence').style.visibility = "visible";
-			//  document.getElementById('Next').style.visibility           = "visible";
+			//handles correct choice
+			if(id.src.indexOf("media/target.jpg") >=0 ){
+			    sessionStorage.setItem("correct", true);
+			  } else {
+			    sessionStorage.setItem("correct", false);
+			  }
+
 			document.getElementById('confidence').classList.add("d-block");
 		}
 
-		// function imageClicked(id) {
-		//   if(sessionStorage.getItem("expType") === "ddtp" || sessionStorage.getItem("expType") === "ddtnp"){
-		//     for(let i = 0; i < 6; i++){
-		//       document.getElementById(i).setAttribute("style", "border-color : #FFFFFF");
-		//     }
-		//   document.getElementById('formSelection').selectedIndex     = 1;
-		//
-		//   //TODO move this line outside of if statement if target shouldn't always dissappear
-		//   id.setAttribute("style", "border-color : #FF0000");
-		//   } else {
-		//     for(let i = 0; i < 6; i++){
-		//       document.getElementById(i).style.visibility = "hidden";
-		//     }
-		//     document.getElementById('textConfidence').style.visibility = "visible";
-		//     document.getElementById('formConfidence').style.visibility = "visible";
-		//   }
-		//
-		//   //handle correctness
-		//   if(id.src.indexOf("media/target.jpg") >=0 ){
-		//     sessionStorage.setItem("correct", true);
-		//   } else {
-		//     sessionStorage.setItem("correct", false);
-		//   }
-		//
-		//   iPhoto = id.id;
-		//   document.getElementById('formSelection').selectedIndex = parseInt(iPhoto)+1;
-		//   //  document.getElementById('formSelection').selectedIndex = iPhoto;
-		//
-		//   document.getElementById('textConfidence').style.visibility = "visible";
-		//   document.getElementById('formConfidence').style.visibility = "visible";
-		//   //  document.getElementById('Next').style.visibility           = "visible";
-		// }
-
-		function confidenceSelected() {
-			document.getElementById('Next').style.visibility = "visible";
-		}
 	</script>
 
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
