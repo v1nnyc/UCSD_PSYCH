@@ -24,16 +24,12 @@
     function checkInput() {
       let q1 = document.querySelector('#formQuestion1');
       let question1 = q1.options[q1.selectedIndex].value;
-      console.log('question1: ', question1);
       let q2 = document.querySelector('#formQuestion2');
       let question2 = q2.options[q2.selectedIndex].value;
-      console.log('question2: ', question2);
       let q3 = document.querySelector('#formQuestion3');
       let question3 = q3.options[q3.selectedIndex].value;
-      console.log('question3: ', question3);
       let q4 = document.querySelector('#formQuestion4');
       let question4 = q4.options[q4.selectedIndex].value;
-      console.log('question4: ', question4);
       if (question1 && question2 && question3 && question4) {
         document.getElementById('submit').disabled = false;
       } else {
@@ -42,21 +38,23 @@
     }
 
     function submitForm() {
-      console.log("Form submitted!");
       let q1 = document.querySelector('#formQuestion1');
       let question1 = q1.options[q1.selectedIndex].value;
-      console.log('question1: ', question1);
       let q2 = document.querySelector('#formQuestion2');
       let question2 = q2.options[q2.selectedIndex].value;
-      console.log('question2: ', question2);
       let q3 = document.querySelector('#formQuestion3');
       let question3 = q3.options[q3.selectedIndex].value;
-      console.log('question3: ', question3);
       let q4 = document.querySelector('#formQuestion4');
       let question4 = q4.options[q4.selectedIndex].value;
-      console.log('question4: ', question4);
-      // Comment me out if you want to keep submitting form without redirect
-      window.location.href = '/demographics';
+      const database = firebase.database();
+      database.ref('users/' + sessionStorage.getItem("user") + "/answers").set({
+          "number of people" : question1,
+          "crime" : question2,
+          "true about scene" : question3,
+          "chair color" : question4,
+  		}).then((response) => {
+        window.location.href = '/demographics';
+      });
     }
   </script>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
