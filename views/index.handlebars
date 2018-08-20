@@ -39,10 +39,11 @@
 	function setDatabase() {
 		let emailInfo = getEmail();
 		const database = firebase.database();
+		let exp = experimentType();
 
 		database.ref('users/' + emailInfo.user).set({
 			"email": emailInfo.email,
-			"experiment type": experimentType(),
+			"experiment type": exp,
 			"correct": false,
 			"confidence level": 0,
 			"demographics": {
