@@ -57,7 +57,6 @@
 
 		function onLoad() {
 			let user = sessionStorage.getItem("user");
-			const database = firebase.database();
 
 			let types = {
 				"dtp": true,
@@ -78,10 +77,14 @@
 				let correctness = window.sessionStorage.getItem("correct");
 				let conf = document.querySelector('#formConfidence');
 				let confidence = conf.options[conf.selectedIndex].value;
+				let sure = document.querySelector('#formSure');
+				let surety = sure.options[sure.selectedIndex].value;
 				const database = firebase.database();
 				database.ref('users/' + sessionStorage.getItem("user")).update({
 					"correct": correctness,
 					"confidence level": confidence,
+					"selected filler": sessionStorage.getItem("placeholder"),
+					"are they sure": surety
 				}).then((response) => {
 					document.getElementById('Next').style.visibility = "visible";
 				});
@@ -112,6 +115,7 @@
 		  } else {
 		    sessionStorage.setItem("correct", false);
 		  }
+			sessionStorage.setItem("placeholder", false);
 			document.getElementById('confidence').classList.add("d-block");
 		  //  document.getElementById('Next').style.visibility           = "visible";
 		}
@@ -144,11 +148,18 @@
 
 			//handles correct choice
 			if(id.src.indexOf("media/target.jpg") >=0 ){
+					sessionStorage.setItem("placeholder", false)
 			    sessionStorage.setItem("correct", true);
 			  } else {
+					sessionStorage.setItem("placeholder", true)
 			    sessionStorage.setItem("correct", false);
 			  }
 
+			document.getElementById('present').classList.add("d-block");
+		}
+
+		function showConf(){
+			console.log("hello")
 			document.getElementById('confidence').classList.add("d-block");
 		}
 
@@ -193,11 +204,21 @@
 				<label class="form-check-label mt-1"style="font-size: 1.25rem; margin-top: 0.4rem">Check here <strong>if the person is not present</strong></label>
 			</div>
 		</div>
+		<div id="present" class="form-group row my-4 d-none">
+			<div class="form-inline">
+				<label id="textSure" class="col-auto">Are you sure the person you selected was the person from the video?</label>
+				<select name="formSure" id="formSure" class="form-control col-1" onChange="showConf()">
+					<option value="NA" selected disabled></option>
+					<option value="Yes">Yes</option>
+					<option value="No">No</option>
+					</select>
+			</div>
+		</div>
 		<div id="confidence" class="form-group row my-4 d-none">
 			<div class="form-inline">
 				<label id="textConfidence" class="col-auto">Indicate your level of confidence that you did or did not see the person in the video.</label>
 				<select name="formConfidence" id="formConfidence" class="form-control col-1" onChange="checkInput()">
-					<option value="NA"></option>
+					<option value="NA" selected disabled></option>
 					<option value="0">0%</option>
 					<option value="10">10%</option>
 					<option value="20">20%</option>
