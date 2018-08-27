@@ -14,7 +14,6 @@
 </script>
 
 <script>
-	let exp = experimentType();
 	function onLoad() {
 		const database = firebase.database();
 	}
@@ -40,6 +39,7 @@
 	function setDatabase() {
 		let emailInfo = getEmail();
 		const database = firebase.database();
+		let exp = experimentType();
 
 		database.ref('users/' + emailInfo.user).set({
 			"email": emailInfo.email,
