@@ -7,9 +7,15 @@ function redirect() {
 }
 
 function play(){
-  document.getElementById('video-stuff').style.visibility = "visible";
+  document.getElementById('instructions-stuff').innerHTML = `<div id='video-stuff' class='container'>
+    <div class='embed-responsive embed-responsive-16by9' >
+      <video id='video' width='560' height='315'>
+        <source src='/media/White_Female_Long.mp4' type='video/mp4' >
+      </video>
+      <br />
+    </div>
+  </div>`;
   document.getElementById('video').play();
-  document.getElementById('instructions-stuff').style.visibility = "hidden";
   window.setTimeout(redirect, 16000);
 }
 
@@ -41,16 +47,6 @@ function redirect(){
 
   <button id="play button" class="btn btn-secondary btn-lg" onClick="play()"><i class="fas fa-play mr-2"></i>Play video</button>
 
-</div>
-
-<div id="video-stuff" class="container" style="visibility: hidden">
-  <div class="embed-responsive embed-responsive-16by9" >
-    <!-- <iframe width="560" height="315" src="https://www.youtube.com/embed/3Udczbm4-L0?rel=0&amp;controls=0&amp;showinfo=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe> -->
-    <video id="video" width="560" height="315">
-      <source src="/media/White_Female_Long.mp4" type="video/mp4" >
-    </video>
-    <br />
-  </div>
 </div>
 
 
