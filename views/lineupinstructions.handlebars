@@ -7,18 +7,22 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
 <link rel="stylesheet" href="css/styles.css" type="text/css" />
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+
 </head>
 
 <body>
+<div class="container">
+  <table width="780" height="100%" cellpadding="0" cellspacing="0" border="0" align="center"><tr><td valign="top">
+  <h3>Instructions</h3>
+  <p>The person from the video may or may not be in the lineup you are about to see.</p>
+  <ul>
+  <li>If you do not see the person from the video, pick the "not present" option and then rate your confidence.
+  <li>If you see the person from the video, pick the person and then rate your confidence.
+  </ul>
 
-<table width="780" height="100%" cellpadding="0" cellspacing="0" border="0" align="center"><tr><td valign="top">
-<h3>Instructions</h3>
-<p>The person from the video may or may not be in the lineup you are about to see.</p>
-<ul>
-<li>If you do not see the person from the video, pick the "not present" option and then rate your confidence.
-<li>If you see the person from the video, pick the person and then rate your confidence.
-</ul>
+  <button id="redirect-button" class="btn btn-primary" onClick="{window.location.href='/lineup'}">Continue</button>
+</div>
 
-<button id="redirect-button" class="btn btn-primary" onClick="{window.location.href='/lineup'}">Continue</button>
 </body>
 </html>
