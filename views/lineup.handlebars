@@ -75,6 +75,17 @@
 		function checkInput() {
 			if (document.getElementById('formSelection').value != "NA" && document.getElementById('formConfidence').value != "NA") {
 				let correctness = window.sessionStorage.getItem("correct");
+				let expType = sessionStorage.getItem('expType');
+				//check to see if
+				if(expType == "dtnp" || expType == "ddtnp"){
+					if(document.getElementById('formSure').value == 'No'){
+						correctness = true;
+					}
+				} else {
+					if(document.getElementById('formSure').value == 'No'){
+						correctness = false;
+					}
+				}
 				let conf = document.querySelector('#formConfidence');
 				let confidence = conf.options[conf.selectedIndex].value;
 				let sure = document.querySelector('#formSure');
