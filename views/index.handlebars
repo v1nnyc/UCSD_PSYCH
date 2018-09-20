@@ -15,6 +15,7 @@
 
 <script>
 	function onLoad() {
+		experimentType()
 		const database = firebase.database();
 	}
 
@@ -23,12 +24,14 @@
 		let type = types[Math.floor((Math.random() * 4) + 1)];
 		sessionStorage.setItem("expType", type);
 		return type;
-
 	}
 
 	function getEmail() {
 		let email = document.getElementById('formID').value;
-		let parsedEmail = email.substring(0, email.indexOf("@"))
+		let parsedEmail = email
+		if(email.indexOf("@") != -1){
+			parsedEmail = email.substring(0, email.indexOf("@"))
+		}
 		sessionStorage.setItem("user", parsedEmail);
 		return {
 			"email": email,
@@ -39,7 +42,7 @@
 	function setDatabase() {
 		let emailInfo = getEmail();
 		const database = firebase.database();
-		let exp = experimentType();
+		let exp = sessionStorage.getItem('expType')
 
 		database.ref('users/' + emailInfo.user).set({
 			"email": emailInfo.email,
@@ -163,7 +166,7 @@
 		<div class="px-3">
 			<div class="form-row">
 				<div class="form-group col-md-6">
-					<label for="">What is your student e-mail address?</label>
+					<label for="">What is your e-mail address?</label>
 					<input type="email" class="form-control" name="formID" id="formID" maxlength="100" placeholder="Email" pattern=".+@ucsd.edu" title="Please provide your @ucsd.edu email" required>
 				</div>
 			</div>
