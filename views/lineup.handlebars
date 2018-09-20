@@ -189,7 +189,7 @@
 <body onload="onLoad()">
 	<div class="container">
 		<div class="row">
-			<h5>If the person from the video is below, click on the image of that person. </h5>
+			<h5>Please select the person who looks most like the woman in the video. </h5>
 		</div>
 		<div class="row justify-content-between">
 			<div class="col-md-4">
@@ -221,7 +221,7 @@
 		</div>
 		<div id="present" class="form-group row my-4 d-none">
 			<div class="form-inline">
-				<label id="textSure" class="col-auto">Are you sure the person you selected was the person from the video?</label>
+				<label id="textSure" class="col-auto">Is the person you selected actually the woman from the video?</label>
 				<select name="formSure" id="formSure" class="form-control col-1" onChange="showConf()">
 					<option value="NA" selected disabled></option>
 					<option value="Yes">Yes</option>
@@ -231,17 +231,8 @@
 		</div>
 		<div id="confidence" class="form-group row my-4 d-none">
 			<div class="form-inline">
-				<label id="textConfidence" class="col-auto">Indicate your level of confidence that you did or did not see the person in the video.</label>
+				<label id="textConfidence" class="col-auto">How certain are you?</label>
 
-
-
-
-
-
-
-
-
-				<!-- TODO hi kellie ily can you change this to a radio-->
 				<select name="formConfidence" id="formConfidence" class="form-control col-1" onChange="checkInput()">
 					<option value="NA" selected disabled></option>
 					<option value="0">0%</option>
