@@ -18,7 +18,6 @@
 	</script>
 
 	<script type="text/javascript">
-
 		function shuffle(array) {
 			var currentIndex = array.length,
 				temporaryValue, randomIndex;
@@ -39,13 +38,15 @@
 			return array;
 		}
 
-		function getPics(tp){
-		  let lineup = [];
-		  if(tp){lineup.push("media/target.jpg");}
-		  while(lineup.length < 6){
-		    lineup.push("media/fillers/" + Math.floor((Math.random() * 114) + 1) + ".jpg");
-		  }
-		  return shuffle(lineup);
+		function getPics(tp) {
+			let lineup = [];
+			if (tp) {
+				lineup.push("media/target.jpg");
+			}
+			while (lineup.length < 6) {
+				lineup.push("media/fillers/" + Math.floor((Math.random() * 114) + 1) + ".jpg");
+			}
+			return shuffle(lineup);
 		}
 
 		function addPics(lineup) {
@@ -77,12 +78,12 @@
 				let correctness = window.sessionStorage.getItem("correct");
 				let expType = sessionStorage.getItem('expType');
 				//check to see if
-				if(expType == "dtnp" || expType == "ddtnp"){
-					if(document.getElementById('formSure').value == 'No'){
+				if (expType == "dtnp" || expType == "ddtnp") {
+					if (document.getElementById('formSure').value == 'No') {
 						correctness = true;
 					}
 				} else {
-					if(document.getElementById('formSure').value == 'No'){
+					if (document.getElementById('formSure').value == 'No') {
 						correctness = false;
 					}
 				}
@@ -91,20 +92,19 @@
 				let sure = document.querySelector('#formSure');
 				let surety = sure.options[sure.selectedIndex].value;
 				const database = firebase.database();
-				database.ref('users/' + sessionStorage.getItem("user")).update({
-					"correct": correctness,
-					"confidence level": confidence,
-					"selected filler": sessionStorage.getItem("placeholder"),
-					"are they sure": surety
-				}).then((response) => {
-					document.getElementById('Next').style.visibility = "visible";
-				});
+				if (sessionStorage.getItem("user")) {
+					database.ref('users/' + sessionStorage.getItem("user")).update({
+						"correct": correctness,
+						"confidence level": confidence,
+						"selected filler": sessionStorage.getItem("placeholder"),
+						"are they sure": surety
+					}).then((response) => {
+						document.getElementById('Next').style.visibility = "visible";
+					});
+				}
 			} else {
 				document.getElementById('Next').style.visibility = "hidden";
 			}
-
-
-
 		}
 
 		// function radioClicked(id) {
@@ -134,50 +134,49 @@
 		function imageClicked(id) {
 			console.log(id);
 			//makes picture normal sized
-			if(document.querySelector(".selected-pic")) {
+			if (document.querySelector(".selected-pic")) {
 				document.querySelector(".selected-pic").classList.remove("selected-pic");
 			}
 			document.getElementById("notPresentCheck").checked = false;
-		  if(sessionStorage.getItem("expType") === "ddtp" || sessionStorage.getItem("expType") === "ddtnp"){
-		    for(let i = 0; i < 6; i++){
+			if (sessionStorage.getItem("expType") === "ddtp" || sessionStorage.getItem("expType") === "ddtnp") {
+				for (let i = 0; i < 6; i++) {
 					document.getElementById("notPresentCheck").checked = false;
-		      document.getElementById(i).setAttribute("style", "border-color : #FFFFFF");
-		    }
-			id.classList.add("selected-pic");
-			id.setAttribute("style", "border-color : #FF0000");
-		  document.getElementById('formSelection').selectedIndex     = 1;
-		  } else {
-		    for(let i = 0; i < 6; i++){
-		      document.getElementById(i).style.visibility = "hidden";
-		    }
-		    document.getElementById('textConfidence').style.visibility = "visible";
-		    document.getElementById('formConfidence').style.visibility = "visible";
-		  }
+					document.getElementById(i).setAttribute("style", "border-color : #FFFFFF");
+				}
+				id.classList.add("selected-pic");
+				id.setAttribute("style", "border-color : #FF0000");
+				document.getElementById('formSelection').selectedIndex = 1;
+			} else {
+				for (let i = 0; i < 6; i++) {
+					document.getElementById(i).style.visibility = "hidden";
+				}
+				document.getElementById('textConfidence').style.visibility = "visible";
+				document.getElementById('formConfidence').style.visibility = "visible";
+			}
 
 			id.classList.add("selected-pic");
 			id.setAttribute("style", "border-color : #FF0000");
-		  document.getElementById('formSelection').selectedIndex     = 1;
+			document.getElementById('formSelection').selectedIndex = 1;
 
 			iPhoto = id.id;
 			document.getElementById('formSelection').selectedIndex = parseInt(iPhoto) + 1;
 
 			//handles correct choice
-			if(id.src.indexOf("media/target.jpg") >=0 ){
-					sessionStorage.setItem("placeholder", false)
-			    sessionStorage.setItem("correct", true);
-			  } else {
-					sessionStorage.setItem("placeholder", true)
-			    sessionStorage.setItem("correct", false);
-			  }
+			if (id.src.indexOf("media/target.jpg") >= 0) {
+				sessionStorage.setItem("placeholder", false)
+				sessionStorage.setItem("correct", true);
+			} else {
+				sessionStorage.setItem("placeholder", true)
+				sessionStorage.setItem("correct", false);
+			}
 
 			document.getElementById('present').classList.add("d-block");
 		}
 
-		function showConf(){
+		function showConf() {
 			console.log("hello")
 			document.getElementById('confidence').classList.add("d-block");
 		}
-
 	</script>
 
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
@@ -215,8 +214,8 @@
 		</div>
 		<div class="form-group row">
 			<div class="form-check mt-3">
-				<input style="visibility: hidden"id="notPresentCheck" class="form-check-input" type="checkbox" onclick="radioClicked(this)" style="width:20px; height: 20px; border-radius: 4px; background-color: lightgrey; "/>
-				<label style="visibility: hidden" class="form-check-label mt-1"style="font-size: 1.25rem; margin-top: 0.4rem">Check here <strong>if the person is not present</strong></label>
+				<input style="visibility: hidden" id="notPresentCheck" class="form-check-input" type="checkbox" onclick="radioClicked(this)" style="width:20px; height: 20px; border-radius: 4px; background-color: lightgrey; " />
+				<label style="visibility: hidden" class="form-check-label mt-1" style="font-size: 1.25rem; margin-top: 0.4rem">Check here <strong>if the person is not present</strong></label>
 			</div>
 		</div>
 		<div id="present" class="form-group row my-4 d-none">

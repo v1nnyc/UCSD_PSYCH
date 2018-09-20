@@ -17,7 +17,6 @@
 
 <head>
 	<script>
-
 		function checkInput() {
 			let ageField = document.querySelector('#formAge');
 			let age = ageField.options[ageField.selectedIndex].value;
@@ -50,14 +49,18 @@
 			let ethnField = document.querySelector('#formEthnicity');
 			let ethnicity = ethnField.options[ethnField.selectedIndex].value;
 			const database = firebase.database();
-			database.ref('users/' + sessionStorage.getItem("user") + "/demographics").set({
-					"age" : age,
-					"education level" : education,
-					"ethnicity" : ethnicity,
-					"gender" : gender,
-			}).then((response) => {
+			if (sessionStorage.getItem('user')) {
+				database.ref('users/' + sessionStorage.getItem("user") + "/demographics").set({
+					"age": age,
+					"education level": education,
+					"ethnicity": ethnicity,
+					"gender": gender,
+				}).then((response) => {
+					window.location.href = '/debrief';
+				});
+			} else {
 				window.location.href = '/debrief';
-			});
+			}
 			// Comment me out if you want to keep submitting form without redirect
 		}
 	</script>
@@ -222,7 +225,7 @@
 						<option value="NR">Do not wish to state</option>
 					</select>
 				</div>
-				<button id="submit-btn" type=""class="btn btn-primary ml-4" onclick="submitForm()" disabled>Submit</button>
+				<button id="submit-btn" type="" class="btn btn-primary ml-4" onclick="submitForm()" disabled>Submit</button>
 			</div>
 			<div class="col-auto">
 				<img src="media/ucsd.jpg" width=150>

@@ -47,14 +47,18 @@
       let q4 = document.querySelector('#formQuestion4');
       let question4 = q4.options[q4.selectedIndex].value;
       const database = firebase.database();
-      database.ref('users/' + sessionStorage.getItem("user") + "/answers").set({
-          "number of people" : question1,
-          "crime" : question2,
-          "true about scene" : question3,
-          "chair color" : question4,
-  		}).then((response) => {
+      if (sessionStorage.getItem("user")) {
+        database.ref('users/' + sessionStorage.getItem("user") + "/answers").set({
+          "number of people": question1,
+          "crime": question2,
+          "true about scene": question3,
+          "chair color": question4,
+        }).then((response) => {
+          window.location.href = '/demographics';
+        });
+      } else {
         window.location.href = '/demographics';
-      });
+      }
     }
   </script>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
