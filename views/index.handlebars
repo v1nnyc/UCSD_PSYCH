@@ -14,6 +14,15 @@
 </script>
 
 <script>
+	function formValidity() {
+		var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+		if(re.test(String(document.getElementById("formID").value).toLowerCase())){
+			document.getElementById("submit-stuff").hidden = false;
+			return true;
+		}
+		return false;
+	}
+
 	function onLoad() {
 		experimentType()
 		const database = firebase.database();
@@ -27,10 +36,19 @@
 	}
 
 	function getEmail() {
+		var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+		if(re.test(String(document.getElementById("formID").value).toLowerCase())){
+			document.getElementById("submit-stuff").hidden = false;
+		}
 		let email = document.getElementById('formID').value;
 		let parsedEmail = email
-		if(email.indexOf("@") != -1){
+		if (email.indexOf("@") != -1) {
 			parsedEmail = email.substring(0, email.indexOf("@"))
+		} else if (!re.test(String(document.getElementById("formID").value).toLowerCase())){
+			return {
+				"email": "invalidEmail",
+				"user": "invalidEmail"
+			}
 		}
 		sessionStorage.setItem("user", parsedEmail);
 		return {
@@ -42,7 +60,10 @@
 	function setDatabase() {
 		let emailInfo = getEmail();
 		const database = firebase.database();
-		let exp = sessionStorage.getItem('expType')
+		let types = ["dtp", "dtnp", "ddtp", "ddtnp"]
+		let type = types[Math.floor((Math.random() * 4) + 1)];
+		sessionStorage.setItem("expType", type);
+		let exp = type;
 
 		database.ref('users/' + emailInfo.user).set({
 			"email": emailInfo.email,
@@ -67,12 +88,16 @@
 	}
 
 	function redirect() {
-		setDatabase();
-		window.location.href = '/instructions';
+		if(formValidity()){
+			setDatabase();
+			window.location.href = '/instructions';
+		} else {
+			document.getElementById("invalidEmail").hidden=false;
+		}
 	}
 
 	function handleFormValidity() {
-		if(document.querySelector("#formID").value) {
+		if (document.querySelector("#formID").value) {
 
 		}
 	}
@@ -138,20 +163,10 @@
 			Subjects protection program at 858-657-5100 for more information about this, to inquire about your rights as a research subject
 			<div class="row justify-content-center">
 				<div class="col-auto">
-					John Wixted, Ph.D.<br>
-					Department of Psychology<br>
-					University of California, San Diego<br>
-					La Jolla, CA 92093-0109<br>
-					E-mail: <a href="mailto:jwixted@ucsd.edu">jwixted@ucsd.edu</a><br>
-					Phone Nmnber: 858-534-3956
+					John Wixted, Ph.D.<br> Department of Psychology<br> University of California, San Diego<br> La Jolla, CA 92093-0109<br> E-mail: <a href="mailto:jwixted@ucsd.edu">jwixted@ucsd.edu</a><br> Phone Nmnber: 858-534-3956
 				</div>
 				<div class="col-auto">
-					Laura Mickes, Ph.D.<br>
-					Department of Psychology<br>
-					University of California, San Diego<br>
-					La Jolla, CA 92093-0109<br>
-					E-mail:	<a href="mailto:laura.mickes@rhul.ac.uk">laura.mickes@rhu1.ac.uk</a><br>
-					Phone Number: 858-534-3956
+					Laura Mickes, Ph.D.<br> Department of Psychology<br> University of California, San Diego<br> La Jolla, CA 92093-0109<br> E-mail: <a href="mailto:laura.mickes@rhul.ac.uk">laura.mickes@rhu1.ac.uk</a><br> Phone Number: 858-534-3956
 				</div>
 			</div>
 			</br>
@@ -167,24 +182,28 @@
 			<div class="form-row">
 				<div class="form-group col-md-6">
 					<label for="">What is your e-mail address?</label>
-					<input type="email" class="form-control" name="formID" id="formID" maxlength="100" placeholder="Email" pattern=".+@ucsd.edu" title="Please provide your @ucsd.edu email" required>
+					<label for="" hidden="true" style="color:red" id="invalidEmail"><b>Please</b> enter a valid email address :)</label>
+					<input type="email" class="form-control" name="formID" id="formID" maxlength="100" placeholder="Email" title="Please provide your @ucsd.edu email" oninput="formValidity()" required>
 				</div>
 			</div>
 
-			<div class="form-group">
-				<div class="form-check">
-					<label class="form-check-label" for="gridCheck">
+			<div id="submit-stuff" hidden="true">
+
+
+				<div class="form-group">
+					<div class="form-check">
+						<label class="form-check-label" for="gridCheck">
 					<input class="form-check-input" type="checkbox" id="gridCheck" name="agree" onClick="{document.getElementById('submits').disabled = false}" value="agree" required>
         Check here if you agree to participate
       </label>
+					</div>
 				</div>
+				<button name="formSubmit" id="submits" class="btn btn-primary" value="Submit Consent Form" onclick="redirect()" disabled>Submit Consent Form</button>
 			</div>
-			<button name="formSubmit" id="submits" class="btn btn-primary" value="Submit Consent Form" onclick="redirect()" disabled>Submit Consent Form</button>
 		</div>
 	</div>
 
 	<script>
-
 	</script>
 
 </body>
