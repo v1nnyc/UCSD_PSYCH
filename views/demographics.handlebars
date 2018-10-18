@@ -30,8 +30,10 @@
 			let ethnField = document.querySelector('#formEthnicity');
 			let ethnicity = ethnField.options[ethnField.selectedIndex].value;
 			// console.log('ethnicity: ', ethnicity);
+			let seenField = document.querySelector('#formSeen');
+			let seen = seenField.options[seenField.selectedIndex].value;
 
-			if (age && gender && education && ethnicity) {
+			if (age && gender && education && ethnicity && seen) {
 				document.getElementById('submit-btn').disabled = false;
 			} else {
 				document.getElementById('submit-btn').disabled = true;
@@ -48,9 +50,12 @@
 			let education = eduField.options[eduField.selectedIndex].value;
 			let ethnField = document.querySelector('#formEthnicity');
 			let ethnicity = ethnField.options[ethnField.selectedIndex].value;
+			let seenField = document.querySelector('#formSeen');
+			let seen = seenField.options[seenField.selectedIndex].value;
 			const database = firebase.database();
 			if (sessionStorage.getItem('user')) {
 				database.ref('users/' + sessionStorage.getItem("user") + "/demographics").set({
+					"seen before": seen,
 					"age": age,
 					"education level": education,
 					"ethnicity": ethnicity,
@@ -76,6 +81,14 @@
 			<div class="col ">
 				<h2>About you</h2>
 				<h5 class="mb-3">Please answer the following questions about yourself:</h5>
+				<div class="form-group row ml-2">
+					<label class="col-3 col-form-label">Have you seen this video as part of a previous amazon turk survey?</label>
+					<select class="form-control col-3" id="formSeen" onchange="checkInput()">
+						<option value="" disabled selected>Select answer</option>
+						<option value="Yes">Yes</option>
+						<option value="No">No</option>
+					</select>
+				</div>
 				<div class="form-group row ml-2">
 					<label class="col-3 col-form-label">Please enter your age</label>
 					<select class="form-control col-3" id="formAge" onchange="checkInput()" required>

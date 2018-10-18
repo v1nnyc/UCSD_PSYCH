@@ -93,13 +93,14 @@
 				let surety = sure.options[sure.selectedIndex].value;
 				const database = firebase.database();
 				if (sessionStorage.getItem("user")) {
+					document.getElementById('Next').style.visibility = "visible";
 					database.ref('users/' + sessionStorage.getItem("user")).update({
 						"correct": correctness,
 						"confidence level": confidence,
 						"selected filler": sessionStorage.getItem("placeholder"),
 						"person selected from video": surety
 					}).then((response) => {
-						document.getElementById('Next').style.visibility = "visible";
+						document.getElementById('Next').disabled = false;
 					});
 				}
 			} else {
@@ -225,7 +226,7 @@
 			</div>
 		</div>
 		<div class="row">
-			<input id="Next" onClick="{window.location.href='/stimQuestions'}" class="btn btn-primary btn-lg" type="submit" name="formSubmit" value="Next" style="visibility: hidden" />
+			<input id="Next" onClick="{window.location.href='/stimQuestions'}" class="btn btn-primary btn-lg" type="submit" name="formSubmit" value="Next" disabled=true style="visibility: hidden" />
 		</div>
 	</div>
 
