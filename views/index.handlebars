@@ -1,106 +1,4 @@
-<script src="https://www.gstatic.com/firebasejs/5.3.1/firebase.js">
-</script>
-<script>
-	// Initialize Firebase
-	var config = {
-		apiKey: "AIzaSyCa5_e0vkkiBXQxKcpvGKHyumnWyvQ_os8",
-		authDomain: "ucsd-psych.firebaseapp.com",
-		databaseURL: "https://ucsd-psych.firebaseio.com",
-		projectId: "ucsd-psych",
-		storageBucket: "ucsd-psych.appspot.com",
-		messagingSenderId: "325328536445"
-	};
-	firebase.initializeApp(config);
-</script>
 
-<script>
-	function formValidity() {
-		var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-		if(re.test(String(document.getElementById("formID").value).toLowerCase())){
-			document.getElementById("submit-stuff").hidden = false;
-			return true;
-		}
-		return false;
-	}
-
-	function onLoad() {
-		experimentType()
-		const database = firebase.database();
-	}
-
-	function experimentType() {
-		let types = ["dtp", "dtnp", "ddtp", "ddtnp"]
-		let type = types[Math.floor((Math.random() * 4))];
-		sessionStorage.setItem("expType", type);
-		return type;
-	}
-
-	function getEmail() {
-		var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-		if(re.test(String(document.getElementById("formID").value).toLowerCase())){
-			document.getElementById("submit-stuff").hidden = false;
-		}
-		let email = document.getElementById('formID').value;
-		let parsedEmail = email
-		if (email.indexOf("@") != -1) {
-			parsedEmail = email.substring(0, email.indexOf("@"))
-		} else if (!re.test(String(document.getElementById("formID").value).toLowerCase())){
-			return {
-				"email": "invalidEmail",
-				"user": "invalidEmail"
-			}
-		}
-		sessionStorage.setItem("user", parsedEmail);
-		return {
-			"email": email,
-			"user": parsedEmail
-		};
-	}
-
-	function setDatabase() {
-		let emailInfo = getEmail();
-		const database = firebase.database();
-		let types = ["dtp", "dtnp", "ddtp", "ddtnp"]
-		let type = types[Math.floor((Math.random() * 4))];
-		sessionStorage.setItem("expType", type);
-		let exp = type;
-
-		database.ref('users/' + emailInfo.user).set({
-			"email": emailInfo.email,
-			"experiment type": exp,
-			"correct": false,
-			"confidence level": 0,
-			"selected filler": false,
-			"demographics": {
-				"age": "",
-				"gender": "",
-				"education level": "",
-				"ethnicity": "",
-			},
-			"answers": {
-				"number of people": "",
-				"crime": "",
-				"true about scene": "",
-				"chair color": "",
-			}
-		});
-	}
-
-	function redirect() {
-		if(formValidity()){
-			setDatabase();
-			window.location.href = '/instructions';
-		} else {
-			document.getElementById("invalidEmail").hidden=false;
-		}
-	}
-
-	function handleFormValidity() {
-		if (document.querySelector("#formID").value) {
-
-		}
-	}
-</script>
 
 <html>
 
@@ -108,8 +6,8 @@
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
 	<link rel="stylesheet" href="css/styles.css" type="text/css" />
-
-
+	<script src="https://www.gstatic.com/firebasejs/5.3.1/firebase.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<!-- <link rel="stylesheet" type="text/css" href="./common/wl.css"> -->
 </head>
 
@@ -169,8 +67,8 @@
 				</div>
 			</div>
 			</br>
-			Note: Confidentiality of emails cannot be guaranteed.<br><br> This research has been reviewed according to the University of California, San Diego IRB procedures for research involving human subjects.<br><br> The IRB Project number for this experiment
-			is 121186.
+
+			<br><br> This research has been reviewed according to the University of California, San Diego IRB procedures for research involving human subjects.<br><br> The IRB Project number for this experiment is 121186.
 		</p>
 
 		<h4><strong>Statement of Age of Participant and consent</strong></h4>
@@ -179,22 +77,17 @@
 		</p>
 		<div class="px-3">
 			<div class="form-row">
-				<div class="form-group col-md-6">
-					<label for="">What is your e-mail address?</label>
-					<label for="" hidden="true" style="color:red" id="invalidEmail"><b>Please</b> enter a valid email address :)</label>
-					<input type="email" class="form-control" name="formID" id="formID" maxlength="100" placeholder="Email" title="Please provide your @ucsd.edu email" oninput="formValidity()" required>
+				<div class="form-group col-md-4">
+					<label for="">What is your Worker ID? This will be used for reimbursement</label>
+					<label for="" hidden="true" style="color:red" id="invalidID"><b>Please</b> enter a valid Worker ID :)</label>
+					<input type="text" class="form-control" name="formID" id="formID" maxlength="100" placeholder="ENTER MTURK ID" oninput="formValidity()" required>
 				</div>
 			</div>
-
 			<div id="submit-stuff" hidden="true">
-
-
 				<div class="form-group">
 					<div class="form-check">
-						<label class="form-check-label" for="gridCheck">
-					<input class="form-check-input" type="checkbox" id="gridCheck" name="agree" onClick="{document.getElementById('submits').disabled = false}" value="agree" required>
-        Check here if you agree to participate
-      </label>
+						<input class="form-check-input" type="checkbox" id="gridCheck" name="agree" onClick="{document.getElementById('submits').disabled = false}" value="agree" required>
+						<label class="form-check-label" for="gridCheck">Check here if you agree to participate</label>
 					</div>
 				</div>
 				<button name="formSubmit" id="submits" class="btn btn-primary" value="Submit Consent Form" onclick="redirect()" disabled>Submit Consent Form</button>
@@ -203,6 +96,101 @@
 	</div>
 
 	<script>
+		// Initialize Firebase
+		var config = {
+			apiKey: "AIzaSyCa5_e0vkkiBXQxKcpvGKHyumnWyvQ_os8",
+			authDomain: "ucsd-psych.firebaseapp.com",
+			databaseURL: "https://ucsd-psych.firebaseio.com",
+			projectId: "ucsd-psych",
+			storageBucket: "ucsd-psych.appspot.com",
+			messagingSenderId: "325328536445"
+		};
+		firebase.initializeApp(config);
+	</script>
+
+	<script>
+		function formValidity() {
+			if (document.getElementById("formID").value.length >= 7) {
+				document.getElementById("submit-stuff").hidden = false;
+				return true;
+			}
+			return false;
+		}
+
+		function onLoad() {
+			const database = firebase.database();
+		}
+
+		function experimentType() {
+			let types = ["dtp", "dtnp", "ddtp", "ddtnp"]
+			let type = types[Math.floor((Math.random() * 4))];
+			sessionStorage.setItem("expType", type);
+			return type;
+		}
+
+		function getID() {
+			formValidity();
+			let ID = document.getElementById('formID').value;
+			let parsedID = ID
+			sessionStorage.setItem("user", parsedID);
+			return {
+				"ID": ID,
+				"user": parsedID
+			};
+		}
+
+		function getDate() {
+			var today = new Date();
+			var dd = today.getDate();
+			var mm = today.getMonth() + 1; //January is 0!
+
+			var yyyy = today.getFullYear();
+			if (dd < 10) {
+				dd = '0' + dd;
+			}
+			if (mm < 10) {
+				mm = '0' + mm;
+			}
+			return mm + '/' + dd + '/' + yyyy;
+		}
+
+		function setDatabase() {
+			// $.getJSON('http://ip-api.com/json', function(data) {
+			// 	console.log(data.query.replace(/\./g,''))
+			// });
+			let IDInfo = getID();
+
+			const database = firebase.database();
+			database.ref('users/' + IDInfo.user).set({
+				"ID": IDInfo.ID,
+				"experiment type": experimentType(),
+				"correct": false,
+				"confidence level": 0,
+				"selected filler": false,
+				"demographics": {
+					"age": "",
+					"gender": "",
+					"education level": "",
+					"ethnicity": "",
+				},
+				"answers": {
+					"number of people": "",
+					"crime": "",
+					"true about scene": "",
+					"chair color": "",
+				},
+				"date_taken": getDate()
+			});
+		}
+
+		function redirect() {
+			if (formValidity()) {
+				setDatabase();
+				window.location.href = '/instructions';
+			} else {
+				document.getElementById("invalidID").hidden = false;
+			}
+		}
 	</script>
 
 </body>

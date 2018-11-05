@@ -1,0 +1,6 @@
+
+
+ssh vcannall@wixtedweb.ucsd.edu
+pm2 status 
+pm2 stop app
+pm2 start app
