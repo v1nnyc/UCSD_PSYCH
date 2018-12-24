@@ -13,7 +13,6 @@
       function frame() {
           let date2 = new Date();
           let diff = date2 - date1; //milliseconds interval
-          console.log(((diff/(timeout)) * 100))
           elem.style.width = ((diff/(timeout)) * 100) + '%';
       }
     }
