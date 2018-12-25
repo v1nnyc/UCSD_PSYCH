@@ -7,7 +7,7 @@ function redirect() {
 }
 
 function play(){
-  document.getElementById('instructions-stuff').innerHTML = `<div id='video-stuff' class='container'>
+  document.querySelector('body').innerHTML = `<div id='video-stuff' class='container'>
     <div class='embed-responsive embed-responsive-16by9' >
       <video id='video' width='560' height='315'>
         <source src='/media/White_Female_Long.mp4' type='video/mp4' >
