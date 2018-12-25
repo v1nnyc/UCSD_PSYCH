@@ -200,7 +200,7 @@
 					"selected filler": window.placeholder,
 					"person selected from video": surety
 				}).then((response) => {
-					document.getElementById('Next').disabled = false;
+					redirect();
 				});
 			} else {
 				document.getElementById('Next').style.visibility = "hidden";
@@ -238,11 +238,11 @@
 
 			//handles correct choice
 			if (id.src.indexOf("media/target.jpg") >= 0) {
-				window.placeholder = false;
-				window.correct = true;
+				window.placeholder = "false";
+				window.correct = "true";
 			} else {
-				window.placeholder = true;
-				window.correct = false;
+				window.placeholder = "true";
+				window.correct = "false";
 			}
 			if (window.experimentType.slice(2, 3) === "s") {
 				showConf();
@@ -257,11 +257,11 @@
 				document.getElementById(i).setAttribute("style", "border : none");
 			}
 			if (window.experimentType.slice(-2) === "tp") {
-				window.correct = false;
+				window.correct = "false";
 			} else {
-				window.correct = true;
+				window.correct = "true";
 			}
-			window.placeholder = false;
+			window.placeholder = "false";
 			document.getElementById('formSelection').selectedIndex = 1;
 			showConf();
 		}
@@ -272,6 +272,10 @@
 
 		function showPresent() {
 			document.getElementById('present').classList.add("d-block");
+		}
+
+		function redirect() {
+			window.location.href = '/stimQuestions';
 		}
 	</script>
 

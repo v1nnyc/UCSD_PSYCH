@@ -16,59 +16,7 @@
 <html>
 
 <head>
-	<script>
-		function checkInput() {
-			let ageField = document.querySelector('#formAge');
-			let age = ageField.options[ageField.selectedIndex].value;
-			// console.log('age: ', age);
-			let genderField = document.querySelector('#formGender');
-			let gender = genderField.options[genderField.selectedIndex].value;
-			// console.log('gender: ', gender);
-			let eduField = document.querySelector('#formEducation');
-			let education = eduField.options[eduField.selectedIndex].value;
-			// console.log('education: ', education);
-			let ethnField = document.querySelector('#formEthnicity');
-			let ethnicity = ethnField.options[ethnField.selectedIndex].value;
-			// console.log('ethnicity: ', ethnicity);
-			let seenField = document.querySelector('#formSeen');
-			let seen = seenField.options[seenField.selectedIndex].value;
-
-			if (age && gender && education && ethnicity && seen) {
-				document.getElementById('submit-btn').disabled = false;
-			} else {
-				document.getElementById('submit-btn').disabled = true;
-			}
-		}
-
-		function submitForm() {
-			console.log("Form submitted: ");
-			let ageField = document.querySelector('#formAge');
-			let age = ageField.options[ageField.selectedIndex].value;
-			let genderField = document.querySelector('#formGender');
-			let gender = genderField.options[genderField.selectedIndex].value;
-			let eduField = document.querySelector('#formEducation');
-			let education = eduField.options[eduField.selectedIndex].value;
-			let ethnField = document.querySelector('#formEthnicity');
-			let ethnicity = ethnField.options[ethnField.selectedIndex].value;
-			let seenField = document.querySelector('#formSeen');
-			let seen = seenField.options[seenField.selectedIndex].value;
-			const database = firebase.database();
-			if (sessionStorage.getItem('user')) {
-				database.ref('users/' + sessionStorage.getItem("user") + "/demographics").set({
-					"seen before": seen,
-					"age": age,
-					"education level": education,
-					"ethnicity": ethnicity,
-					"gender": gender,
-				}).then((response) => {
-					window.location.href = '/debrief';
-				});
-			} else {
-				window.location.href = '/debrief';
-			}
-			// Comment me out if you want to keep submitting form without redirect
-		}
-	</script>
+	<script src="https://www.gstatic.com/firebasejs/5.3.1/firebase.js"></script>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
 	<link rel="stylesheet" href="css/styles.css" type="text/css" />
@@ -245,6 +193,73 @@
 			</div>
 		</div>
 	</div>
+	<script>
+		var config = {
+			apiKey: "AIzaSyCa5_e0vkkiBXQxKcpvGKHyumnWyvQ_os8",
+			authDomain: "ucsd-psych.firebaseapp.com",
+			databaseURL: "https://ucsd-psych.firebaseio.com",
+			projectId: "ucsd-psych",
+			storageBucket: "ucsd-psych.appspot.com",
+			messagingSenderId: "325328536445"
+		};
+
+		firebase.initializeApp(config);
+
+		window.onload = function() {
+			firebase.auth().onAuthStateChanged(function(user) {
+				if (user) {
+					window.userId = user.uid;
+				}
+			});
+		}
+
+		function checkInput() {
+			let ageField = document.querySelector('#formAge');
+			let age = ageField.options[ageField.selectedIndex].value;
+			let genderField = document.querySelector('#formGender');
+			let gender = genderField.options[genderField.selectedIndex].value;
+			let eduField = document.querySelector('#formEducation');
+			let education = eduField.options[eduField.selectedIndex].value;
+			let ethnField = document.querySelector('#formEthnicity');
+			let ethnicity = ethnField.options[ethnField.selectedIndex].value;
+			let seenField = document.querySelector('#formSeen');
+			let seen = seenField.options[seenField.selectedIndex].value;
+
+			if (age && gender && education && ethnicity && seen) {
+				document.getElementById('submit-btn').disabled = false;
+			} else {
+				document.getElementById('submit-btn').disabled = true;
+			}
+		}
+
+		function submitForm() {
+			let ageField = document.querySelector('#formAge');
+			let age = ageField.options[ageField.selectedIndex].value;
+			let genderField = document.querySelector('#formGender');
+			let gender = genderField.options[genderField.selectedIndex].value;
+			let eduField = document.querySelector('#formEducation');
+			let education = eduField.options[eduField.selectedIndex].value;
+			let ethnField = document.querySelector('#formEthnicity');
+			let ethnicity = ethnField.options[ethnField.selectedIndex].value;
+			let seenField = document.querySelector('#formSeen');
+			let seen = seenField.options[seenField.selectedIndex].value;
+			const database = firebase.database();
+			database.ref('users/' + window.userId + "/demographics").set({
+				"seen before": seen,
+				"age": age,
+				"education level": education,
+				"ethnicity": ethnicity,
+				"gender": gender,
+			}).then((response) => {
+				redirect();
+			});
+		}
+
+		function redirect() {
+			window.location.href = '/debrief';
+			firebase.auth().signOut()
+		}
+	</script>
 </body>
 
 </html>

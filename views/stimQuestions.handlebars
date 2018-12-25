@@ -1,66 +1,7 @@
 <html>
 
 <head>
-  <script src="https://www.gstatic.com/firebasejs/5.3.1/firebase.js">
-  </script>
-  <script>
-    // Initialize Firebase
-    var config = {
-      apiKey: "AIzaSyCa5_e0vkkiBXQxKcpvGKHyumnWyvQ_os8",
-      authDomain: "ucsd-psych.firebaseapp.com",
-      databaseURL: "https://ucsd-psych.firebaseio.com",
-      projectId: "ucsd-psych",
-      storageBucket: "ucsd-psych.appspot.com",
-      messagingSenderId: "325328536445"
-    };
-    firebase.initializeApp(config);
-  </script>
-
-  <script>
-    function openinput() {
-      document.getElementById('submits').style.visibility = "visible";
-    }
-
-    function checkInput() {
-      let q1 = document.querySelector('#formQuestion1');
-      let question1 = q1.options[q1.selectedIndex].value;
-      let q2 = document.querySelector('#formQuestion2');
-      let question2 = q2.options[q2.selectedIndex].value;
-      let q3 = document.querySelector('#formQuestion3');
-      let question3 = q3.options[q3.selectedIndex].value;
-      let q4 = document.querySelector('#formQuestion4');
-      let question4 = q4.options[q4.selectedIndex].value;
-      if (question1 && question2 && question3 && question4) {
-        document.getElementById('submit').disabled = false;
-      } else {
-        document.getElementById('submit').disabled = true;
-      }
-    }
-
-    function submitForm() {
-      let q1 = document.querySelector('#formQuestion1');
-      let question1 = q1.options[q1.selectedIndex].value;
-      let q2 = document.querySelector('#formQuestion2');
-      let question2 = q2.options[q2.selectedIndex].value;
-      let q3 = document.querySelector('#formQuestion3');
-      let question3 = q3.options[q3.selectedIndex].value;
-      let q4 = document.querySelector('#formQuestion4');
-      let question4 = q4.options[q4.selectedIndex].value;
-      const database = firebase.database();
-      if (sessionStorage.getItem("user")) {
-        database.ref('users/' + sessionStorage.getItem("user") + "/answers").set({
-          "number of people": question1,
-          "crime": question2,
-          "true about scene": question3,
-          "chair color": question4,
-        }).then((response) => {
-          window.location.href = '/demographics';
-        });
-      } else {
-        window.location.href = '/demographics';
-      }
-    }
-  </script>
+  <script src="https://www.gstatic.com/firebasejs/5.3.1/firebase.js"></script>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
   <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css" type="text/css" />
@@ -119,6 +60,68 @@
       </div>
     </div>
   </div>
+
+  <script>
+    var config = {
+      apiKey: "AIzaSyCa5_e0vkkiBXQxKcpvGKHyumnWyvQ_os8",
+      authDomain: "ucsd-psych.firebaseapp.com",
+      databaseURL: "https://ucsd-psych.firebaseio.com",
+      projectId: "ucsd-psych",
+      storageBucket: "ucsd-psych.appspot.com",
+      messagingSenderId: "325328536445"
+    };
+
+    firebase.initializeApp(config);
+
+    window.onload = function() {
+      firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+          window.userId = user.uid;
+        }
+      });
+    }
+
+    function checkInput() {
+      let q1 = document.querySelector('#formQuestion1');
+      let question1 = q1.options[q1.selectedIndex].value;
+      let q2 = document.querySelector('#formQuestion2');
+      let question2 = q2.options[q2.selectedIndex].value;
+      let q3 = document.querySelector('#formQuestion3');
+      let question3 = q3.options[q3.selectedIndex].value;
+      let q4 = document.querySelector('#formQuestion4');
+      let question4 = q4.options[q4.selectedIndex].value;
+      if (question1 && question2 && question3 && question4) {
+        document.getElementById('submit').disabled = false;
+      } else {
+        document.getElementById('submit').disabled = true;
+      }
+    }
+
+    function submitForm() {
+      let q1 = document.querySelector('#formQuestion1');
+      let question1 = q1.options[q1.selectedIndex].value;
+      let q2 = document.querySelector('#formQuestion2');
+      let question2 = q2.options[q2.selectedIndex].value;
+      let q3 = document.querySelector('#formQuestion3');
+      let question3 = q3.options[q3.selectedIndex].value;
+      let q4 = document.querySelector('#formQuestion4');
+      let question4 = q4.options[q4.selectedIndex].value;
+
+      const database = firebase.database();
+      database.ref('users/' + window.userId + "/answers").set({
+        "number of people": question1,
+        "crime": question2,
+        "true about scene": question3,
+        "chair color": question4,
+      }).then((response) => {
+        redirect();
+      });
+    }
+
+    function redirect() {
+      window.location.href = '/demographics';
+    }
+  </script>
 </body>
 
 </html>
