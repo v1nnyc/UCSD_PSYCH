@@ -2,10 +2,113 @@
 <meta charset="utf-8">
 
 <head>
-	<script src="https://www.gstatic.com/firebasejs/5.3.1/firebase.js">
-	</script>
-	<script>
-		// Initialize Firebase
+	<script src="https://www.gstatic.com/firebasejs/5.3.1/firebase.js"></script>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
+	<link rel="stylesheet" href="css/styles.css" type="text/css" />
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+</head>
+
+<body onload="onLoad()">
+	<div class="container">
+		<div class="row">
+			<h5>Please select the person who looks most like the woman in the video. </h5>
+		</div>
+		<div class="row justify-content-between">
+			<div class="col-md-4">
+				<img id='0' src='media/fillers/blank.png' onClick='imageClicked(this)'>
+			</div>
+			<div class="col-md-4">
+				<img id='1' src='media/fillers/blank.png' onClick='imageClicked(this)'>
+			</div>
+			<div class="col-md-4">
+				<img id='2' src='media/fillers/blank.png' onClick='imageClicked(this)'>
+			</div>
+		</div>
+		<div class="row justify-content-between mt-4">
+			<div class="col-md-4">
+				<img id='3' src='media/fillers/blank.png' onClick='imageClicked(this)'>
+			</div>
+			<div class="col-md-4">
+				<img id='4' src='media/fillers/blank.png' onClick='imageClicked(this)'>
+			</div>
+			<div class="col-md-4">
+				<img id='5' src='media/fillers/blank.png' onClick='imageClicked(this)'>
+			</div>
+		</div>
+		<div class="form-group row">
+			<div class="form-check mt-3" id="standard" hidden="true">
+				<input id="notPresentCheck" class="form-check-input" type="checkbox" onclick="radioClicked(this)" style="width:20px; height: 20px; border-radius: 4px; background-color: lightgrey; " />
+				<label class="form-check-label mt-1" style="font-size: 1.25rem; margin-top: 0.4rem">Check here <strong>if the person is not present</strong></label>
+			</div>
+		</div>
+		<div id="present" class="form-group row my-4 d-none">
+			<div class="form-inline">
+				<label id="textSure" class="col-auto">Is the person you selected actually the woman from the video?</label>
+				<select name="formSure" id="formSure" class="form-control col-1" onChange="showConf()">
+					<option value="N/A" selected disabled></option>
+					<option value="Yes">Yes</option>
+					<option value="No">No</option>
+				</select>
+			</div>
+		</div>
+		<div id="confidence" class="form-group row my-4 d-none">
+			<div class="form-inline">
+				<label id="textConfidence" class="col-auto">How certain are you?</label>
+
+				<select name="formConfidence" id="formConfidence" class="form-control col-1" onChange="{document.getElementById('Next').hidden = false}">
+					<option value="N/A" selected disabled></option>
+					<option value="0">0%</option>
+					<option value="10">10%</option>
+					<option value="20">20%</option>
+					<option value="30">30%</option>
+					<option value="40">40%</option>
+					<option value="50">50%</option>
+					<option value="60">60%</option>
+					<option value="70">70%</option>
+					<option value="80">80%</option>
+					<option value="90">90%</option>
+					<option value="100">100%</option>
+				</select>
+			</div>
+		</div>
+		<div class="row">
+			<input id="Next" onClick="checkInput()" class="btn btn-primary btn-lg" type="submit" name="formSubmit" value="Next" hidden="true" />
+		</div>
+	</div>
+
+	<table width="780" cellpadding="10" cellspacing="0" border="0" align="center">
+		<tr>
+			<td align="center">
+				<div>
+				</div>
+			</td>
+			<td align="center">
+
+			</td>
+		</tr>
+		<tr>
+			<td align="center" colspan=2></td>
+		</tr>
+
+	</table>
+
+	<select name="formSelection" id="formSelection" onChange="checkInput()" hidden="true" />
+	<option value="N/A"></option>
+	<option value="Not present">Not present</option>
+	<option value="063">1</option>
+	<option value="040">2</option>
+	<option value="051">3</option>
+	<option value="111">4</option>
+	<option value="049">5</option>
+	<option value="010">6</option>
+	</select>
+
+
+	<select name="formId" id="formId" onChange="checkInput()" style="visibility: hidden" />
+	<option value="1"></option>
+
+	<script type="text/javascript">
 		var config = {
 			apiKey: "AIzaSyCa5_e0vkkiBXQxKcpvGKHyumnWyvQ_os8",
 			authDomain: "ucsd-psych.firebaseapp.com",
@@ -15,9 +118,28 @@
 			messagingSenderId: "325328536445"
 		};
 		firebase.initializeApp(config);
-	</script>
 
-	<script type="text/javascript">
+		window.onLoad = function() {
+			firebase.auth().onAuthStateChanged(function(user) {
+				if (user) {
+					window.userId = user.uid;
+					firebase.database().ref("/users/" + window.userId + "/experiment type")
+						.once('value').then(function(snapshot) {
+							window.experimentType = snapshot.val();
+
+							if (window.experimentType.slice(2, 3) === "s") {
+								document.getElementById('standard').hidden = false;
+								//show button
+							}
+
+							let lineup = getPics(window.experimentType);
+
+							addPics(lineup);
+						});
+				}
+			});
+		}
+
 		function shuffle(array) {
 			var currentIndex = array.length,
 				temporaryValue, randomIndex;
@@ -38,9 +160,9 @@
 			return array;
 		}
 
-		function getPics(tp) {
+		function getPics(experimentType) {
 			let lineup = [];
-			if (tp) {
+			if (experimentType.slice(-2) === "tp") {
 				lineup.push("media/target.jpg");
 			}
 			while (lineup.length < 6) {
@@ -53,38 +175,18 @@
 			for (let pic in lineup) {
 				document.getElementById(pic).src = lineup[pic];
 			}
-
-		}
-
-		function onLoad() {
-			let user = sessionStorage.getItem("user");
-
-			let types = {
-				"dtp": true,
-				"dtnp": false,
-				"ddtp": true,
-				"ddtnp": false
-			}
-
-			let lineup = getPics(types[sessionStorage.getItem("expType")]);
-
-			addPics(lineup);
-
-			console.log(lineup);
 		}
 
 		function checkInput() {
-			if (document.getElementById('formSelection').value != "NA" && document.getElementById('formConfidence').value != "NA") {
-				let correctness = window.sessionStorage.getItem("correct");
-				let expType = sessionStorage.getItem('expType');
+			if (document.getElementById('formSelection').value != "N/A" && document.getElementById('formConfidence').value != "N/A") {
 				//check to see if
-				if (expType == "dtnp" || expType == "ddtnp") {
+				if (window.experimentType === "dtnp" || window.experimentType === "ddtnp") {
 					if (document.getElementById('formSure').value == 'No') {
-						correctness = true;
+						window.correct = true;
 					}
 				} else {
 					if (document.getElementById('formSure').value == 'No') {
-						correctness = false;
+						window.correct = false;
 					}
 				}
 				let conf = document.querySelector('#formConfidence');
@@ -92,17 +194,14 @@
 				let sure = document.querySelector('#formSure');
 				let surety = sure.options[sure.selectedIndex].value;
 				const database = firebase.database();
-				if (sessionStorage.getItem("user")) {
-					document.getElementById('Next').style.visibility = "visible";
-					database.ref('users/' + sessionStorage.getItem("user")).update({
-						"correct": correctness,
-						"confidence level": confidence,
-						"selected filler": sessionStorage.getItem("placeholder"),
-						"person selected from video": surety
-					}).then((response) => {
-						document.getElementById('Next').disabled = false;
-					});
-				}
+				database.ref('users/' + window.userId).update({
+					"correct": window.correct,
+					"confidence level": confidence,
+					"selected filler": window.placeholder,
+					"person selected from video": surety
+				}).then((response) => {
+					document.getElementById('Next').disabled = false;
+				});
 			} else {
 				document.getElementById('Next').style.visibility = "hidden";
 			}
@@ -115,9 +214,8 @@
 				document.querySelector(".selected-pic").classList.remove("selected-pic");
 			}
 			document.getElementById("notPresentCheck").checked = false;
-			if (sessionStorage.getItem("expType") === "ddtp" || sessionStorage.getItem("expType") === "ddtnp") {
+			if (window.experimentType.slice(0, 2) === "dd") {
 				for (let i = 0; i < 6; i++) {
-					document.getElementById("notPresentCheck").checked = false;
 					document.getElementById(i).setAttribute("style", "border-color : #FFFFFF");
 				}
 				id.classList.add("selected-pic");
@@ -140,126 +238,42 @@
 
 			//handles correct choice
 			if (id.src.indexOf("media/target.jpg") >= 0) {
-				sessionStorage.setItem("placeholder", false)
-				sessionStorage.setItem("correct", true);
+				window.placeholder = false;
+				window.correct = true;
 			} else {
-				sessionStorage.setItem("placeholder", true)
-				sessionStorage.setItem("correct", false);
+				window.placeholder = true;
+				window.correct = false;
+			}
+			if (window.experimentType.slice(2, 3) === "s") {
+				showConf();
+			} else {
+				showPresent();
 			}
 
-			document.getElementById('present').classList.add("d-block");
+		}
+
+		function radioClicked() {
+			for (let i = 0; i < 6; i++) {
+				document.getElementById(i).setAttribute("style", "border : none");
+			}
+			if (window.experimentType.slice(-2) === "tp") {
+				window.correct = false;
+			} else {
+				window.correct = true;
+			}
+			window.placeholder = false;
+			document.getElementById('formSelection').selectedIndex = 1;
+			showConf();
 		}
 
 		function showConf() {
-			console.log("hello")
 			document.getElementById('confidence').classList.add("d-block");
 		}
+
+		function showPresent() {
+			document.getElementById('present').classList.add("d-block");
+		}
 	</script>
-
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-	<link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
-	<link rel="stylesheet" href="css/styles.css" type="text/css" />
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
-</head>
-
-<body onload="onLoad()">
-	<div class="container">
-		<div class="row">
-			<h5>Please select the person who looks most like the woman in the video. </h5>
-		</div>
-		<div class="row justify-content-between">
-			<div class="col-md-4">
-				<img id='0' src='media/fillers/blank.jpg' onClick='imageClicked(this)'>
-			</div>
-			<div class="col-md-4">
-				<img id='1' src='media/fillers/blank.jpg' onClick='imageClicked(this)'>
-			</div>
-			<div class="col-md-4">
-				<img id='2' src='media/fillers/blank.jpg' onClick='imageClicked(this)'>
-			</div>
-		</div>
-		<div class="row justify-content-between mt-4">
-			<div class="col-md-4">
-				<img id='3' src='media/fillers/blank.jpg' onClick='imageClicked(this)'>
-			</div>
-			<div class="col-md-4">
-				<img id='4' src='media/fillers/blank.jpg' onClick='imageClicked(this)'>
-			</div>
-			<div class="col-md-4">
-				<img id='5' src='media/fillers/blank.jpg' onClick='imageClicked(this)'>
-			</div>
-		</div>
-		<div class="form-group row">
-			<div class="form-check mt-3">
-				<input style="visibility: hidden" id="notPresentCheck" class="form-check-input" type="checkbox" onclick="radioClicked(this)" style="width:20px; height: 20px; border-radius: 4px; background-color: lightgrey; " />
-				<label style="visibility: hidden" class="form-check-label mt-1" style="font-size: 1.25rem; margin-top: 0.4rem">Check here <strong>if the person is not present</strong></label>
-			</div>
-		</div>
-		<div id="present" class="form-group row my-4 d-none">
-			<div class="form-inline">
-				<label id="textSure" class="col-auto">Is the person you selected actually the woman from the video?</label>
-				<select name="formSure" id="formSure" class="form-control col-1" onChange="showConf()">
-					<option value="NA" selected disabled></option>
-					<option value="Yes">Yes</option>
-					<option value="No">No</option>
-					</select>
-			</div>
-		</div>
-		<div id="confidence" class="form-group row my-4 d-none">
-			<div class="form-inline">
-				<label id="textConfidence" class="col-auto">How certain are you?</label>
-
-				<select name="formConfidence" id="formConfidence" class="form-control col-1" onChange="checkInput()">
-					<option value="NA" selected disabled></option>
-					<option value="0">0%</option>
-					<option value="10">10%</option>
-					<option value="20">20%</option>
-					<option value="30">30%</option>
-					<option value="40">40%</option>
-					<option value="50">50%</option>
-					<option value="60">60%</option>
-					<option value="70">70%</option>
-					<option value="80">80%</option>
-					<option value="90">90%</option>
-					<option value="100">100%</option>
-					</select>
-			</div>
-		</div>
-		<div class="row">
-			<input id="Next" onClick="{window.location.href='/stimQuestions'}" class="btn btn-primary btn-lg" type="submit" name="formSubmit" value="Next" disabled=true style="visibility: hidden" />
-		</div>
-	</div>
-
-	<table width="780" cellpadding="10" cellspacing="0" border="0" align="center">
-		<tr>
-			<td align="center">
-				<div>
-				</div>
-			</td>
-			<td align="center">
-
-			</td>
-		</tr>
-		<tr>
-			<td align="center" colspan=2></td>
-		</tr>
-
-	</table>
-
-	<select name="formSelection" id="formSelection" onChange="checkInput()" style="visibility: hidden" />
-	<option value="NA"></option>
-	<option value="Not present">Not present</option>
-	<option value="063">1</option>
-	<option value="040">2</option>
-	<option value="051">3</option>
-	<option value="111">4</option>
-	<option value="049">5</option>
-	<option value="010">6</option>
-	</select>
-
-
-	<select name="formId" id="formId" onChange="checkInput()" style="visibility: hidden" />
-	<option value="1"></option>
 
 </body>
 
