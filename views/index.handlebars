@@ -93,13 +93,13 @@
 				<div class="form-group">
 					<div class="form-check">
 
-						<input class="form-check-input" type="checkbox" id="gridCheck" name="agree" onClick="createNewUser()" value="agree" required>
+						<input class="form-check-input" type="checkbox" id="gridCheck" name="agree" onClick="{document.getElementById('submits').hidden = false; document.getElementById('submits').disabled = false;}" value="agree" required>
 						<label class="form-check-label" for="gridCheck">Check here if you agree to participate</label>
 						<br />
 						<label for="" hidden="true" style="color:red" id="invalidID">There was an error, please refresh your page and try again. <b>Sorry for the inconvenience</b></label>
 					</div>
 				</div>
-				<button name="formSubmit" id="submits" hidden="true" class="btn btn-primary" value="Submit Consent Form" onclick="redirect()" disabled>Submit Consent Form</button>
+				<button name="formSubmit" id="submits" hidden="true" class="btn btn-primary" value="Submit Consent Form" onclick="createNewUser()" disabled>Submit Consent Form</button>
 			</div>
 		</div>
 	</div>
@@ -116,7 +116,19 @@
 		};
 		firebase.initializeApp(config);
 
+		firebase.auth().onAuthStateChanged(function(user) {
+			if (user) {
+				redirect();
+			}
+		});
+
+		function addLoader(){
+			document.getElementById('submits').innerHTML = `<div class="lds-ripple"><div></div><div></div></div>`;
+		}
+
+
 		function createNewUser() {
+			addLoader();
 			const database = firebase.database();
 			firebase.auth().signInAnonymously().then(function() {
 				firebase.auth().onAuthStateChanged(function(user) {
@@ -135,8 +147,8 @@
 		}
 
 		function experimentType() {
-			let types = ["dtp", "dtnp", "ddtp", "ddtnp"]
-			let type = types[Math.floor((Math.random() * 4))];
+			let types = ["dtp", "dtnp", "ddtp", "ddtnp", "ddstp", "ddstnp"]
+			let type = types[Math.floor((Math.random() * 6))];
 			sessionStorage.setItem("expType", type);
 			return type;
 		}
@@ -185,7 +197,6 @@
 		function redirect() {
 			window.location.href = '/instructions';
 		}
-		
 	</script>
 
 </body>
