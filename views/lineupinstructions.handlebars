@@ -1,35 +1,55 @@
-
 <html>
-<head>
-<script>
 
-</script>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-<link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
-<link rel="stylesheet" href="css/styles.css" type="text/css" />
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+<head>
+  <script src="https://www.gstatic.com/firebasejs/5.3.1/firebase.js"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css" type="text/css" />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
 
 </head>
 
 <body>
-<div class="container">
-  <table width="780" height="100%" cellpadding="0" cellspacing="0" border="0" align="center"><tr><td valign="top">
-  <h1>Test Phase</h1>
-  <br />
-  <h3>Instructions for the Lineup Test:</h3>
-  <br />
-  <p></p>
-  <ul>
-  <li>
-    You will now be asked about the person you saw in the video earlier.
-  </li>
-  <li>
-    Please click <b>continue</b> to begin.
-  </li>
-  </ul>
-  <br />
-  <button id="redirect-button" class="btn btn-primary" onClick="{window.location.href='/lineup'}">Continue</button>
-</div>
+  <div class="container">
+    <table width="780" height="100%" cellpadding="0" cellspacing="0" border="0" align="center">
+      <tr>
+        <td valign="top">
+          <h1>Test Phase</h1>
+          <br />
+          <h3>Instructions for the Lineup Test:</h3>
+          <br />
+          <p></p>
+          <ul>
+            <li>
+              You will now be asked about the person you saw in the video earlier.
+            </li>
+            <li>
+              Please click <b>continue</b> to begin.
+            </li>
+          </ul>
+          <br />
+          <button id="redirect-button" class="btn btn-primary" onClick="{window.location.href='/lineup'}">Continue</button>
+  </div>
+  <script>
+    var config = {
+      apiKey: "AIzaSyCa5_e0vkkiBXQxKcpvGKHyumnWyvQ_os8",
+      authDomain: "ucsd-psych.firebaseapp.com",
+      databaseURL: "https://ucsd-psych.firebaseio.com",
+      projectId: "ucsd-psych",
+      storageBucket: "ucsd-psych.appspot.com",
+      messagingSenderId: "325328536445"
+    };
 
+    firebase.initializeApp(config);
+
+    window.onload = function() {
+      firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {} else {
+          window.location = '/'
+        }
+      });
+    }
+  </script>
 </body>
+
 </html>

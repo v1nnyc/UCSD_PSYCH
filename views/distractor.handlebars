@@ -1,20 +1,11 @@
-
 <html>
+
 <head>
-<script>
-function onLoad() {
-    setTimeout(openNext,180000);
-}
-
-function openNext() {
-    document.getElementById('next').style.visibility = "visible";
-}
-
-</script>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-<link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
-<link rel="stylesheet" href="css/styles.css" type="text/css" />
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+  <script src="https://www.gstatic.com/firebasejs/5.3.1/firebase.js"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css" type="text/css" />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
 </head>
 
 <body onLoad="onLoad()">
@@ -26,18 +17,18 @@ function openNext() {
         <p><strong>How to play: </strong></p>
         <ul>
 
-        <li>2048 is a matching game where your job is to combine matching tiles to create larger numbered tiles. </li>
-        <li>When there are no more moves left, and the board is full, the game is over.</li>
-        <li>If you want to get to the mythical 2048 tile, you'll have to think strategically and plan your moves carefully.</li>
-        <li>Random number blocks will appear on your board and you can move them using the arrow buttons on your keyboard.</li>
-        <li>Combining two equal tiles will create a new block equaling the sum of the two previous blocks.</li>
-        <li>The game ends when you reach 2048 or your board becomes completely full.</li>
+          <li>2048 is a matching game where your job is to combine matching tiles to create larger numbered tiles. </li>
+          <li>When there are no more moves left, and the board is full, the game is over.</li>
+          <li>If you want to get to the mythical 2048 tile, you'll have to think strategically and plan your moves carefully.</li>
+          <li>Random number blocks will appear on your board and you can move them using the arrow buttons on your keyboard.</li>
+          <li>Combining two equal tiles will create a new block equaling the sum of the two previous blocks.</li>
+          <li>The game ends when you reach 2048 or your board becomes completely full.</li>
         </ul>
         <p><strong>Keep playing: </strong></p>
         <ul>
-        <li>Your scores will be recorded.
-        <li>If you play more than one game, your goal is to improve your score as you go.
-        <li>Play the game until the page automatically redirects to the next part of the experiment.
+          <li>Your scores will be recorded.
+          <li>If you play more than one game, your goal is to improve your score as you go.
+          <li>Play the game until the page automatically redirects to the next part of the experiment.
         </ul>
         <h4 style="color:red">ARROW KEYS NOT WORKING? CLICK ON THE GAME GRID AND TRY AGAIN!</h4>
         <br />
@@ -46,12 +37,43 @@ function openNext() {
     </div>
   </div>
 
-<table width="780" cellpadding="10" cellspacing="0" border="0" align="center">
-</table>
+  <table width="780" cellpadding="10" cellspacing="0" border="0" align="center">
+  </table>
 
-<table width="780" cellpadding="10" cellspacing="0" border="0" align="center"><tr><td>
+  <table width="780" cellpadding="10" cellspacing="0" border="0" align="center">
+    <tr>
+      <td>
 
-</td>
-</tr>
+      </td>
+    </tr>
+    <script>
+      var config = {
+        apiKey: "AIzaSyCa5_e0vkkiBXQxKcpvGKHyumnWyvQ_os8",
+        authDomain: "ucsd-psych.firebaseapp.com",
+        databaseURL: "https://ucsd-psych.firebaseio.com",
+        projectId: "ucsd-psych",
+        storageBucket: "ucsd-psych.appspot.com",
+        messagingSenderId: "325328536445"
+      };
+
+      firebase.initializeApp(config);
+
+      window.onload = function() {
+        firebase.auth().onAuthStateChanged(function(user) {
+          if (user) {} else {
+            window.location = '/'
+          }
+        });
+      }
+
+      function onLoad() {
+        setTimeout(openNext, 180000);
+      }
+
+      function openNext() {
+        document.getElementById('next').style.visibility = "visible";
+      }
+    </script>
 </body>
+
 </html>

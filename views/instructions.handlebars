@@ -1,13 +1,58 @@
 <html>
+
 <head>
-<script>
+  <script src="https://www.gstatic.com/firebasejs/5.3.1/firebase.js"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css" type="text/css" />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
 
-function redirect() {
-  window.location.href='/distractor';
-}
 
-function play(){
-  document.querySelector('body').innerHTML = `<div id='video-stuff' class='container'>
+</head>
+
+<body>
+
+  <div id="instructions-stuff" class="container">
+    <h3>Instructions</h3>
+    <p> Please read the instructions below and press the button when you are ready to continue. </p>
+
+    <ul>
+      <li>You will watch a very brief video.
+      <li>Pay special attention because you will be asked questions about it later.
+      <li>Do not refresh the page or use the browser back buttons throughout the experiment.
+    </ul>
+
+    <button id="play button" class="btn btn-secondary btn-lg" onClick="play()"><i class="fas fa-play mr-2"></i>Play video</button>
+
+  </div>
+
+  <script>
+    var config = {
+      apiKey: "AIzaSyCa5_e0vkkiBXQxKcpvGKHyumnWyvQ_os8",
+      authDomain: "ucsd-psych.firebaseapp.com",
+      databaseURL: "https://ucsd-psych.firebaseio.com",
+      projectId: "ucsd-psych",
+      storageBucket: "ucsd-psych.appspot.com",
+      messagingSenderId: "325328536445"
+    };
+
+    firebase.initializeApp(config);
+
+    window.onload = function() {
+      firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {} else {
+          window.location = '/'
+        }
+      });
+    }
+
+    function redirect() {
+      window.location.href = '/distractor';
+    }
+
+    function play() {
+      document.querySelector('body').innerHTML =
+        `<div id='video-stuff' class='container'>
     <div class='embed-responsive embed-responsive-16by9' >
       <video id='video' width='560' height='315'>
         <source src='/media/White_Female_Long.mp4' type='video/mp4' >
@@ -15,40 +60,14 @@ function play(){
       <br />
     </div>
   </div>`;
-  document.getElementById('video').play();
-  window.setTimeout(redirect, 16000);
-}
+      document.getElementById('video').play();
+      window.setTimeout(redirect, 16000);
+    }
 
-function redirect(){
-	window.location.href='/distractor';
-}
-
-</script>
-
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-<link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
-<link rel="stylesheet" href="css/styles.css" type="text/css" />
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
-
-
-</head>
-
-<body>
-
-<div id="instructions-stuff" class="container">
-  <h3>Instructions</h3>
-  <p> Please read the instructions below and press the button when you are ready to continue. </p>
-
-  <ul>
-  <li>You will watch a very brief video.
-  <li>Pay special attention because you will be asked questions about it later.
-  <li>Do not refresh the page or use the browser back buttons throughout the experiment.
-  </ul>
-
-  <button id="play button" class="btn btn-secondary btn-lg" onClick="play()"><i class="fas fa-play mr-2"></i>Play video</button>
-
-</div>
-
-
+    function redirect() {
+      window.location.href = '/distractor';
+    }
+  </script>
 </body>
+
 </html>

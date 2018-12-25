@@ -77,6 +77,8 @@
       firebase.auth().onAuthStateChanged(function(user) {
         if (user) {
           window.userId = user.uid;
+        } else {
+          window.location = "/";
         }
       });
     }
