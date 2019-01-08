@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="css/styles.css" type="text/css" />
 </head>
 
-<body onload="redirect()">
+<body>
   <div class="container">
     <div class="progress">
       <div class="progress-bar progress-bar-striped active" id="myBar" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:0%">
@@ -35,6 +35,9 @@
 
     firebase.initializeApp(config);
 
+    let timeout = 30000
+    let date1;
+
     window.onload = function() {
       firebase.auth().onAuthStateChanged(function(user) {
         if (user) {
@@ -43,27 +46,19 @@
           window.location = "/debrief";
         }
       });
-    }
-    let timeout = 30000
-    let date1;
 
-    function redirect() {
-      setTimeout(f, timeout);
+      setTimeout(function() {
+        window.location.href = '/lineupinstructions'
+      }, timeout);
       date1 = new Date();
       var elem = document.getElementById("myBar");
-      var id = setInterval(frame, 10);
-
-      function frame() {
+      var id = setInterval(function() {
         let date2 = new Date();
         let diff = date2 - date1; //milliseconds interval
         elem.style.width = ((diff / (timeout)) * 100) + '%';
-      }
+      }, 100);
     }
 
-    function f() {
-      window.location.href = '/lineupinstructions'
-
-    }
   </script>
 </body>
 
