@@ -73,7 +73,7 @@
 			</div>
 		</div>
 		<div class="row">
-			<input id="Next" onClick="checkInput()" class="btn btn-primary btn-lg" type="submit" name="formSubmit" value="Next" hidden="true" />
+			<input id="Next" onClick="checkInput()" class="btn btn-primary" type="submit" name="formSubmit" value="Next" hidden="true" />
 		</div>
 	</div>
 
@@ -196,11 +196,14 @@
 				let sure = document.querySelector('#formSure');
 				let surety = sure.options[sure.selectedIndex].value;
 				const database = firebase.database();
+				let checked = "N/A"
+
 				database.ref('users/' + window.userId).update({
 					"correct": window.correct,
 					"confidence level": confidence,
 					"selected filler": window.placeholder,
-					"person selected from video": surety
+					"person selected from video": surety,
+					"checked 'not present'": (document.getElementById("notPresentCheck").checked) ? "true": (window.experimentType.slice(2, 3) === "s") ? "false" : "N/A"
 				}).then((response) => {
 					redirect();
 				});
