@@ -22,3 +22,8 @@ whether or not the guess was correct
 confidence rating
 answer to questions
 about you info
+
+1. select person, are you sure its not this person??? ask more detail
+
+2. rate them all
+below each face will be some rating thing (how sure are you 0 - im sure its not, 100 - im sure it is)
