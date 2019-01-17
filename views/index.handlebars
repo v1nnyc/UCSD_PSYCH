@@ -175,18 +175,6 @@
 			database.ref('users/' + uid).set({
 				"ID": uid,
 				"experiment type": experimentType(),
-				// "demographics": {
-				// 	"age": "",
-				// 	"gender": "",
-				// 	"education level": "",
-				// 	"ethnicity": "",
-				// },
-				// "answers": {
-				// 	"number of people": "",
-				// 	"crime": "",
-				// 	"true about scene": "",
-				// 	"chair color": "",
-				// },
 				"date_taken": getDate()
 			});
 			document.getElementById('submits').hidden = false;
