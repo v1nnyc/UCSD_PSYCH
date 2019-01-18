@@ -20,13 +20,44 @@
 		<div class="row justify-content-between">
 			<div class="col-md-4">
 				<img id='0' src='media/fillers/blank.png' onClick='imageClicked(this)'>
+				<div class="form-inline">
+					<select name="formConfidence" id="formConfidence" width= "100%" class="form-control col-1" onChange="{document.getElementById('Next').hidden = false}">
+
+						<option value="N/A" selected disabled></option>
+						<option value="0">0% (I am guessing)</option>
+						<option value="50">50%</option>
+						<option value="100">100% (I am completely certain)</option>
+					</select>
+				</div>
+
 			</div>
 			<div class="col-md-4">
 				<img id='1' src='media/fillers/blank.png' onClick='imageClicked(this)'>
+				<form>
+					<input type="radio" name="confidence" value="0%" checked> 0%
+					<input type="radio" name="confidence" value="50%"> 50%
+					<input type="radio" name="confidence" value="100%"> 100%
+				</form>
 			</div>
 			<div class="col-md-4">
 				<img id='2' src='media/fillers/blank.png' onClick='imageClicked(this)'>
-			</div>
+					<center> <div class = "slide-wrapper" >
+  					<input type="range" min="0" max="100" value="50" list="tickmarks">
+
+						<datalist id="tickmarks">
+  						<option value="0" label="0%">
+  						<option value="10">
+  						<option value="20">
+  						<option value="30">
+  						<option value="40">
+  						<option value="50" label="50%">
+  						<option value="60">
+  						<option value="70">
+  						<option value="80">
+  						<option value="90">
+  						<option value="100" label="100%">
+						</datalist>
+					</div> </center>
 		</div>
 		<div class="row justify-content-between mt-4">
 			<div class="col-md-4">
@@ -60,6 +91,7 @@
 				<label id="textConfidence" class="col-auto">How certain are you?</label>
 
 				<select name="formConfidence" id="formConfidence" class="form-control col-1" onChange="{document.getElementById('Next').hidden = false}">
+
 					<option value="N/A" selected disabled></option>
 					<option value="0">0% (I am guessing)</option>
 					<option value="10">10%</option>

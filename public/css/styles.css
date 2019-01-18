@@ -20,6 +20,9 @@ body {
   margin-bottom: 4rem;
   border-radius: 4px;
 }
+.slide-wrapper-width{
+    width: 100%;
+  }
 
 .selected-pic {
   border: 6px solid red;
