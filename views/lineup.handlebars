@@ -12,7 +12,7 @@
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
 </head>
 
-<body onload="onLoad()">
+<body>
 	<div class="container">
 		<div class="row">
 			<h5>Please select the person who looks most like the woman in the video. </h5>
@@ -122,7 +122,7 @@
 		};
 		firebase.initializeApp(config);
 
-		window.onLoad = function() {
+		document.getElementsByTagName("body")[0].onload = function(){
 			firebase.auth().onAuthStateChanged(function(user) {
 				if (user) {
 					window.userId = user.uid;
