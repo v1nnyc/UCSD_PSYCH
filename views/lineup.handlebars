@@ -10,64 +10,126 @@
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
 	<link rel="stylesheet" href="css/styles.css" type="text/css" />
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+	<style>
+	img {
+		width:100%;
+	}
+	</style>
 </head>
 
 <body>
 	<div class="container">
 		<div class="row">
-			<h5>Please select the person who looks most like the woman in the video. </h5>
+		<h5>Please rate how confident you are that the woman below is the woman in the video </h5>
+	</br> <h5> 0% - I guessed, 100% absolutely certain</h5>
 		</div>
+	<!-- Row 1, Col 1. -->
 		<div class="row justify-content-between">
 			<div class="col-md-4">
 				<img id='0' src='media/fillers/blank.png' onClick='imageClicked(this)'>
-				<div class="form-inline">
-					<select name="formConfidence" id="formConfidence" width= "100%" class="form-control col-1" onChange="{document.getElementById('Next').hidden = false}">
-
-						<option value="N/A" selected disabled></option>
-						<option value="0">0% (I am guessing)</option>
-						<option value="50">50%</option>
-						<option value="100">100% (I am completely certain)</option>
-					</select>
+				<div class="slidecontainer">
+					<input type="range" min="1" max="100" value="50" class="slider" id="myRange">
+					<p>Value: <span id="demo"></span></p>
 				</div>
+			<script>
+				var slider = document.getElementById("myRange");
+				var output = document.getElementById("demo");
+				output.innerHTML = slider.value;
 
+				slider.oninput = function() {
+				output.innerHTML = this.value;
+				}
+			</script>
 			</div>
+		<!-- Row 1, Col 2 -->
 			<div class="col-md-4">
 				<img id='1' src='media/fillers/blank.png' onClick='imageClicked(this)'>
-				<form>
-					<input type="radio" name="confidence" value="0%" checked> 0%
-					<input type="radio" name="confidence" value="50%"> 50%
-					<input type="radio" name="confidence" value="100%"> 100%
-				</form>
-			</div>
-			<div class="col-md-4">
-				<img id='2' src='media/fillers/blank.png' onClick='imageClicked(this)'>
-					<center> <div class = "slide-wrapper" >
-  					<input type="range" min="0" max="100" value="50" list="tickmarks">
+				<div class="slidecontainer">
+					<input type="range" min="1" max="100" value="50" class="slider" id="myRange1">
+					<p>Value: <span id="demo1"></span></p>
+				</div>
+			<script>
+				var slider = document.getElementById("myRange1");
+				var output1 = document.getElementById("demo1");
+				output1.innerHTML = slider.value;
 
-						<datalist id="tickmarks">
-  						<option value="0" label="0%">
-  						<option value="10">
-  						<option value="20">
-  						<option value="30">
-  						<option value="40">
-  						<option value="50" label="50%">
-  						<option value="60">
-  						<option value="70">
-  						<option value="80">
-  						<option value="90">
-  						<option value="100" label="100%">
-						</datalist>
-					</div> </center>
-		</div>
-		<div class="row justify-content-between mt-4">
-			<div class="col-md-4">
-				<img id='3' src='media/fillers/blank.png' onClick='imageClicked(this)'>
+				slider.oninput = function() {
+				output1.innerHTML = this.value;
+				}
+			</script>
 			</div>
+			<!-- Row 1, Col 3 -->
+		<div class="col-md-4">
+				<img id='2' src='media/fillers/blank.png' onClick='imageClicked(this)'>
+				<div class="slidecontainer">
+					<input type="range" min="1" max="100" value="50" class="slider" id="myRange2">
+					<p>Value: <span id="demo2"></span></p>
+				</div>
+			<script>
+				var slider = document.getElementById("myRange2");
+				var output2 = document.getElementById("demo2");
+				output2.innerHTML = slider.value;
+
+				slider.oninput = function() {
+				output2.innerHTML = this.value;
+				}
+			</script>
+		</div>
+	</div>
+</br>
+<!-- Row 2, Col 1 -->
+		<div class="row justify-content-between">
+				<div class="col-md-4">
+					<img id='3' src='media/fillers/blank.png' onClick='imageClicked(this)'>
+					<div class="slidecontainer">
+						<input type="range" min="1" max="100" value="50" class="slider" id="myRange3">
+						<p>Value: <span id="demo3"></span></p>
+					</div>
+				<script>
+					var slider = document.getElementById("myRange3");
+					var output3 = document.getElementById("demo3");
+					output3.innerHTML = slider.value;
+
+					slider.oninput = function() {
+					output3.innerHTML = this.value;
+					}
+				</script>
+			</div>
+			<!-- Row 2, Col 2 -->
 			<div class="col-md-4">
 				<img id='4' src='media/fillers/blank.png' onClick='imageClicked(this)'>
+				<div class="slidecontainer">
+					<input type="range" min="1" max="100" value="50" class="slider" id="myRange4">
+					<p>Value: <span id="demo4"></span></p>
+				</div>
+			<script>
+				var slider = document.getElementById("myRange4");
+				var output4 = document.getElementById("demo4");
+				output4.innerHTML = slider.value;
+
+				slider.oninput = function() {
+				output4.innerHTML = this.value;
+				}
+			</script>
 			</div>
+
+			<!-- Row 2, Col 3 -->
+
 			<div class="col-md-4">
 				<img id='5' src='media/fillers/blank.png' onClick='imageClicked(this)'>
+				<div class="slidecontainer">
+					<input type="range" min="1" max="100" value="50" class="slider" id="myRange5">
+					<p>Value: <span id="demo5"></span></p>
+				</div>
+			<script>
+				var slider = document.getElementById("myRange5");
+				var output5 = document.getElementById("demo5");
+				output5.innerHTML = slider.value;
+
+				slider.oninput = function() {
+				output5.innerHTML = this.value;
+				}
+			</script>
 			</div>
 		</div>
 		<div class="form-group row">
