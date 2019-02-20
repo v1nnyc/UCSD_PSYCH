@@ -204,7 +204,11 @@
 				lineup.push("media/target.jpg");
 			}
 			while (lineup.length < 6) {
-				lineup.push("media/fillers/" + Math.floor((Math.random() * 114) + 1) + ".jpg");
+				let pic = "media/fillers/" + Math.floor((Math.random() * 114) + 1) + ".jpg";
+				// prevent duplicates by checking if pic is already in lineup
+				if(!lineup.includes(pic)){
+					lineup.push(pic);
+				}
 			}
 			return shuffle(lineup);
 		}
