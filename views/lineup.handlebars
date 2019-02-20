@@ -11,131 +11,87 @@
 	<link rel="stylesheet" href="css/styles.css" type="text/css" />
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
 	<style>
-	img {
-		width:100%;
-	}
+		img {
+			width:100%;
+		}
+
+		#not-selected{
+			font-size: 25px;
+			color: red;
+		}
+
+		#selected{
+			font-size: 15px;
+			color: black;
+		}
+
+		p span{
+			color: #64f24f;
+			font-size: 30px;
+		}
 	</style>
 </head>
 
 <body>
 	<div class="container">
 		<div class="row">
-		<h5>Please rate how confident you are that the woman below is the woman in the video </h5>
-	</br> <h5> 0% - I guessed, 100% absolutely certain</h5>
+			<h5>Please rate how confident you are that the woman below is the woman in the video </h5>
+			</br>
+			<h5> 0% - I guessed, 100% absolutely certain</h5>
 		</div>
-	<!-- Row 1, Col 1. -->
+		<!-- Row 1, Col 1. -->
 		<div class="row justify-content-between">
 			<div class="col-md-4">
-				<img id='0' src='media/fillers/blank.png' onClick='imageClicked(this)'>
+				<img id='0' src='media/fillers/blank.png'>
 				<div class="slidecontainer">
-					<input type="range" min="1" max="100" value="50" class="slider" id="myRange">
-					<p>Value: <span id="demo"></span></p>
+					<input type="range" min="0" max="100" value="50" class="slider" id="slider0">
+					<p id="not-selected">Value: <span id="slider0-output"></span></p>
 				</div>
-			<script>
-				var slider = document.getElementById("myRange");
-				var output = document.getElementById("demo");
-				output.innerHTML = slider.value;
-
-				slider.oninput = function() {
-				output.innerHTML = this.value;
-				}
-			</script>
 			</div>
-		<!-- Row 1, Col 2 -->
+			<!-- Row 1, Col 2 -->
 			<div class="col-md-4">
-				<img id='1' src='media/fillers/blank.png' onClick='imageClicked(this)'>
+				<img id='1' src='media/fillers/blank.png'>
 				<div class="slidecontainer">
-					<input type="range" min="1" max="100" value="50" class="slider" id="myRange1">
-					<p>Value: <span id="demo1"></span></p>
+					<input type="range" min="0" max="100" value="50" class="slider" id="slider1">
+					<p id="not-selected">Value: <span id="slider1-output"></span></p>
 				</div>
-			<script>
-				var slider = document.getElementById("myRange1");
-				var output1 = document.getElementById("demo1");
-				output1.innerHTML = slider.value;
-
-				slider.oninput = function() {
-				output1.innerHTML = this.value;
-				}
-			</script>
 			</div>
 			<!-- Row 1, Col 3 -->
-		<div class="col-md-4">
-				<img id='2' src='media/fillers/blank.png' onClick='imageClicked(this)'>
+			<div class="col-md-4">
+				<img id='2' src='media/fillers/blank.png'>
 				<div class="slidecontainer">
-					<input type="range" min="1" max="100" value="50" class="slider" id="myRange2">
-					<p>Value: <span id="demo2"></span></p>
+					<input type="range" min="0" max="100" value="50" class="slider" id="slider2">
+					<p id="not-selected">Value: <span id="slider2-output"></span></p>
 				</div>
-			<script>
-				var slider = document.getElementById("myRange2");
-				var output2 = document.getElementById("demo2");
-				output2.innerHTML = slider.value;
-
-				slider.oninput = function() {
-				output2.innerHTML = this.value;
-				}
-			</script>
+			</div>
 		</div>
-	</div>
-</br>
-<!-- Row 2, Col 1 -->
+		</br>
+		<!-- Row 2, Col 1 -->
 		<div class="row justify-content-between">
-				<div class="col-md-4">
-					<img id='3' src='media/fillers/blank.png' onClick='imageClicked(this)'>
-					<div class="slidecontainer">
-						<input type="range" min="1" max="100" value="50" class="slider" id="myRange3">
-						<p>Value: <span id="demo3"></span></p>
-					</div>
-				<script>
-					var slider = document.getElementById("myRange3");
-					var output3 = document.getElementById("demo3");
-					output3.innerHTML = slider.value;
-
-					slider.oninput = function() {
-					output3.innerHTML = this.value;
-					}
-				</script>
+			<div class="col-md-4">
+				<img id='3' src='media/fillers/blank.png'>
+				<div class="slidecontainer">
+					<input type="range" min="0" max="100" value="50" class="slider" id="slider3">
+					<p id="not-selected">Value: <span id="slider3-output"></span></p>
+				</div>
 			</div>
 			<!-- Row 2, Col 2 -->
 			<div class="col-md-4">
-				<img id='4' src='media/fillers/blank.png' onClick='imageClicked(this)'>
+				<img id='4' src='media/fillers/blank.png'>
 				<div class="slidecontainer">
-					<input type="range" min="1" max="100" value="50" class="slider" id="myRange4">
-					<p>Value: <span id="demo4"></span></p>
+					<input type="range" min="0" max="100" value="50" class="slider" id="slider4">
+					<p id="not-selected">Value: <span id="slider4-output"></span></p>
 				</div>
-			<script>
-				var slider = document.getElementById("myRange4");
-				var output4 = document.getElementById("demo4");
-				output4.innerHTML = slider.value;
-
-				slider.oninput = function() {
-				output4.innerHTML = this.value;
-				}
-			</script>
 			</div>
 
 			<!-- Row 2, Col 3 -->
 
 			<div class="col-md-4">
-				<img id='5' src='media/fillers/blank.png' onClick='imageClicked(this)'>
+				<img id='5' src='media/fillers/blank.png'>
 				<div class="slidecontainer">
-					<input type="range" min="1" max="100" value="50" class="slider" id="myRange5">
-					<p>Value: <span id="demo5"></span></p>
+					<input type="range" min="0" max="100" value="50" class="slider" id="slider5">
+					<p id="not-selected">Value: <span id="slider5-output"></span></p>
 				</div>
-			<script>
-				var slider = document.getElementById("myRange5");
-				var output5 = document.getElementById("demo5");
-				output5.innerHTML = slider.value;
-
-				slider.oninput = function() {
-				output5.innerHTML = this.value;
-				}
-			</script>
-			</div>
-		</div>
-		<div class="form-group row">
-			<div class="form-check mt-3" id="standard" hidden="true">
-				<input id="notPresentCheck" class="form-check-input" type="checkbox" onclick="radioClicked(this)" style="width:20px; height: 20px; border-radius: 4px; background-color: lightgrey; " />
-				<label class="form-check-label mt-1" style="font-size: 1.25rem; margin-top: 0.4rem">Check here <strong>if the person is not present</strong></label>
 			</div>
 		</div>
 		<div id="present" class="form-group row my-4 d-none">
@@ -148,29 +104,8 @@
 				</select>
 			</div>
 		</div>
-		<div id="confidence" class="form-group row my-4 d-none">
-			<div class="form-inline">
-				<label id="textConfidence" class="col-auto">How certain are you?</label>
-
-				<select name="formConfidence" id="formConfidence" class="form-control col-1" onChange="{document.getElementById('Next').hidden = false}">
-
-					<option value="N/A" selected disabled></option>
-					<option value="0">0% (I am guessing)</option>
-					<option value="10">10%</option>
-					<option value="20">20%</option>
-					<option value="30">30%</option>
-					<option value="40">40%</option>
-					<option value="50">50%</option>
-					<option value="60">60%</option>
-					<option value="70">70%</option>
-					<option value="80">80%</option>
-					<option value="90">90%</option>
-					<option value="100">100% (I am completely certain)</option>
-				</select>
-			</div>
-		</div>
 		<div class="row">
-			<input id="Next" onClick="checkInput()" class="btn btn-primary" type="submit" name="formSubmit" value="Next" hidden="true" />
+			<input id="Next" onClick="submit()" class="btn btn-primary" type="submit" name="formSubmit" value="Next" hidden />
 		</div>
 	</div>
 
@@ -190,21 +125,6 @@
 
 	</table>
 
-	<select name="formSelection" id="formSelection" onChange="checkInput()" hidden="true" />
-	<option value="N/A"></option>
-	<option value="Not present">Not present</option>
-	<option value="063">1</option>
-	<option value="040">2</option>
-	<option value="051">3</option>
-	<option value="111">4</option>
-	<option value="049">5</option>
-	<option value="010">6</option>
-	</select>
-
-
-	<select name="formId" id="formId" onChange="checkInput()" style="visibility: hidden" />
-	<option value="1"></option>
-
 	<script type="text/javascript">
 		var config = {
 			apiKey: "AIzaSyCa5_e0vkkiBXQxKcpvGKHyumnWyvQ_os8",
@@ -216,18 +136,25 @@
 		};
 		firebase.initializeApp(config);
 
-		document.getElementsByTagName("body")[0].onload = function(){
+		document.getElementsByTagName("body")[0].onload = function() {
+			// code for slider logic
+			let sliders = document.getElementsByClassName("slider")
+			for (var slider in sliders) {
+				let curr_slider = sliders[slider];
+				let curr_output = document.getElementById(curr_slider.id + "-output");
+				sliders[slider].oninput = function() {
+					curr_output.innerHTML = this.value;
+					curr_output.parentNode.id = "selected";
+					inputted(this);
+				}
+			}
+
 			firebase.auth().onAuthStateChanged(function(user) {
 				if (user) {
 					window.userId = user.uid;
 					firebase.database().ref("/users/" + window.userId + "/experiment type")
 						.once('value').then(function(snapshot) {
 							window.experimentType = snapshot.val();
-
-							if (window.experimentType.slice(2, 3) === "s") {
-								document.getElementById('standard').hidden = false;
-								//show button
-							}
 
 							let lineup = getPics(window.experimentType);
 
@@ -237,6 +164,18 @@
 					window.location = '/debrief'
 				}
 			});
+		}
+
+		// logic for checking if all 6 inputs have been inputted
+		let inputs = {};
+		function inputted(element){
+			if(!(element.id in inputs)){
+				inputs[element.id] = true;
+			}
+			if(Object.keys(inputs).length == 6){
+				//show next button
+				document.getElementById("Next").hidden = false;
+			}
 		}
 
 		function shuffle(array) {
@@ -276,103 +215,42 @@
 			}
 		}
 
-		function checkInput() {
-			if (document.getElementById('formSelection').value != "N/A" && document.getElementById('formConfidence').value != "N/A") {
-				//check to see if
-				if (window.experimentType === "dtnp" || window.experimentType === "ddtnp") {
-					if (document.getElementById('formSure').value == 'No') {
-						window.correct = true;
-					}
-				} else {
-					if (document.getElementById('formSure').value == 'No') {
-						window.correct = false;
-					}
-				}
-				let conf = document.querySelector('#formConfidence');
-				let confidence = conf.options[conf.selectedIndex].value;
-				let sure = document.querySelector('#formSure');
-				let surety = sure.options[sure.selectedIndex].value;
-				const database = firebase.database();
-				let checked = "N/A"
-
-				database.ref('users/' + window.userId).update({
-					"correct": window.correct,
-					"confidence level": confidence,
-					"selected filler": window.placeholder,
-					"person selected from video": surety,
-					"checked 'not present'": (document.getElementById("notPresentCheck").checked) ? "true" : (window.experimentType.slice(2, 3) === "s") ? "false" : "N/A"
-				}).then((response) => {
-					redirect();
-				});
-			} else {
-				document.getElementById('Next').style.visibility = "hidden";
+		function submit() {
+			let slider_values = [];
+			for(let i = 0; i < 6; i++){
+				slider_values.push(document.getElementById("slider"+i).value);
 			}
-		}
-
-		function imageClicked(id) {
-			//makes picture normal sized
-			if (document.querySelector(".selected-pic")) {
-				document.querySelector(".selected-pic").classList.remove("selected-pic");
-			}
-			document.getElementById("notPresentCheck").checked = false;
-			if (window.experimentType.slice(0, 2) === "dd") {
-				for (let i = 0; i < 6; i++) {
-					document.getElementById(i).setAttribute("style", "border-color : #FFFFFF");
-				}
-				id.classList.add("selected-pic");
-				id.setAttribute("style", "border-color : #FF0000");
-				document.getElementById('formSelection').selectedIndex = 1;
-			} else {
-				for (let i = 0; i < 6; i++) {
-					document.getElementById(i).style.visibility = "hidden";
-				}
-				document.getElementById('textConfidence').style.visibility = "visible";
-				document.getElementById('formConfidence').style.visibility = "visible";
-			}
-
-			id.classList.add("selected-pic");
-			id.setAttribute("style", "border-color : #FF0000");
-			document.getElementById('formSelection').selectedIndex = 1;
-
-			iPhoto = id.id;
-			document.getElementById('formSelection').selectedIndex = parseInt(iPhoto) + 1;
-
-			//handles correct choice
-			if (id.src.indexOf("media/target.jpg") >= 0) {
-				window.placeholder = "false";
-				window.correct = "true";
-			} else {
-				window.placeholder = "true";
-				window.correct = "false";
-			}
-			if (window.experimentType.slice(2, 3) === "s") {
-				showConf();
-			} else {
-				showPresent();
-			}
-
-		}
-
-		function radioClicked() {
-			for (let i = 0; i < 6; i++) {
-				document.getElementById(i).setAttribute("style", "border : none");
-			}
-			if (window.experimentType.slice(-2) === "tp") {
-				window.correct = "false";
-			} else {
-				window.correct = "true";
-			}
-			window.placeholder = "false";
-			document.getElementById('formSelection').selectedIndex = 1;
-			showConf();
-		}
-
-		function showConf() {
-			document.getElementById('confidence').classList.add("d-block");
-		}
-
-		function showPresent() {
-			document.getElementById('present').classList.add("d-block");
+			console.log(slider_values);
+			// if (document.getElementById('formSelection').value != "N/A" && document.getElementById('formConfidence').value != "N/A") {
+			// 	//check to see if
+			// 	if (window.experimentType === "dtnp" || window.experimentType === "ddtnp") {
+			// 		if (document.getElementById('formSure').value == 'No') {
+			// 			window.correct = true;
+			// 		}
+			// 	} else {
+			// 		if (document.getElementById('formSure').value == 'No') {
+			// 			window.correct = false;
+			// 		}
+			// 	}
+			// 	let conf = document.querySelector('#formConfidence');
+			// 	let confidence = conf.options[conf.selectedIndex].value;
+			// 	let sure = document.querySelector('#formSure');
+			// 	let surety = sure.options[sure.selectedIndex].value;
+			// 	const database = firebase.database();
+			// 	let checked = "N/A"
+			//
+			// 	database.ref('users/' + window.userId).update({
+			// 		"correct": window.correct,
+			// 		"confidence level": confidence,
+			// 		"selected filler": window.placeholder,
+			// 		"person selected from video": surety,
+			// 		"checked 'not present'": (document.getElementById("notPresentCheck").checked) ? "true" : (window.experimentType.slice(2, 3) === "s") ? "false" : "N/A"
+			// 	}).then((response) => {
+			// 		redirect();
+			// 	});
+			// } else {
+			// 	document.getElementById('Next').style.visibility = "hidden";
+			// }
 		}
 
 		function redirect() {
