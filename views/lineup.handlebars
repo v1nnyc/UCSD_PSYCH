@@ -85,23 +85,12 @@
 			</div>
 
 			<!-- Row 2, Col 3 -->
-
 			<div class="col-md-4">
 				<img id='5' src='media/fillers/blank.png'>
 				<div class="slidecontainer">
 					<input type="range" min="0" max="100" value="50" class="slider" id="slider5">
 					<p id="not-selected">Value: <span id="slider5-output"></span></p>
 				</div>
-			</div>
-		</div>
-		<div id="present" class="form-group row my-4 d-none">
-			<div class="form-inline">
-				<label id="textSure" class="col-auto">Is the person you selected actually the woman from the video?</label>
-				<select name="formSure" id="formSure" class="form-control col-1" onChange="showConf()">
-					<option value="N/A" selected disabled></option>
-					<option value="Yes">Yes</option>
-					<option value="No">No</option>
-				</select>
 			</div>
 		</div>
 		<div class="row">
@@ -136,8 +125,10 @@
 		};
 		firebase.initializeApp(config);
 
+		// when body renders
 		document.getElementsByTagName("body")[0].onload = function() {
-			// code for slider logic
+
+			/* code for slider logic */
 			let sliders = document.getElementsByClassName("slider")
 			for (var slider in sliders) {
 				let curr_slider = sliders[slider];
@@ -168,11 +159,12 @@
 
 		// logic for checking if all 6 inputs have been inputted
 		let inputs = {};
-		function inputted(element){
-			if(!(element.id in inputs)){
+
+		function inputted(element) {
+			if (!(element.id in inputs)) {
 				inputs[element.id] = true;
 			}
-			if(Object.keys(inputs).length == 6){
+			if (Object.keys(inputs).length == 1) {
 				//show next button
 				document.getElementById("Next").hidden = false;
 			}
@@ -200,13 +192,13 @@
 
 		function getPics(experimentType) {
 			let lineup = [];
-			if (experimentType.slice(-2) === "tp") {
+			if (experimentType.includes("tp")) {
 				lineup.push("media/target.jpg");
 			}
 			while (lineup.length < 6) {
 				let pic = "media/fillers/" + Math.floor((Math.random() * 114) + 1) + ".jpg";
 				// prevent duplicates by checking if pic is already in lineup
-				if(!lineup.includes(pic)){
+				if (!lineup.includes(pic)) {
 					lineup.push(pic);
 				}
 			}
@@ -221,10 +213,27 @@
 
 		function submit() {
 			let slider_values = [];
-			for(let i = 0; i < 6; i++){
-				slider_values.push(document.getElementById("slider"+i).value);
+			let imgs = document.getElementsByTagName("img");
+			let index;
+			for (let i = 0; i < 6; i++) {
+				// get confidence scores from sliders
+				slider_values.push(document.getElementById("slider" + i).value);
+
+				/* get index of target picture */
+				let curr_img = imgs[i];
+				let src = curr_img.src;
+				if (src.includes("media/target.jpg")) {
+					index = i;
+				}
 			}
+
+
+
+
+
+			console.log(slider_values[index]);
 			console.log(slider_values);
+
 			// if (document.getElementById('formSelection').value != "N/A" && document.getElementById('formConfidence').value != "N/A") {
 			// 	//check to see if
 			// 	if (window.experimentType === "dtnp" || window.experimentType === "ddtnp") {
