@@ -99,23 +99,29 @@
 		</div>
 
 		<div id="popup" style="position: fixed; left: 25%; top: 25%;z-index: 1; width: 500px; height: 500px; background-color: gray">
-			<h1>HEY!</h1>
-			<div style="width:50%; height:50%; float:left">
+
+			<div style="width:50%; height:50%; float: left">
 				<img src='media/target.jpg' style="width: 100%; height: 100%;">
 			</div>
 			<div style="width:50%; float:right">
-				<p>
-					How certain? r u? R u certain???? ??
-				</p>
-				<div class="slidecontainer">
-					<input type="range" min="1" max="100" value="50" class="slider" id="myRange1">
-					<p>Value: <span id="demo1"></span></p>
-				</div>
+				<h2 margin-top: 10%> <b>
+				</br>
+					  How certain are you that this was not the woman from the video?
+					</b> </h2>
+				</br>
+				</br>
 			</div>
-
-
-
-			<button class="btn btn-primary">Continue</button>
+			<div class="slidecontainer">
+				<input type="range" min="1" max="100" value="50" class="slider"
+					id="myRange">
+					<p> </br> </p>
+					<p>Value: <span id="demo"></span></p>
+			</div>
+				<div>
+					<center>
+				<button class="block"> Continue </button>
+			</center>
+			</div>
 		</div>
 
 		<div id="confidence" class="form-group row my-4 d-none">
@@ -176,13 +182,13 @@
 	<option value="1"></option>
 
 	<script type="text/javascript">
-		var slider = document.getElementById("myRange5");
-		var output5 = document.getElementById("demo5");
-		output5.innerHTML = slider.value;
+var slider = document.getElementById("myRange");
+var output = document.getElementById("demo");
+output.innerHTML = slider.value;
 
-		slider.oninput = function() {
-			output5.innerHTML = this.value;
-		}
+slider.oninput = function() {
+output.innerHTML = this.value;
+}
 
 		var config = {
 			apiKey: "AIzaSyCa5_e0vkkiBXQxKcpvGKHyumnWyvQ_os8",
@@ -193,7 +199,6 @@
 			messagingSenderId: "325328536445"
 		};
 		firebase.initializeApp(config);
-
 		document.getElementsByTagName("body")[0].onload = function() {
 			firebase.auth().onAuthStateChanged(function(user) {
 				if (user) {
@@ -201,14 +206,11 @@
 					firebase.database().ref("/users/" + window.userId + "/experiment type")
 						.once('value').then(function(snapshot) {
 							window.experimentType = snapshot.val();
-
 							if (window.experimentType.slice(2, 3) === "s") {
 								document.getElementById('standard').hidden = false;
 								//show button
 							}
-
 							let lineup = getPics(window.experimentType);
-
 							addPics(lineup);
 						});
 				} else {
@@ -216,27 +218,21 @@
 				}
 			});
 		}
-
 		function shuffle(array) {
 			var currentIndex = array.length,
 				temporaryValue, randomIndex;
-
 			// While there remain elements to shuffle...
 			while (0 !== currentIndex) {
-
 				// Pick a remaining element...
 				randomIndex = Math.floor(Math.random() * currentIndex);
 				currentIndex -= 1;
-
 				// And swap it with the current element.
 				temporaryValue = array[currentIndex];
 				array[currentIndex] = array[randomIndex];
 				array[randomIndex] = temporaryValue;
 			}
-
 			return array;
 		}
-
 		function getPics(experimentType) {
 			let lineup = [];
 			let randomInt = [];
@@ -248,13 +244,11 @@
 			}
 			return shuffle(lineup);
 		}
-
 		function addPics(lineup) {
 			for (let pic in lineup) {
 				document.getElementById(pic).src = lineup[pic];
 			}
 		}
-
 		function checkInput() {
 			if (document.getElementById('formSelection').value != "N/A" && document.getElementById('formConfidence').value != "N/A") {
 				//check to see if
@@ -273,7 +267,6 @@
 				let surety = sure.options[sure.selectedIndex].value;
 				const database = firebase.database();
 				let checked = "N/A"
-
 				database.ref('users/' + window.userId).update({
 					"correct": window.correct,
 					"confidence level": confidence,
@@ -287,7 +280,6 @@
 				document.getElementById('Next').style.visibility = "hidden";
 			}
 		}
-
 		function imageClicked(id) {
 			//makes picture normal sized
 			if (document.querySelector(".selected-pic")) {
@@ -308,14 +300,11 @@
 				document.getElementById('textConfidence').style.visibility = "visible";
 				document.getElementById('formConfidence').style.visibility = "visible";
 			}
-
 			id.classList.add("selected-pic");
 			id.setAttribute("style", "border-color : #FF0000");
 			document.getElementById('formSelection').selectedIndex = 1;
-
 			iPhoto = id.id;
 			document.getElementById('formSelection').selectedIndex = parseInt(iPhoto) + 1;
-
 			//handles correct choice
 			if (id.src.indexOf("media/target.jpg") >= 0) {
 				window.placeholder = "false";
@@ -329,9 +318,7 @@
 			} else {
 				showPresent();
 			}
-
 		}
-
 		function radioClicked() {
 			for (let i = 0; i < 6; i++) {
 				document.getElementById(i).setAttribute("style", "border : none");
@@ -345,15 +332,12 @@
 			document.getElementById('formSelection').selectedIndex = 1;
 			showConf();
 		}
-
 		function showConf() {
 			document.getElementById('confidence').classList.add("d-block");
 		}
-
 		function showPresent() {
 			document.getElementById('present').classList.add("d-block");
 		}
-
 		function redirect() {
 			window.location.href = '/stimQuestions';
 		}
@@ -362,3 +346,4 @@
 </body>
 
 </html>
+
