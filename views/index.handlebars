@@ -150,8 +150,10 @@
 		}
 
 		function experimentType() {
-			let types = ["dtp", "dtnp", "ddtp", "ddtnp", "ddstp", "ddstnp"]
-			let type = types[Math.floor((Math.random() * 6))];
+			// target present and target not present are for sliders
+			// standard target present/not present are for selecting a face
+			let types = ["tp", "tnp", "stp", "stnp"]
+			let type = types[Math.floor((Math.random() * 4))];
 			return type;
 		}
 
