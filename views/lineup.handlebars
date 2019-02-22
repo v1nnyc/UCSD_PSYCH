@@ -44,24 +44,24 @@
 			<div class="col-md-4">
 				<img id='0' src='media/fillers/blank.png'>
 				<div class="slidecontainer">
-					<input type="range" min="0" max="100" value="50" class="slider" id="slider0">
-					<p id="not-selected">Value: <span id="slider0-output"></span></p>
+					<input type="range" min="0" max="100" value="50" class="slider" id="slider0" hidden>
+					<p id="not-selected" hidden>Value: <span id="slider0-output"></span></p>
 				</div>
 			</div>
 			<!-- Row 1, Col 2 -->
 			<div class="col-md-4">
 				<img id='1' src='media/fillers/blank.png'>
 				<div class="slidecontainer">
-					<input type="range" min="0" max="100" value="50" class="slider" id="slider1">
-					<p id="not-selected">Value: <span id="slider1-output"></span></p>
+					<input type="range" min="0" max="100" value="50" class="slider" id="slider1" hidden>
+					<p id="not-selected" hidden>Value: <span id="slider1-output"></span></p>
 				</div>
 			</div>
 			<!-- Row 1, Col 3 -->
 			<div class="col-md-4">
 				<img id='2' src='media/fillers/blank.png'>
 				<div class="slidecontainer">
-					<input type="range" min="0" max="100" value="50" class="slider" id="slider2">
-					<p id="not-selected">Value: <span id="slider2-output"></span></p>
+					<input type="range" min="0" max="100" value="50" class="slider" id="slider2" hidden>
+					<p id="not-selected" hidden>Value: <span id="slider2-output"></span></p>
 				</div>
 			</div>
 		</div>
@@ -71,16 +71,16 @@
 			<div class="col-md-4">
 				<img id='3' src='media/fillers/blank.png'>
 				<div class="slidecontainer">
-					<input type="range" min="0" max="100" value="50" class="slider" id="slider3">
-					<p id="not-selected">Value: <span id="slider3-output"></span></p>
+					<input type="range" min="0" max="100" value="50" class="slider" id="slider3" hidden>
+					<p id="not-selected" hidden>Value: <span id="slider3-output"></span></p>
 				</div>
 			</div>
 			<!-- Row 2, Col 2 -->
 			<div class="col-md-4">
 				<img id='4' src='media/fillers/blank.png'>
 				<div class="slidecontainer">
-					<input type="range" min="0" max="100" value="50" class="slider" id="slider4">
-					<p id="not-selected">Value: <span id="slider4-output"></span></p>
+					<input type="range" min="0" max="100" value="50" class="slider" id="slider4" hidden>
+					<p id="not-selected" hidden>Value: <span id="slider4-output"></span></p>
 				</div>
 			</div>
 
@@ -88,31 +88,29 @@
 			<div class="col-md-4">
 				<img id='5' src='media/fillers/blank.png'>
 				<div class="slidecontainer">
-					<input type="range" min="0" max="100" value="50" class="slider" id="slider5">
-					<p id="not-selected">Value: <span id="slider5-output"></span></p>
+					<input type="range" min="0" max="100" value="50" class="slider" id="slider5" hidden>
+					<p id="not-selected" hidden>Value: <span id="slider5-output"></span></p>
 				</div>
 			</div>
 		</div>
+		<div class="row" id="standard" hidden>
+			<div class="form-check mt-3">
+				<input id="notPresentCheck" class="form-check-input" type="checkbox" onclick="radioClicked()" style="width:20px; height: 20px; border-radius: 4px; background-color: lightgrey; margin-top: 11px; " />
+				<label class="form-check-label mt-1" style="font-size: 1.25rem; margin-top: 0.4rem">Check here <strong>if the person is not present</strong></label>
+			</div>
+
+		</div>
+		<div  class="row" id="confidence-slider" hidden>
+			<div class="form-check mt-3">
+				<span id="not-selected">Value: <span id="slider5-output"></span></span>
+				<input type="range" min="0" max="100" value="50" class="slider" id="slider5">
+			</div>
+		</div>
+
 		<div class="row">
 			<input id="Next" onClick="submit()" class="btn btn-primary" type="submit" name="formSubmit" value="Next" hidden />
 		</div>
 	</div>
-
-	<table width="780" cellpadding="10" cellspacing="0" border="0" align="center">
-		<tr>
-			<td align="center">
-				<div>
-				</div>
-			</td>
-			<td align="center">
-
-			</td>
-		</tr>
-		<tr>
-			<td align="center" colspan=2></td>
-		</tr>
-
-	</table>
 
 	<script type="text/javascript">
 		firebase.initializeApp({
@@ -126,19 +124,6 @@
 
 		// when body renders
 		document.getElementsByTagName("body")[0].onload = function() {
-
-			/* code for slider logic */
-			let sliders = document.getElementsByClassName("slider")
-			for (var slider in sliders) {
-				let curr_slider = sliders[slider];
-				let curr_output = document.getElementById(curr_slider.id + "-output");
-				sliders[slider].oninput = function() {
-					curr_output.innerHTML = this.value + "%";
-					curr_output.parentNode.id = "selected";
-					inputted(this);
-				}
-			}
-
 			firebase.auth().onAuthStateChanged(function(user) {
 				if (user) {
 					window.userId = user.uid;
@@ -146,9 +131,7 @@
 						.once('value').then(function(snapshot) {
 							window.experimentType = snapshot.val();
 
-							let lineup = getPics(window.experimentType);
-
-							addPics(lineup);
+							initializeExperiment(window.experimentType);
 						});
 				} else {
 					window.location = '/debrief'
@@ -156,7 +139,84 @@
 			});
 		}
 
-		// logic for checking if all 6 inputs have been inputted
+		// initialize DOM based on exp type
+		function initializeExperiment(expType){
+			let lineup = getPics(window.experimentType);
+			addPics(lineup);
+
+			// check if standard exp
+			switch(!(expType.includes("s"))){
+				case true:
+					makePicturesSelectable();
+					showNonePresentButton();
+					break;
+				case false:
+					showSliders();
+					break;
+			}
+		}
+
+		// will change code to allow pictures to be selected for standard lineup
+		function makePicturesSelectable(){
+			let pictures = document.getElementsByTagName("img");
+			for(let picture in pictures){
+				let curr_pic = pictures[picture];
+				curr_pic.onclick = function(){
+					selectedPicture(this);
+				}
+			}
+		}
+
+		function showNonePresentButton(){
+			document.getElementById("standard").hidden = false;
+		}
+
+		let selectedImg;
+		// handles putting border around image and  keeping track of which image is
+		// selected and clearing other borders
+		function selectedPicture(imgElement){
+			clearSelectedPictures();
+			unselectBox();
+			imgElement.style["border"] = "5px solid red";
+			selectedImg = imgElement.id;
+			showConfidenceSlider();
+		}
+
+		function unselectBox(){
+			document.getElementById("notPresentCheck").checked = false;
+		}
+
+		function clearSelectedPictures(){
+			let pictures = document.getElementsByTagName("img");
+			for(let picture in pictures){
+				let curr_pic = pictures[picture];
+				if(curr_pic.style){
+					curr_pic.style.border = "";
+				}
+			}
+		}
+
+		// will change sliders and values to be visible and will also add logic to sliders
+		function showSliders(){
+			/* code for slider logic */
+			let sliders = document.getElementsByClassName("slider")
+			for (var slider in sliders) {
+				let curr_slider = sliders[slider];
+				// show slider
+				curr_slider.hidden = false;
+				let curr_output = document.getElementById(curr_slider.id + "-output");
+				if(curr_output){
+					curr_output.parentNode.hidden = false;
+				}
+				sliders[slider].oninput = function() {
+					curr_output.innerHTML = this.value + "%";
+					curr_output.parentNode.id = "selected";
+					inputted(this);
+				}
+			}
+		}
+
+		// logic for checking if all 6 slider inputs have been inputted
 		let inputs = {};
 		function inputted(element) {
 			if (!(element.id in inputs)) {
@@ -166,6 +226,16 @@
 				//show next button
 				document.getElementById("Next").hidden = false;
 			}
+		}
+
+		// logic for when radio button is clicked
+		function radioClicked(){
+			clearSelectedPictures();
+			showConfidenceSlider();
+		}
+
+		function showConfidenceSlider(){
+			document.getElementById("confidence-slider").hidden = false;
 		}
 
 		// used to shuffle array of mugshot pics
