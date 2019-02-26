@@ -102,8 +102,9 @@
 		</div>
 		<div  class="row" id="confidence-slider" hidden>
 			<div class="form-check mt-3">
-				<span id="not-selected">Value: <span id="slider5-output"></span></span>
-				<input type="range" min="0" max="100" value="50" class="slider" id="slider5">
+				<h5>How certain are you?</h5>
+				<input type="range" min="0" max="100" value="50" class="slider" id="slider6" oninput="changeSlider(this)">
+				<p id="not-selected">Value: <span id="slider6-output"></span></p>
 			</div>
 		</div>
 
@@ -214,6 +215,13 @@
 					inputted(this);
 				}
 			}
+		}
+
+		function changeSlider(element){
+			let curr_output = document.getElementById('slider6-output');
+			curr_output.innerHTML = element.value + "%";
+			curr_output.parentNode.id = "selected";
+			document.getElementById("Next").hidden = false;
 		}
 
 		// logic for checking if all 6 slider inputs have been inputted
