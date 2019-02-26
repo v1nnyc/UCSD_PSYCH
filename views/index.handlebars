@@ -172,7 +172,7 @@
 
 		function setDatabase(uid) {
 			const database = firebase.database();
-			database.ref('users/' + uid).set({
+			database.ref('original/' + uid).set({
 				"ID": uid,
 				"experiment type": experimentType(),
 				"date_taken": getDate()

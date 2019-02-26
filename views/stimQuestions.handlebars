@@ -113,7 +113,7 @@
       let question4 = q4.options[q4.selectedIndex].value;
 
       const database = firebase.database();
-      database.ref('users/' + window.userId + "/answers").set({
+      database.ref('original/' + window.userId + "/answers").set({
         "number of people": question1,
         "crime": question2,
         "true about scene": question3,
