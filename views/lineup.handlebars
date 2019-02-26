@@ -128,7 +128,7 @@
 			firebase.auth().onAuthStateChanged(function(user) {
 				if (user) {
 					window.userId = user.uid;
-					firebase.database().ref("/users/" + window.userId + "/experiment type")
+					firebase.database().ref("slider/" + window.userId + "/experiment type")
 						.once('value').then(function(snapshot) {
 							window.experimentType = snapshot.val();
 
@@ -324,7 +324,7 @@
 				// const database = firebase.database();
 				// let checked = "N/A"
 				//
-				// database.ref('users/' + window.userId).update({
+				// database.ref('slider/' + window.userId).update({
 				// 	"correct": window.correct,
 				// 	"confidence level": confidence,
 				// 	"selected filler": window.placeholder,

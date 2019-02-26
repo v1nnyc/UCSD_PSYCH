@@ -174,7 +174,7 @@
 
 		function setDatabase(uid) {
 			const database = firebase.database();
-			database.ref('users/' + uid).set({
+			database.ref('slider/' + uid).set({
 				"ID": uid,
 				"experiment type": experimentType(),
 				"date_taken": getDate()
@@ -186,6 +186,7 @@
 		function redirect() {
 			window.location.href = '/instructions';
 		}
+
 	</script>
 
 </body>
