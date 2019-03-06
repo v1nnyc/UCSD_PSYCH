@@ -234,7 +234,7 @@
 			let seenField = document.querySelector('#formSeen');
 			let seen = seenField.options[seenField.selectedIndex].value;
 			const database = firebase.database();
-			database.ref('users/' + window.userId + "/demographics").set({
+			database.ref('popup/' + window.userId + "/demographics").set({
 				"seen before": seen,
 				"age": age,
 				"education level": education,
