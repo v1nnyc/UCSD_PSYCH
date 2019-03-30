@@ -20,9 +20,8 @@
 <body>
 	<div class="container">
 		<div class="row">
-			<h5>Please rate how confident you are that the woman below is the woman in the video </h5>
-			</br>
-			<h5> 0% - I guessed, 100% absolutely certain</h5>
+			<h5>Please rate how confident you are that the woman below is the woman in the video.
+			0% - I guessed, 100% absolutely certain. </h5>
 		</div>
 		<!-- Row 1, Col 1. -->
 		<div class="row justify-content-between">
@@ -56,102 +55,49 @@
 				<img id='5' src='media/fillers/blank.png' onClick='imageClicked(this)'>
 			</div>
 		</div>
-		<div class="form-group row">
-			<div class="form-check mt-3" id="standard" hidden="true">
-				<input id="notPresentCheck" class="form-check-input" type="checkbox" onclick="radioClicked(this)" style="width:20px; height: 20px; border-radius: 4px; background-color: lightgrey; " />
-				<label class="form-check-label mt-1" style="font-size: 1.25rem; margin-top: 0.4rem">Check here <strong>if the person is not present</strong></label>
 
-			</div>
-		</div>
-		<div id="present" class="form-group row my-4 d-none">
-			<div class="form-inline">
-				<label id="textSure" class="col-auto">Is the person you selected actually the woman from the video?</label>
-				<select name="formSure" id="formSure" class="form-control col-1" onChange="showConf()">
-					<option value="N/A" selected disabled></option>
-					<option value="Yes">Yes</option>
-					<option value="No">No</option>
-				</select>
-			</div>
-		</div>
+<div class="form-group row">
+	<div class="form-check mt-3" id="standard">
+		<input id="notPresentCheck" button onclick = "popup" class="form-check-input" type="checkbox" onclick="radioClicked(this)" style="width:20px; height: 20px; border-radius: 4px; background-color: lightgrey; " />
+		<label class="form-check-label mt-1" style="font-size: 1.25rem; margin-top: 0.4rem">Check here <strong>if the person is not present</strong></label>
+	</div>
+</div>
 
-		<style>
-			#popup{
-			position: fixed;
-			left: 25%;
-			top: 15%;
-			z-index: 1;
-			width: 700px;
-			height: 550px;
-			background-color: #FAFAFA;
-		}
-		</style>
-		<div id="popup">
-			<div class="container" style="margin-top: 0; height: 100%; margin-bottom: 0; padding-bottom: 2rem;">
+<div id="present" class="form-group row my-4 d-none">
+	<div class="form-inline">
+		<label id="textSure" class="col-auto">Is the person you selected actually the woman from the video?</label>
+		<select name="formSure" id="formSure" class="form-control col-1" onChange="showConf()">
+			<option value="N/A" selected disabled></option>
+			<option value="Yes">Yes</option>
+			<option value="No">No</option>
+		</select>
+	</div>
+</div>
+
+	<div id="popup">
+			<div class="container" hidden = "true" style="margin-top: 0; height: 100%; margin-bottom: 0; padding-bottom: 2rem;">
 				<div class="row">
 					<div class="col-sm">
 						<img src='media/target.jpg' style="width: 100%; height: 100%;">
 					</div>
 					<div class="col-sm">
 						<h4 style="margin-bottom:25px;">
-							Please use the slider to indicate whether or not you think this was the person from the video.
+							How certain are you that this is NOT the woman from the video?
 						</h4>
 						<input type="range" min="0" max="100" value="50" class="slider" id="slider" style="margin-bottom:55px;">
 						<p>Value: <span id="demo"></span></p>
 						<input id="Next" onClick="checkInput()" class="btn btn-primary" type="submit" name="formSubmit" value="Next"/>
 					</div>
-				</div>
 			</div>
+</div>
+</div>
 
-			<!-- <div style="width:500px; height:auto; float: left">
-
-			</div>
-			<div style="width:50%; float:right">
-				<h2 margin-top: 10%> <b>
-						</br>
-						How certain are you that this was not the woman from the video?
-					</b> </h2>
-				</br>
-				</br>
-			</div> -->
-			<!-- <div class="slidecontainer">
-
-				<p> </br> </p>
-				<p>Value: <span id="demo"></span></p>
-			</div>
-			<div>
-				<center>
-					<button class="block"> Continue </button>
-				</center>
-			</div> -->
-		</div>
-
-		<div id="confidence" class="form-group row my-4 d-none">
-			<div class="form-inline">
-				<label id="textConfidence" class="col-auto">How certain are you that this woman was not the woman from the video?</label>
-
-				<select name="formConfidence" id="formConfidence" class="form-control col-1" onChange="{document.getElementById('Next').hidden = false}">
-
-					<option value="N/A" selected disabled></option>
-					<option value="0">0% (I am guessing)</option>
-					<option value="10">10%</option>
-					<option value="20">20%</option>
-					<option value="30">30%</option>
-					<option value="40">40%</option>
-					<option value="50">50%</option>
-					<option value="60">60%</option>
-					<option value="70">70%</option>
-					<option value="80">80%</option>
-					<option value="90">90%</option>
-					<option value="100">100% (I am completely certain)</option>
-				</select>
-			</div>
-		</div>
-		<div class="row">
-			<input id="Next" onClick="checkInput()" class="btn btn-primary" type="submit" name="formSubmit" value="Next" hidden="true" />
-		</div>
+	<div class="row">
+		<input id="Next" onClick="checkInput()" class="btn btn-primary" type="submit" name="formSubmit" value="Next" hidden="true" />
 	</div>
+</div>
 
-	<table width="780" cellpadding="10" cellspacing="0" border="0" align="center">
+<table width="780" cellpadding="10" cellspacing="0" border="0" align="center">
 		<tr>
 			<td align="center">
 				<div>
@@ -183,12 +129,6 @@
 	<option value="1"></option>
 
 	<script type="text/javascript">
-		var slider = document.getElementById("slider");
-		var output = document.getElementById("demo");
-
-		slider.oninput = function() {
-			output.innerHTML = this.value;
-		}
 
 		var config = {
 			apiKey: "AIzaSyCa5_e0vkkiBXQxKcpvGKHyumnWyvQ_os8",
@@ -199,25 +139,34 @@
 			messagingSenderId: "325328536445"
 		};
 		firebase.initializeApp(config);
+
 		document.getElementsByTagName("body")[0].onload = function() {
-			firebase.auth().onAuthStateChanged(function(user) {
-				if (user) {
-					window.userId = user.uid;
-					firebase.database().ref("popup/" + window.userId + "/experiment type")
-						.once('value').then(function(snapshot) {
-							window.experimentType = snapshot.val();
-							if (window.experimentType.slice(2, 3) === "s") {
-								document.getElementById('standard').hidden = false;
-								//show button
-							}
-							let lineup = getPics(window.experimentType);
-							addPics(lineup);
-						});
-				} else {
-					window.location = '/debrief'
-				}
-			});
-		}
+				firebase.auth().onAuthStateChanged(function(user) {
+					if (user) {
+						window.userId = user.uid;
+						firebase.database().ref("popup/" + window.userId + "/experiment type")
+							.once('value').then(function(snapshot) {
+								window.experimentType = snapshot.val();
+								//if (window.experimentType.includes("s")) {
+									//document.getElementById('standard').hidden = false;
+									//show button
+								initializeExperiment(window.experimentType);
+							});
+					} else {
+						window.location = '/debrief'
+					}
+				});
+			}
+
+	function initializeExperiment(expType){
+	let lineup = getPics(window.experimentType);
+	addPics(lineup);
+}
+// When the user clicks on <div>, open the popup
+function myFunction() {
+  var popup = document.getElementById("popup");
+  popup.classList.toggle("show");
+}
 
 		function shuffle(array) {
 			var currentIndex = array.length,
@@ -234,25 +183,22 @@
 			}
 			return array;
 		}
-
 		function getPics(experimentType) {
 			let lineup = [];
 			let randomInt = [];
-			if (experimentType.slice(-2) === "tp") {
-				lineup.push("media/target.jpg");
-			}
+			//if (experimentType.includes("tp")) {
+				//lineup.push("media/target.jpg");
+			//}
 			while (lineup.length < 6) {
-				lineup.push("media/fillers/" + Math.floor((Math.random() * 60) + 1) + ".jpg");
+				lineup.push("media/fillers/" + Math.floor((Math.random() * 114) + 1) + ".jpg");
 			}
 			return shuffle(lineup);
 		}
-
 		function addPics(lineup) {
 			for (let pic in lineup) {
 				document.getElementById(pic).src = lineup[pic];
 			}
 		}
-
 		function checkInput() {
 			if (document.getElementById('formSelection').value != "N/A" && document.getElementById('formConfidence').value != "N/A") {
 				//check to see if
@@ -271,7 +217,7 @@
 				let surety = sure.options[sure.selectedIndex].value;
 				const database = firebase.database();
 				let checked = "N/A"
-				database.ref('popup/' + window.userId).update({
+				database.ref('users/' + window.userId).update({
 					"correct": window.correct,
 					"confidence level": confidence,
 					"selected filler": window.placeholder,
@@ -284,27 +230,26 @@
 				document.getElementById('Next').style.visibility = "hidden";
 			}
 		}
-
 		function imageClicked(id) {
 			//makes picture normal sized
 			if (document.querySelector(".selected-pic")) {
 				document.querySelector(".selected-pic").classList.remove("selected-pic");
 			}
 			document.getElementById("notPresentCheck").checked = false;
-			if (window.experimentType.slice(0, 2) === "dd") {
-				for (let i = 0; i < 6; i++) {
-					document.getElementById(i).setAttribute("style", "border-color : #FFFFFF");
-				}
-				id.classList.add("selected-pic");
-				id.setAttribute("style", "border-color : #FF0000");
-				document.getElementById('formSelection').selectedIndex = 1;
-			} else {
+			//if (window.experimentType.includes("dd")) {
+				//for (let i = 0; i < 6; i++) {
+					//document.getElementById(i).setAttribute("style", "border-color : #FFFFFF");
+				//}
+				//id.classList.add("selected-pic");
+				//id.setAttribute("style", "border-color : #FF0000");
+				//document.getElementById('formSelection').selectedIndex = 1;
+			//} else {
 				for (let i = 0; i < 6; i++) {
 					document.getElementById(i).style.visibility = "hidden";
 				}
 				document.getElementById('textConfidence').style.visibility = "visible";
 				document.getElementById('formConfidence').style.visibility = "visible";
-			}
+			//}
 			id.classList.add("selected-pic");
 			id.setAttribute("style", "border-color : #FF0000");
 			document.getElementById('formSelection').selectedIndex = 1;
@@ -318,35 +263,31 @@
 				window.placeholder = "true";
 				window.correct = "false";
 			}
-			if (window.experimentType.slice(2, 3) === "s") {
-				showConf();
-			} else {
+			//if (window.experimentType.includes("s")) {
+				//showConf();
+			//} else {
 				showPresent();
-			}
+			//}
 		}
-
 		function radioClicked() {
 			for (let i = 0; i < 6; i++) {
 				document.getElementById(i).setAttribute("style", "border : none");
 			}
-			if (window.experimentType.slice(-2) === "tp") {
-				window.correct = "false";
-			} else {
+			//if (window.experimentType.slice(-2) === "tp") {
+				//window.correct = "false";
+			//} else {
 				window.correct = "true";
-			}
+			//}
 			window.placeholder = "false";
 			document.getElementById('formSelection').selectedIndex = 1;
 			showConf();
 		}
-
 		function showConf() {
 			document.getElementById('confidence').classList.add("d-block");
 		}
-
 		function showPresent() {
 			document.getElementById('present').classList.add("d-block");
 		}
-
 		function redirect() {
 			window.location.href = '/stimQuestions';
 		}
