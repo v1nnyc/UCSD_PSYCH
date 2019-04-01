@@ -12,20 +12,20 @@
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
 	<style>
 		img {
-			width:100%;
+			width: 100%;
 		}
 
-		#not-selected{
+		#not-selected {
 			font-size: 25px;
 			color: red;
 		}
 
-		#selected{
+		#selected {
 			font-size: 15px;
 			color: black;
 		}
 
-		p span{
+		p span {
 			color: #64f24f;
 			font-size: 30px;
 		}
@@ -100,7 +100,7 @@
 			</div>
 
 		</div>
-		<div  class="row" id="confidence-slider" hidden>
+		<div class="row" id="confidence-slider" hidden>
 			<div class="form-check mt-3">
 				<h5>How certain are you?</h5>
 				<input type="range" min="0" max="100" value="50" class="slider" id="slider6" oninput="changeSlider(this)">
@@ -140,13 +140,18 @@
 			});
 		}
 
+		// used for measuring time between pic render and choice
+		let startTime;
+
 		// initialize DOM based on exp type
-		function initializeExperiment(expType){
+		function initializeExperiment(expType) {
 			let lineup = getPics(window.experimentType);
 			addPics(lineup);
+			startTime = new Date();
+			window.radioSelected, window.pictureSelected, window.targetSelected = false;
 
 			// check if standard exp
-			switch(expType.includes("s")){
+			switch (expType.includes("s")) {
 				case true:
 					makePicturesSelectable();
 					showNonePresentButton();
@@ -158,47 +163,56 @@
 		}
 
 		// will change code to allow pictures to be selected for standard lineup
-		function makePicturesSelectable(){
+		function makePicturesSelectable() {
 			let pictures = document.getElementsByTagName("img");
-			for(let picture in pictures){
+			for (let picture in pictures) {
 				let curr_pic = pictures[picture];
-				curr_pic.onclick = function(){
+				curr_pic.onclick = function() {
 					selectedPicture(this);
+					checkIfTarget(this);
+					window.pictureSelected = true;
+					window.radioSelected = false;
 				}
 			}
 		}
 
-		function showNonePresentButton(){
+		function showNonePresentButton() {
 			document.getElementById("standard").hidden = false;
 		}
 
-		let selectedImg;
 		// handles putting border around image and  keeping track of which image is
 		// selected and clearing other borders
-		function selectedPicture(imgElement){
+		function selectedPicture(imgElement) {
 			clearSelectedPictures();
 			unselectBox();
 			imgElement.style["border"] = "5px solid red";
-			selectedImg = imgElement.id;
 			showConfidenceSlider();
+			stopTime();
 		}
 
-		function unselectBox(){
+		function checkIfTarget(imgElement) {
+			window.targetSelected = false;
+			if ((imgElement.src).includes("target")) {
+				window.targetSelected = true;
+			}
+		}
+
+		function unselectBox() {
 			document.getElementById("notPresentCheck").checked = false;
 		}
 
-		function clearSelectedPictures(){
+		function clearSelectedPictures() {
 			let pictures = document.getElementsByTagName("img");
-			for(let picture in pictures){
+			for (let picture in pictures) {
 				let curr_pic = pictures[picture];
-				if(curr_pic.style){
+				if (curr_pic.style) {
 					curr_pic.style.border = "";
 				}
 			}
 		}
 
 		// will change sliders and values to be visible and will also add logic to sliders
-		function showSliders(){
+		function showSliders() {
 			/* code for slider logic */
 			let sliders = document.getElementsByClassName("slider")
 			for (var slider in sliders) {
@@ -206,7 +220,7 @@
 				// show slider
 				curr_slider.hidden = false;
 				let curr_output = document.getElementById(curr_slider.id + "-output");
-				if(curr_output){
+				if (curr_output) {
 					curr_output.parentNode.hidden = false;
 				}
 				sliders[slider].oninput = function() {
@@ -217,15 +231,17 @@
 			}
 		}
 
-		function changeSlider(element){
+		function changeSlider(element) {
 			let curr_output = document.getElementById('slider6-output');
 			curr_output.innerHTML = element.value + "%";
 			curr_output.parentNode.id = "selected";
 			document.getElementById("Next").hidden = false;
+			window.standardConfidence = element.value;
 		}
 
 		// logic for checking if all 6 slider inputs have been inputted
 		let inputs = {};
+
 		function inputted(element) {
 			if (!(element.id in inputs)) {
 				inputs[element.id] = true;
@@ -237,12 +253,15 @@
 		}
 
 		// logic for when radio button is clicked
-		function radioClicked(){
+		function radioClicked() {
 			clearSelectedPictures();
 			showConfidenceSlider();
+			window.radioSelected = true;
+			window.pictureSelected, window.targetSelected = false;
+			stopTime();
 		}
 
-		function showConfidenceSlider(){
+		function showConfidenceSlider() {
 			document.getElementById("confidence-slider").hidden = false;
 		}
 
@@ -289,6 +308,15 @@
 			}
 		}
 
+		// called when a choice has been made by a user
+		function stopTime() {
+			endTime = new Date();
+			var seconds = endTime - startTime; //in ms
+			// strip the ms
+			seconds /= 1000;
+			window.time = seconds;
+		}
+
 		function submit() {
 			let slider_values = [];
 			let imgs = document.getElementsByTagName("img");
@@ -298,44 +326,23 @@
 				slider_values.push(document.getElementById("slider" + i).value);
 
 				/* get index of target picture */
-				if (imgs[i].src.includes("media/target.jpg")) {
+				if (imgs[i].src.includes("target")) {
 					index = i;
 				}
 			}
 
-			console.log("taret%:" + slider_values[index]);
-			console.log(slider_values);
-
-			// if (document.getElementById('formSelection').value != "N/A" && document.getElementById('formConfidence').value != "N/A") {
-			// 	//check to see if
-			// 	if (window.experimentType === "dtnp" || window.experimentType === "ddtnp") {
-			// 		if (document.getElementById('formSure').value == 'No') {
-			// 			window.correct = true;
-			// 		}
-			// 	} else {
-			// 		if (document.getElementById('formSure').value == 'No') {
-			// 			window.correct = false;
-			// 		}
-			// 	}
-			// 	let conf = document.querySelector('#formConfidence');
-			// 	let confidence = conf.options[conf.selectedIndex].value;
-			// 	let sure = document.querySelector('#formSure');
-			// 	let surety = sure.options[sure.selectedIndex].value;
-				// const database = firebase.database();
-				// let checked = "N/A"
-				//
-				// database.ref('slider/' + window.userId).update({
-				// 	"correct": window.correct,
-				// 	"confidence level": confidence,
-				// 	"selected filler": window.placeholder,
-				// 	"person selected from video": surety,
-				// 	"checked 'not present'": (document.getElementById("notPresentCheck").checked) ? "true" : (window.experimentType.slice(2, 3) === "s") ? "false" : "N/A"
-				// }).then((response) => {
-				// 	redirect();
-				// });
-			// } else {
-			// 	document.getElementById('Next').style.visibility = "hidden";
-			// }
+			const database = firebase.database();
+			database.ref('slider/' + window.userId + '/lineup').update({
+				"time": (window.experimentType.includes("s")) ? window.time: "N/A",
+				"selected filler": (window.experimentType.includes("s")) ? (!window.targetSelected && window.pictureSelected): "N/A",
+				"checked 'not present'": (window.experimentType.includes("s")) ? window.radioSelected: "N/A",
+				"correct": (window.experimentType.includes("s")) ? ((window.experimentType.includes("tp")) ? window.targetSelected : window.radioSelected): "N/A",
+				"confidence level" : (window.experimentType.includes("s")) ? window.standardConfidence: "N/A",
+				"target confidence": (!window.experimentType.includes("s"))? ((window.experimentType.includes("tp")) ? slider_values[index]: "N/A") : "N/A",
+				"confidence ratings": (!(window.experimentType.includes("s"))) ? slider_values: "N/A"
+			}).then((response) => {
+				redirect();
+			});
 		}
 
 		function redirect() {
