@@ -17,43 +17,33 @@
         <h3>Questions about video</h3>
         <h5>Answer all of the questions below:</h5>
         <div class="form-group row">
-          <label class="col-6">How many people were in the video?</label>
+          <label class="col-6">Where was the stolen item?</label>
           <select id="formQuestion1" name="formQuestion1" onChange="checkInput()" class="form-control col-4">
+            <option value="" selected disabled> Select... </option>
+            <option value="on a table, inside a home">on a table, inside a home</option>
+            <option value="on the floor, in a hallway">on the floor, in a hallway</option>
+            <option value="in a car, parked in a lot">in a car, parked in a lot</option>
+            <option value="inside a drawer of a desk, in an office">inside a drawer of a desk, in an office</option>
+          </select>
+        </div>
+        <div class="form-group row">
+          <label class="col-6">What was the stolen item?</label>
+          <select id="formQuestion2" onchange="checkInput()" class="form-control col-4">
+            <option value="" selected disabled> Select...</option>
+            <option value="a computer">a computer</option>
+            <option value="a cell phone">a cell phone</option>
+            <option value="a purse">a purse</option>
+            <option value="a box">a box</option>
+          </select>
+        </div>
+        <div class="form-group row">
+          <label class="col-6">How many people were in the video?</label>
+          <select id="formQuestion3" onChange="checkInput()" class="form-control col-4">
             <option value="" selected disabled> Select... </option>
             <option value="4">4</option>
             <option value="3">3</option>
             <option value="2">2</option>
             <option value="1">1</option>
-          </select>
-        </div>
-        <div class="form-group row">
-          <label class="col-6">What crime was commited?</label>
-          <select id="formQuestion2" onchange="checkInput()" class="form-control col-4">
-            <option value="" selected disabled> Select...</option>
-            <option value="Drug Dealing">Drug Dealing</option>
-            <option value="Graffiti">Graffiti</option>
-            <option value="Theft">Theft</option>
-            <option value="Assault">Assault</option>
-          </select>
-        </div>
-        <div class="form-group row">
-          <label class="col-6">What was true about the scene?</label>
-          <select id="formQuestion3" onchange="checkInput()" class="form-control col-4">
-            <option value="" selected disabled> Select...</option>
-            <option value="The lights were off">The lights were off</option>
-            <option value="It was in an office">It was in an office</option>
-            <option value="It was outside">It was outside</option>
-            <option value="It was sunny outside">It was sunny outside</option>
-          </select>
-        </div>
-        <div class="form-group row">
-          <label class="col-6">What color were the chairs?</label>
-          <select id="formQuestion4" onchange="checkInput()" class="form-control col-4">
-            <option value="" selected disabled> Select...</option>
-            <option value="Orange">Orange</option>
-            <option value="Blue">Blue</option>
-            <option value="Black">Black</option>
-            <option value="There were no chairs">There were no chairs</option>
           </select>
         </div>
         <button id="submit" class="btn btn-primary" disabled=true onclick="submitForm()">Submit</button>
@@ -87,15 +77,13 @@
     }
 
     function checkInput() {
-      let q1 = document.querySelector('#formQuestion1');
+      let q1 = document.getElementById('formQuestion1');
       let question1 = q1.options[q1.selectedIndex].value;
-      let q2 = document.querySelector('#formQuestion2');
+      let q2 = document.getElementById('formQuestion2');
       let question2 = q2.options[q2.selectedIndex].value;
-      let q3 = document.querySelector('#formQuestion3');
+      let q3 = document.getElementById('formQuestion3');
       let question3 = q3.options[q3.selectedIndex].value;
-      let q4 = document.querySelector('#formQuestion4');
-      let question4 = q4.options[q4.selectedIndex].value;
-      if (question1 && question2 && question3 && question4) {
+      if (question1 && question2 && question3) {
         document.getElementById('submit').disabled = false;
       } else {
         document.getElementById('submit').disabled = true;
@@ -103,21 +91,18 @@
     }
 
     function submitForm() {
-      let q1 = document.querySelector('#formQuestion1');
+      let q1 = document.getElementById('formQuestion1');
       let question1 = q1.options[q1.selectedIndex].value;
-      let q2 = document.querySelector('#formQuestion2');
+      let q2 = document.getElementById('formQuestion2');
       let question2 = q2.options[q2.selectedIndex].value;
-      let q3 = document.querySelector('#formQuestion3');
+      let q3 = document.getElementById('formQuestion3');
       let question3 = q3.options[q3.selectedIndex].value;
-      let q4 = document.querySelector('#formQuestion4');
-      let question4 = q4.options[q4.selectedIndex].value;
 
       const database = firebase.database();
       database.ref('slider/' + window.userId + "/answers").set({
-        "number of people": question1,
-        "crime": question2,
-        "true about scene": question3,
-        "chair color": question4,
+        "Where was": question1,
+        "What was": question2,
+        "number of people": question3,
       }).then((response) => {
         redirect();
       });
