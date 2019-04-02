@@ -10,6 +10,7 @@
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
 	<link rel="stylesheet" href="css/styles.css" type="text/css" />
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+	<script src="js/userflowcontrol.js"></script>
 	<style>
 		img {
 			width: 100%;
@@ -333,21 +334,18 @@
 
 			const database = firebase.database();
 			database.ref('slider/' + window.userId + '/lineup').update({
-				"time": (window.experimentType.includes("s")) ? window.time: "N/A",
-				"selected filler": (window.experimentType.includes("s")) ? (!window.targetSelected && window.pictureSelected): "N/A",
-				"checked 'not present'": (window.experimentType.includes("s")) ? window.radioSelected: "N/A",
-				"correct": (window.experimentType.includes("s")) ? ((window.experimentType.includes("tp")) ? window.targetSelected : window.radioSelected): "N/A",
-				"confidence level" : (window.experimentType.includes("s")) ? window.standardConfidence: "N/A",
-				"target confidence": (!window.experimentType.includes("s"))? ((window.experimentType.includes("tp")) ? slider_values[index]: "N/A") : "N/A",
-				"confidence ratings": (!(window.experimentType.includes("s"))) ? slider_values: "N/A"
+				"time": (window.experimentType.includes("s")) ? window.time : "N/A",
+				"selected filler": (window.experimentType.includes("s")) ? (!window.targetSelected && window.pictureSelected) : "N/A",
+				"checked 'not present'": (window.experimentType.includes("s")) ? window.radioSelected : "N/A",
+				"correct": (window.experimentType.includes("s")) ? ((window.experimentType.includes("tp")) ? window.targetSelected : window.radioSelected) : "N/A",
+				"confidence level": (window.experimentType.includes("s")) ? window.standardConfidence : "N/A",
+				"target confidence": (!window.experimentType.includes("s")) ? ((window.experimentType.includes("tp")) ? slider_values[index] : "N/A") : "N/A",
+				"confidence ratings": (!(window.experimentType.includes("s"))) ? slider_values : "N/A"
 			}).then((response) => {
-				redirect();
+				incrementFlow();
 			});
 		}
-
-		function redirect() {
-			window.location.href = '/stimQuestions';
-		}
+		
 	</script>
 
 </body>
