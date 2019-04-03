@@ -55,46 +55,43 @@
 				<img id='5' src='media/fillers/blank.png' onClick='imageClicked(this)'>
 			</div>
 		</div>
+		<div id="present" class="form-group row my-4 d-none">
+			<div class="form-inline">
+				<label id="textSure" class="col-auto">Is the person you selected actually the woman from the video?</label>
+				<select name="formSure" id="formSure" class="form-control col-1" onChange="showConf()">
+					<option value="N/A" selected disabled></option>
+					<option value="Yes">Yes</option>
+					<option value="No">No</option>
+				</select>
+			</div>
+		</div>
 
+		<div class="row">
+			<input id="Next" onClick="checkInput()" class="btn btn-primary" type="submit" name="formSubmit" value="Next" hidden="true" />
+		</div>
 <div class="form-group row">
 	<div class="form-check mt-3" id="standard">
-		<input id="notPresentCheck" button onclick = "popup" class="form-check-input" type="checkbox" onclick="radioClicked(this)" style="width:20px; height: 20px; border-radius: 4px; background-color: lightgrey; " />
+		<input id="notPresentCheck" class="form-check-input" type="radio" onclick="radioClicked(this)" style="width:20px; height: 20px; border-radius: 4px; background-color: lightgrey; " />
 		<label class="form-check-label mt-1" style="font-size: 1.25rem; margin-top: 0.4rem">Check here <strong>if the person is not present</strong></label>
 	</div>
 </div>
 
-<div id="present" class="form-group row my-4 d-none">
-	<div class="form-inline">
-		<label id="textSure" class="col-auto">Is the person you selected actually the woman from the video?</label>
-		<select name="formSure" id="formSure" class="form-control col-1" onChange="showConf()">
-			<option value="N/A" selected disabled></option>
-			<option value="Yes">Yes</option>
-			<option value="No">No</option>
-		</select>
-	</div>
+<div class="popup" onclick="myFunction()" style= "height: 100%; width: 100%;">Click here if the target is not present
+	<div class ="container">
+	<span class="popuptext" id="myPopup">
+		<div class="col-lg">
+			<img src='media/target.jpg' style="width: 100%; height: 100%;">
+		</div>
+		<div class="col-lg">
+			<h4 style="margin-bottom:25px;">
+				How certain are you that this is NOT the woman from the video?
+			</h4>
+			<input type="range" min="0" max="100" value="50" class="slider" id="slider" style="margin-bottom:55px;">
+			<p>Value: <span id="demo"></span></p>
+			<button class="next" onClick="checkInput()" class="btn btn-primary" type="submit" name="formSubmit"> Next </button>
+		</div>
+	</span>
 </div>
-
-	<div id="popup">
-			<div class="container" hidden = "true" style="margin-top: 0; height: 100%; margin-bottom: 0; padding-bottom: 2rem;">
-				<div class="row">
-					<div class="col-sm">
-						<img src='media/target.jpg' style="width: 100%; height: 100%;">
-					</div>
-					<div class="col-sm">
-						<h4 style="margin-bottom:25px;">
-							How certain are you that this is NOT the woman from the video?
-						</h4>
-						<input type="range" min="0" max="100" value="50" class="slider" id="slider" style="margin-bottom:55px;">
-						<p>Value: <span id="demo"></span></p>
-						<input id="Next" onClick="checkInput()" class="btn btn-primary" type="submit" name="formSubmit" value="Next"/>
-					</div>
-			</div>
-</div>
-</div>
-
-	<div class="row">
-		<input id="Next" onClick="checkInput()" class="btn btn-primary" type="submit" name="formSubmit" value="Next" hidden="true" />
-	</div>
 </div>
 
 <table width="780" cellpadding="10" cellspacing="0" border="0" align="center">
@@ -163,10 +160,16 @@
 	addPics(lineup);
 }
 // When the user clicks on <div>, open the popup
-function myFunction() {
-  var popup = document.getElementById("popup");
-  popup.classList.toggle("show");
-}
+//function popup(mylink, windowname) {
+	//if (! window.focus)return true; var href;
+	//if (typeof(mylink) == 'string') href=mylink;
+	//else href=mylink.href;
+	//window.open(href, windowname, 'width=400,height=200,scrollbars=yes');
+	//return false; }
+	function myFunction() {
+	  var popup = document.getElementById("myPopup");
+	  popup.classList.toggle("show");
+	}
 
 		function shuffle(array) {
 			var currentIndex = array.length,
@@ -296,3 +299,4 @@ function myFunction() {
 </body>
 
 </html>
+
