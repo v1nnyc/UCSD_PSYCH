@@ -29,7 +29,7 @@
             Please click <b>continue</b> to begin.
           </li>
         </ul>
-        <button id="redirect-button" class="btn btn-primary" onClick="{window.location.href='/lineup'}">Continue</button>
+        <button id="next-button" class="btn btn-primary">Continue</button>
 
       </div>
     </div>
@@ -46,13 +46,13 @@
 
     firebase.initializeApp(config);
 
-    window.onload = function() {
-      firebase.auth().onAuthStateChanged(function(user) {
-        if (user) {} else {
-          window.location = '/debrief';
-        }
-      });
-    }
+    // window.onload = function() {
+    //   firebase.auth().onAuthStateChanged(function(user) {
+    //     if (user) {} else {
+    //       window.location = '/debrief';
+    //     }
+    //   });
+    // }
   </script>
 </body>
 

@@ -175,7 +175,7 @@
 						<option value="NR">Do not wish to state</option>
 					</select>
 				</div>
-				<button id="submit-btn" type="" class="btn btn-primary" onclick="submitForm()" disabled>Submit</button>
+				<button id="next-button" type="" class="btn btn-primary" onclick="submitForm()" disabled>Submit</button>
 			</div>
 			<div class="col-auto">
 				<img src="media/ucsd.jpg" width=150>
@@ -194,7 +194,7 @@
 
 		firebase.initializeApp(config);
 
-		window.onload = function() {
+
 			firebase.auth().onAuthStateChanged(function(user) {
 				if (user) {
 					window.userId = user.uid;
@@ -202,7 +202,7 @@
 					window.location = '/debrief'
 				}
 			});
-		}
+
 
 		function checkInput() {
 			let ageField = document.querySelector('#formAge');
@@ -217,9 +217,9 @@
 			let seen = seenField.options[seenField.selectedIndex].value;
 
 			if (age && gender && education && ethnicity && seen) {
-				document.getElementById('submit-btn').disabled = false;
+				document.getElementById('next-button').disabled = false;
 			} else {
-				document.getElementById('submit-btn').disabled = true;
+				document.getElementById('next-button').disabled = true;
 			}
 		}
 
@@ -242,14 +242,10 @@
 				"ethnicity": ethnicity,
 				"gender": gender,
 			}).then((response) => {
-				redirect();
+				firebase.auth().signOut()
 			});
 		}
 
-		function redirect() {
-			window.location.href = '/debrief';
-			firebase.auth().signOut()
-		}
 	</script>
 </body>
 

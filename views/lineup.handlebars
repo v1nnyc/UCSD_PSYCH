@@ -110,7 +110,7 @@
 		</div>
 
 		<div class="row">
-			<input id="Next" onClick="submit()" class="btn btn-primary" type="submit" name="formSubmit" value="Next" hidden />
+			<input id="next-button" onClick="submit()" class="btn btn-primary" type="submit" name="formSubmit" value="Next" hidden />
 		</div>
 	</div>
 
@@ -125,21 +125,19 @@
 		});
 
 		// when body renders
-		document.getElementsByTagName("body")[0].onload = function() {
-			firebase.auth().onAuthStateChanged(function(user) {
-				if (user) {
-					window.userId = user.uid;
-					firebase.database().ref("slider/" + window.userId + "/experiment type")
-						.once('value').then(function(snapshot) {
-							window.experimentType = snapshot.val();
+		firebase.auth().onAuthStateChanged(function(user) {
+			if (user) {
+				window.userId = user.uid;
+				firebase.database().ref("slider/" + window.userId + "/experiment type")
+					.once('value').then(function(snapshot) {
+						window.experimentType = snapshot.val();
 
-							initializeExperiment(window.experimentType);
-						});
-				} else {
-					window.location = '/debrief'
-				}
-			});
-		}
+						initializeExperiment(window.experimentType);
+					});
+			} else {
+				window.location = '/debrief'
+			}
+		});
 
 		// used for measuring time between pic render and choice
 		let startTime;
@@ -236,7 +234,7 @@
 			let curr_output = document.getElementById('slider6-output');
 			curr_output.innerHTML = element.value + "%";
 			curr_output.parentNode.id = "selected";
-			document.getElementById("Next").hidden = false;
+			document.getElementById("next-button").hidden = false;
 			window.standardConfidence = element.value;
 		}
 
@@ -248,8 +246,8 @@
 				inputs[element.id] = true;
 			}
 			if (Object.keys(inputs).length == 6) {
-				//show next button
-				document.getElementById("Next").hidden = false;
+				//show next-button button
+				document.getElementById("next-button").hidden = false;
 			}
 		}
 
@@ -341,11 +339,8 @@
 				"confidence level": (window.experimentType.includes("s")) ? window.standardConfidence : "N/A",
 				"target confidence": (!window.experimentType.includes("s")) ? ((window.experimentType.includes("tp")) ? slider_values[index] : "N/A") : "N/A",
 				"confidence ratings": (!(window.experimentType.includes("s"))) ? slider_values : "N/A"
-			}).then((response) => {
-				incrementFlow();
 			});
 		}
-		
 	</script>
 
 </body>

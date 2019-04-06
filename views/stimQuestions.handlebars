@@ -41,13 +41,13 @@
           <label class="col-6">How many people were in the video?</label>
           <select id="formQuestion3" onChange="checkInput()" class="form-control col-4">
             <option value="" selected disabled> Select... </option>
-            <option value="4">4</option>
-            <option value="3">3</option>
-            <option value="2">2</option>
             <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
           </select>
         </div>
-        <button id="submit" class="btn btn-primary" disabled=true onclick="submitForm()">Submit</button>
+        <button id="next-button" class="btn btn-primary" disabled=true onclick="submitForm()">Submit</button>
       </div>
       <div class="col-auto">
         <img src="media/ucsd.jpg" width=150>
@@ -67,15 +67,15 @@
 
     firebase.initializeApp(config);
 
-    window.onload = function() {
-      firebase.auth().onAuthStateChanged(function(user) {
-        if (user) {
-          window.userId = user.uid;
-        } else {
-          window.location = "/debrief";
-        }
-      });
-    }
+
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        window.userId = user.uid;
+      } else {
+        window.location = "/debrief";
+      }
+    });
+
 
     function checkInput() {
       let q1 = document.getElementById('formQuestion1');
@@ -85,9 +85,9 @@
       let q3 = document.getElementById('formQuestion3');
       let question3 = q3.options[q3.selectedIndex].value;
       if (question1 && question2 && question3) {
-        document.getElementById('submit').disabled = false;
+        document.getElementById("next-button").disabled = false;
       } else {
-        document.getElementById('submit').disabled = true;
+        document.getElementById("next-button").disabled = true;
       }
     }
 
@@ -104,13 +104,7 @@
         "Where was": question1,
         "What was": question2,
         "number of people": question3,
-      }).then((response) => {
-        redirect();
       });
-    }
-
-    function redirect() {
-      window.location.href = '/demographics';
     }
   </script>
 </body>

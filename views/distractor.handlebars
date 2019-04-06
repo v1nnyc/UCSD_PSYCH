@@ -12,7 +12,7 @@
   <script src="js/userflowcontrol.js"></script>
 </head>
 
-<body onLoad="onLoad()">
+<body>
   <div class="container">
     <div class="row">
       <div class="col">
@@ -36,7 +36,7 @@
         </ul>
         <h4 style="color:red">ARROW KEYS NOT WORKING? CLICK ON THE GAME GRID AND TRY AGAIN!</h4>
         <br />
-        <button id="redirect-button" class="btn btn-primary" onClick="{window.location.href='/tetris'}">Continue</button>
+        <button id="next-button" class="btn btn-primary">Continue</button>
       </div>
     </div>
   </div>
@@ -62,21 +62,13 @@
 
       firebase.initializeApp(config);
 
-      window.onload = function() {
-        firebase.auth().onAuthStateChanged(function(user) {
-          if (user) {} else {
-            window.location = '/debrief'
-          }
-        });
-      }
-
-      function onLoad() {
-        setTimeout(openNext, 180000);
-      }
-
-      function openNext() {
-        document.getElementById('next').style.visibility = "visible";
-      }
+      // window.onload = function() {
+      //   firebase.auth().onAuthStateChanged(function(user) {
+      //     if (user) {} else {
+      //       window.location = '/debrief'
+      //     }
+      //   });
+      // }
     </script>
 </body>
 

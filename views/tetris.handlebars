@@ -12,6 +12,7 @@
 </head>
 
 <body>
+  <button id="next-button" hidden></button>
   <div class="container">
     <div class="progress">
       <div class="progress-bar progress-bar-striped active" id="myBar" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:0%">
@@ -27,7 +28,7 @@
       </div>
     </div>
   </div>
-  <script type="text/javascript">
+  <script>
     var config = {
       apiKey: "AIzaSyCa5_e0vkkiBXQxKcpvGKHyumnWyvQ_os8",
       authDomain: "ucsd-psych.firebaseapp.com",
@@ -39,29 +40,29 @@
 
     firebase.initializeApp(config);
 
-    let timeout = 30000
+    // timeout is how long user plays game for
+    let timeout = 30000;
     let date1;
 
-    window.onload = function() {
-      firebase.auth().onAuthStateChanged(function(user) {
-        if (user) {
-          window.userId = user.uid;
-        } else {
-          window.location = "/debrief";
-        }
-      });
+      // firebase.auth().onAuthStateChanged(function(user) {
+      //   if (user) {
+      //     window.userId = user.uid;
+      //   } else {
+      //     window.location = "/debrief";
+      //   }
+      // });
 
-      setTimeout(function() {
-        window.location.href = '/lineupinstructions'
-      }, timeout);
-      date1 = new Date();
-      var elem = document.getElementById("myBar");
-      var id = setInterval(function() {
-        let date2 = new Date();
-        let diff = date2 - date1; //milliseconds interval
-        elem.style.width = ((diff / (timeout)) * 100) + '%';
-      }, 100);
-    }
+      setTimeout(function(){
+        setTimeout(clickNext, timeout);
+        date1 = new Date();
+        var elem = document.getElementById("myBar");
+        var id = setInterval(function() {
+          let date2 = new Date();
+          let diff = date2 - date1; //milliseconds interval
+          elem.style.width = ((diff / (timeout)) * 100) + '%';
+        }, 100);
+      }, 100)
+
   </script>
 </body>
 
