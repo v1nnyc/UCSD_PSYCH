@@ -72,7 +72,6 @@ function checkUserFlow() {
 
 // sets new hash in session storage and then redirects to that page
 function incrementFlow() {
-  console.log(getNextHash())
   setHash(getNextHash());
   redirect();
 }
@@ -107,7 +106,11 @@ function setHash(hash) {
 }
 
 function redirect() {
-  window.location = getPathFromHash(getCurrentHash());
+  if (firebaseInUse) {
+    window.setTimeout(redirect, 100);
+  } else {
+    window.location = getPathFromHash(getCurrentHash());
+  }
 }
 
 // used on pages where there is no next button (video, 2048)

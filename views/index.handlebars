@@ -13,6 +13,9 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="js/firebae.js"></script>
 	<script src="js/userflowcontrol.js"></script>
+	<script>
+		requiresFirebase();
+	</script>
 </head>
 
 <body>
@@ -99,42 +102,29 @@
 				<div class="form-group">
 					<div class="form-check">
 
-						<input class="form-check-input" type="checkbox" id="gridCheck" name="agree" onClick="{document.getElementById('next-button').hidden = false; document.getElementById('next-button').disabled = false;}" value="agree" required>
+						<input class="form-check-input" type="checkbox" id="gridCheck" name="agree" value="agree" required>
 						<label class="form-check-label" for="gridCheck">Check here if you agree to participate</label>
 						<br />
 						<label for="" hidden="true" style="color:red" id="invalidID">There was an error, please refresh your page and try again. <b>Sorry for the inconvenience</b></label>
 					</div>
 				</div>
-				<button name="formSubmit" id="next-button" hidden="true" class="btn btn-primary" value="Submit Consent Form" onclick="createNewUser()" disabled>Submit Consent Form</button>
+				<button name="formSubmit" id="next-button" hidden="true" class="btn btn-primary" value="Submit Consent Form" onclick="submit()" disabled>Submit Consent</button>
 			</div>
 		</div>
 	</div>
 
 	<script>
-		function addLoader() {
-			document.getElementById('next-button').innerHTML = `<div class="lds-ripple"><div></div><div></div></div>`;
-		}
+		document.querySelector("input[name=agree]").addEventListener('change', function() {
+			if (this.checked) {
+				document.getElementById('next-button').hidden = false;
+				document.getElementById('next-button').disabled = false;
+			} else {
+				document.getElementById('next-button').hidden = true;
+				document.getElementById('next-button').disabled = true;
+			}
+		});
 
-
-		function createNewUser() {
-			addLoader();
-			const database = firebase.database();
-			firebase.auth().signInAnonymously().then(function() {
-				firebase.auth().onAuthStateChanged(function(user) {
-					if (user) {
-						var uid = user.uid;
-						setDatabase(uid);
-						console.log(uid);
-					} else {
-						document.getElementById("invalidID").hidden = false;
-					}
-				});
-			}).catch(function(error) {
-				document.getElementById("invalidID").hidden = false;
-			});
-		}
-
-		function experimentType() {
+		function getExperimentType() {
 			// target present and target not present are for sliders
 			// standard target present/not present are for selecting a face
 			let types = ["tp", "tnp", "stp", "stnp"]
@@ -157,15 +147,19 @@
 			return mm + '/' + dd + '/' + yyyy;
 		}
 
-		function setDatabase(uid) {
-			const database = firebase.database();
-			database.ref('slider/' + uid).set({
-				"ID": uid,
-				"experiment type": experimentType(),
-				"date_taken": getDate()
+		function submit(){
+			document.getElementById('next-button').disabled = true;
+			document.getElementById('next-button').innerHTML = `<div class="lds-ripple"><div></div><div></div></div>`;
+			createNewUser().then(uid => {
+				setDatabase({
+					'path': window.userId,
+					'data': {
+						"ID": uid,
+						"experiment type": getExperimentType(),
+						"date_taken": getDate()
+					}
+				});
 			});
-			document.getElementById('next-button').hidden = false;
-			document.getElementById('next-button').disabled = false;
 		}
 
 	</script>

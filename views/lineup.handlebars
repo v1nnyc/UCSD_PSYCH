@@ -10,7 +10,11 @@
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
 	<link rel="stylesheet" href="css/styles.css" type="text/css" />
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+	<script src="js/firebae.js"></script>
 	<script src="js/userflowcontrol.js"></script>
+	<script>
+		requiresFirebase();
+	</script>
 	<style>
 		img {
 			width: 100%;
@@ -110,47 +114,29 @@
 		</div>
 
 		<div class="row">
-			<input id="next-button" onClick="submit()" class="btn btn-primary" type="submit" name="formSubmit" value="Next" hidden />
+			<input id="next-button" class="btn btn-primary" type="submit" name="formSubmit" value="Next" hidden />
 		</div>
 	</div>
 
-	<script type="text/javascript">
-		firebase.initializeApp({
-			apiKey: "AIzaSyCa5_e0vkkiBXQxKcpvGKHyumnWyvQ_os8",
-			authDomain: "ucsd-psych.firebaseapp.com",
-			databaseURL: "https://ucsd-psych.firebaseio.com",
-			projectId: "ucsd-psych",
-			storageBucket: "ucsd-psych.appspot.com",
-			messagingSenderId: "325328536445"
-		});
-
-		// when body renders
-		firebase.auth().onAuthStateChanged(function(user) {
-			if (user) {
-				window.userId = user.uid;
-				firebase.database().ref("slider/" + window.userId + "/experiment type")
-					.once('value').then(function(snapshot) {
-						window.experimentType = snapshot.val();
-
-						initializeExperiment(window.experimentType);
-					});
-			} else {
-				window.location = '/debrief'
-			}
-		});
-
+	<script>
 		// used for measuring time between pic render and choice
 		let startTime;
 
+		getUserData().then(e => {
+			initializeExperiment();
+		})
+
 		// initialize DOM based on exp type
-		function initializeExperiment(expType) {
+		function initializeExperiment() {
 			let lineup = getPics(window.experimentType);
 			addPics(lineup);
 			startTime = new Date();
-			window.radioSelected, window.pictureSelected, window.targetSelected = false;
+			window.radioSelected = false;
+			window.pictureSelected = false;
+			window.targetSelected = false;
 
 			// check if standard exp
-			switch (expType.includes("s")) {
+			switch (window.experimentType.includes("s")) {
 				case true:
 					makePicturesSelectable();
 					showNonePresentButton();
@@ -256,7 +242,8 @@
 			clearSelectedPictures();
 			showConfidenceSlider();
 			window.radioSelected = true;
-			window.pictureSelected, window.targetSelected = false;
+			window.pictureSelected = false;
+			window.targetSelected = false;
 			stopTime();
 		}
 
@@ -316,7 +303,7 @@
 			window.time = seconds;
 		}
 
-		function submit() {
+		document.getElementById('next-button').addEventListener('click', function() {
 			let slider_values = [];
 			let imgs = document.getElementsByTagName("img");
 			let index;
@@ -330,17 +317,19 @@
 				}
 			}
 
-			const database = firebase.database();
-			database.ref('slider/' + window.userId + '/lineup').update({
-				"time": (window.experimentType.includes("s")) ? window.time : "N/A",
-				"selected filler": (window.experimentType.includes("s")) ? (!window.targetSelected && window.pictureSelected) : "N/A",
-				"checked 'not present'": (window.experimentType.includes("s")) ? window.radioSelected : "N/A",
-				"correct": (window.experimentType.includes("s")) ? ((window.experimentType.includes("tp")) ? window.targetSelected : window.radioSelected) : "N/A",
-				"confidence level": (window.experimentType.includes("s")) ? window.standardConfidence : "N/A",
-				"target confidence": (!window.experimentType.includes("s")) ? ((window.experimentType.includes("tp")) ? slider_values[index] : "N/A") : "N/A",
-				"confidence ratings": (!(window.experimentType.includes("s"))) ? slider_values : "N/A"
+			setDatabase({
+				'path': `${window.userId}/lineup`,
+				'data': {
+					"time": (window.experimentType.includes("s")) ? window.time : "N/A",
+					"selected filler": (window.experimentType.includes("s")) ? (!window.targetSelected && window.pictureSelected) : "N/A",
+					"checked 'not present'": (window.experimentType.includes("s")) ? window.radioSelected : "N/A",
+					"correct": (window.experimentType.includes("s")) ? ((window.experimentType.includes("tp")) ? window.targetSelected : window.radioSelected) : "N/A",
+					"confidence level": (window.experimentType.includes("s")) ? window.standardConfidence : "N/A",
+					"target confidence": (!window.experimentType.includes("s")) ? ((window.experimentType.includes("tp")) ? slider_values[index] : "N/A") : "N/A",
+					"confidence ratings": (!(window.experimentType.includes("s"))) ? slider_values : "N/A"
+				}
 			});
-		}
+		});
 	</script>
 
 </body>

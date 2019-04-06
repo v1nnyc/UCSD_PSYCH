@@ -11,3 +11,55 @@ var config = {
 };
 
 firebase.initializeApp(config);
+
+const database = firebase.database();
+
+function getUserData() {
+  return new Promise(function(resolve) {
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        window.userId = user.uid;
+        firebase.database().ref("slider/" + window.userId + "/experiment type")
+          .once('value').then(function(snapshot) {
+            window.experimentType = snapshot.val();
+            resolve()
+          });
+      }
+    });
+  })
+}
+
+//signifies that the current page requires firebase, should pause redirection
+let firebaseInUse;
+
+// used to create a new user
+function createNewUser() {
+  return new Promise(function(resolve, reject) {
+    firebase.auth().signInAnonymously().then(function() {
+      firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+          resolve(user.uid)
+        }
+      });
+    });
+  })
+}
+
+// helper function to put data into database
+function setDatabase(dataSet) {
+  return new Promise(function(resolve, reject) {
+    database.ref('slider/' + dataSet.path).set(dataSet.data).then(e => {
+      firebaseCompleted();
+    });
+  });
+}
+
+// setters for firebaseInUse
+function requiresFirebase() {
+  getUserData();
+  firebaseInUse = true;
+}
+
+function firebaseCompleted() {
+  firebaseInUse = false;
+}

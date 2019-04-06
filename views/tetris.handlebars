@@ -8,7 +8,8 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
   <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css" type="text/css" />
-  <script src="js/userflowcontrol.js"></script>
+	<script src="js/firebae.js"></script>
+	<script src="js/userflowcontrol.js"></script>
 </head>
 
 <body>
@@ -29,28 +30,10 @@
     </div>
   </div>
   <script>
-    var config = {
-      apiKey: "AIzaSyCa5_e0vkkiBXQxKcpvGKHyumnWyvQ_os8",
-      authDomain: "ucsd-psych.firebaseapp.com",
-      databaseURL: "https://ucsd-psych.firebaseio.com",
-      projectId: "ucsd-psych",
-      storageBucket: "ucsd-psych.appspot.com",
-      messagingSenderId: "325328536445"
-    };
-
-    firebase.initializeApp(config);
 
     // timeout is how long user plays game for
     let timeout = 30000;
     let date1;
-
-      // firebase.auth().onAuthStateChanged(function(user) {
-      //   if (user) {
-      //     window.userId = user.uid;
-      //   } else {
-      //     window.location = "/debrief";
-      //   }
-      // });
 
       setTimeout(function(){
         setTimeout(clickNext, timeout);
