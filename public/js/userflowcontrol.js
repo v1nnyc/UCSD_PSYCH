@@ -50,7 +50,6 @@ begin();
 function begin() {
   initializeFlow().then(e => {
     checkUserFlow();
-    removeFlow();
   });
 }
 
@@ -76,13 +75,6 @@ function incrementFlow() {
   console.log(getNextHash())
   setHash(getNextHash());
   redirect();
-}
-
-// called on debrief page to remove sessionObj
-function removeFlow() {
-  if (window.location.pathname == "debrief") {
-    window.sessionStorage.removeItem(sessionObj);
-  }
 }
 
 
@@ -119,10 +111,11 @@ function redirect() {
 }
 
 // used on pages where there is no next button (video, 2048)
-function clickNext(){
+function clickNext() {
   document.getElementById("next-button").click();
 }
 
-window.onload = function(){
+//my markup in my code LOL oh powell.
+window.onload = function() {
   document.getElementById("next-button").addEventListener("click", incrementFlow);
 }
