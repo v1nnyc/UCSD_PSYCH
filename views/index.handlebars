@@ -1,192 +1,291 @@
 <html>
+<meta charset="utf-8">
 
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-	<link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
-	<link rel="stylesheet" href="css/styles.css" type="text/css" />
 	<script src="https://www.gstatic.com/firebasejs/5.7.2/firebase-app.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/5.7.2/firebase-auth.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/5.7.2/firebase-database.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/5.7.2/firebase-firestore.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
+	<link rel="stylesheet" href="css/styles.css" type="text/css" />
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+	<script src="js/firebae.js"></script>
+	<script src="js/userflowcontrol.js"></script>
+	<script>
+		requiresFirebase();
+	</script>
+	<style>
+		img {
+			width: 100%;
+		}
+		#not-selected {
+			font-size: 25px;
+			color: red;
+		}
+		#selected {
+			font-size: 15px;
+			color: black;
+		}
+		p span {
+			color: #64f24f;
+			font-size: 30px;
+		}
+	</style>
 </head>
 
 <body>
-
-	<table width="780" cellpadding="10" cellspacing="0" border="0" align="center">
-		<!-- <tr><td><h3>Eyewitness Identification Research </td><td align="right"><img src="./logos/ucsd_hrpp.jpg" width=150></tr> -->
-	</table>
-
 	<div class="container">
-		<h1>Welcome!</h1>
-		<p>
-			This is a research project being conducted by John Witted and Laura Mickes at the University of California, San Diego. The purpose of this research project is to find out more about human memory. We are interested in studying these issues to
-			increase
-			our general understanding for human cognitive processes.
-		</p>
-
-
-		<h5> What will I be asked to do?</h5>
-		<p>
-			You have been asked to participate because you are interested in learning about research first hand. The procedure involves studying lists of words, faces, pictures, or short video clips on a computer screen. You will then ask to remember what
-			those pictures,
-			words or details about the video were. Participation in this study will take approximately 15 minutes.
-		</p>
-
-		<h5> What about confidentiality?</h5>
-		<p>
-			This experiment is being hosted by University of California, San Diego servers. Research records will be kept confidential. Research records will be kept confidential to the extent allowed by the law. Research records may be reviewed by the UCSD
-			Institutional
-			Review Board.
-		</p>
-
-		<h5> What are the risks of this research?</h5>
-		<p>
-			You may experience some frustration or boredom while participating in our study but you may withdraw the the experiment at any time. Another risk is the potential harm resulting from a breach of confidentiality however, no identifiers will be
-			stored with
-			subjects data.
-		</p>
-
-		<h5> What are the benefits of this research?</h5>
-		<p>
-			This research is not designed to help you personally, but the results may help the investigator learn more about human memory. We hope that, in the mme, other people might benefit hom this study through improved understanding of human cognitive
-			processes.
-		</p>
-
-		<h5> Do I have to be in this research? May I stop participating at any time?</h5>
-		<p>
-			You will be one of 5,000 participants. Your participation in this research is completely voluntary. You may choose not to take part at all. If you decide to participate in this research, you may stop participating at any time. If you decide not
-			to participate
-			in this study or if you stop participating at any time, you will not be penalizes or lose any benefits to which you otherwise qualify.
-		</p>
-
-		<h5> What if I have questions?</h5>
-		<p>
-			This research is being conducted by Laura Mickes at the University of California, San Diego and Royal Holloway, University of London. If you have any questions about the research study itself; please contact Laura Mickes. You may also call the
-			UCSD Human
-			Subjects protection program at 858-657-5100 for more information about this, to inquire about your rights as a research subject
-			<div class="row justify-content-center">
-				<div class="col-auto">
-					John Wixted, Ph.D.<br> Department of Psychology<br> University of California, San Diego<br> La Jolla, CA 92093-0109<br> E-mail: <a href="mailto:jwixted@ucsd.edu">jwixted@ucsd.edu</a><br> Phone Nmnber: 858-534-3956
-				</div>
-				<div class="col-auto">
-					Laura Mickes, Ph.D.<br> Department of Psychology<br> University of California, San Diego<br> La Jolla, CA 92093-0109<br> E-mail: <a href="mailto:laura.mickes@rhul.ac.uk">laura.mickes@rhu1.ac.uk</a><br> Phone Number: 858-534-3956
-				</div>
-			</div>
-			</br>
-
-			<br><br> This research has been reviewed according to the University of California, San Diego IRB procedures for research involving human subjects.<br><br> The <b>IRB Project number</b> for this experiment is <b>121186</b>.
-		</p>
-
-		<h4><strong>Statement of Age of Participant and consent</strong></h4>
-		<div class="px-3">
-			<!-- <div class="form-row">
-				<div class="form-group col-md-4">
-					<label for="">What is your Worker ID? This will be used for reimbursement</label>
-					<label for="" hidden="true" style="color:red" id="invalidID"><b>Please</b> enter a valid Worker ID :)</label>
-					<input type="text" class="form-control" name="formID" id="formID" maxlength="100" placeholder="ENTER MTURK ID" oninput="formValidity()" required>
-				</div>
-			</div> -->
-			<div id="submit-stuff">
-				<p>
-					By clicking "I agree" you indicate that: you are at least 18 years of age, the research has been explained to you, your questions have been fully answered; and you freely and voluntarily choose to participate in this research project.
-				</p>
-				<div class="form-group">
-					<div class="form-check">
-
-						<input class="form-check-input" type="checkbox" id="gridCheck" name="agree" onClick="{document.getElementById('submits').hidden = false; document.getElementById('submits').disabled = false;}" value="agree" required>
-						<label class="form-check-label" for="gridCheck">Check here if you agree to participate</label>
-						<br />
-						<label for="" hidden="true" style="color:red" id="invalidID">There was an error, please refresh your page and try again. <b>Sorry for the inconvenience</b></label>
-					</div>
-				</div>
-				<button name="formSubmit" id="submits" hidden="true" class="btn btn-primary" value="Submit Consent Form" onclick="createNewUser()" disabled>Submit Consent Form</button>
-			</div>
+		<div class="row">
+			<h5>Please rate how confident you are that the woman below is the woman in the video.
+			0% - I guessed, 100% absolutely certain. </h5>
 		</div>
+		<!-- Row 1, Col 1. -->
+		<div class="row justify-content-between">
+				<div class="col-md-4">
+						<img id='0' src='media/fillers/blank.png' >
+				</div>
+			<!-- Row 1, Col 2 -->
+				<div class="col-md-4">
+						<img id='1' src='media/fillers/blank.png' >
+				</div>
+			<!-- Row 1, Col 3 -->
+				<div class="col-md-4">
+						<img id='2' src='media/fillers/blank.png' >
+				</div>
+		</div>
+		</br>
+		<!-- Row 2, Col 1 -->
+		<div class="row justify-content-between">
+				<div class="col-md-4">
+						<img id='3' src='media/fillers/blank.png' >
+				</div>
+			<!-- Row 2, Col 2 -->
+				<div class="col-md-4">
+						<img id='4' src='media/fillers/blank.png' >
+				</div>
+			<!-- Row 2, Col 3 -->
+				<div class="col-md-4">
+						<img id='5' src='media/fillers/blank.png'>
+				</div>
+		</div>
+				<div class="row" id="confidence-slider" hidden>
+						<div class="form-check mt-3">
+								<h5>How certain are you?</h5>
+								<input type="range" min="0" max="100" value="50" class="slider" id="slider6" oninput="changeSlider(this)">
+								<p id="not-selected">Value: <span id="slider6-output"></span></p>
+						</div>
+					</div>
+		</div>
+
+<div class="popup" onclick="showPopup()" style= "height: 100%; width: 100%;">
+	<div class="form-check mt-3" id="standard">
+		<input id="notPresentCheck" class="form-check-input" type="radio" onclick="radioClicked()" style="width:20px; height: 20px; border-radius: 4px; background-color: lightgrey; " />
+		<label class="form-check-label mt-1" style="font-size: 1.25rem; margin-top: 0.4rem">Check here <strong>if the person is not present</strong></label>
 	</div>
+	<div class ="container">
+	<span class="popuptext" id="myPopup">
+		<!--if target not present, image should not be target. if tp, image should be target -->
+		<div class="col-lg">
+			<img src='media/target.jpg' style="width: 100%; height: 100%;">
+		</div>
+		<div class="col-lg">
+			<h4 style="margin-bottom:25px;">
+				How certain are you that this is NOT the man from the video?
+			</h4>
+			<!--<input type="range" min="0" max="100" value="50" class="slider" id="slider" style="margin-bottom:55px;">
+			<p>Value: <span id="demo"></span></p> -->
+					<div class = "slidecontainer">
+					<input type="range" min="0" max="100" value="50" class="slider" id="slider">
+					<p id="not-selected">Value: <span id="slider"></span></p>
+				</div>
+			<button class="next" onClick="checkInput()" class="btn btn-primary" type="submit" name="formSubmit"> Next </button>
+		</div>
+	</span>
+</div>
+</div>
 
+		<div class="row">
+			<input id="next-button" class="btn btn-primary" type="submit" name="formSubmit" value="Next" hidden />
+		</div>
+</div>
+
+
+	<select name="formSelection" id="formSelection" onChange="checkInput()" hidden="true" />
+	<option value="N/A"></option>
+	<option value="Not present">Not present</option>
+	<option value="063">1</option>
+	<option value="040">2</option>
+	<option value="051">3</option>
+	<option value="111">4</option>
+	<option value="049">5</option>
+	<option value="010">6</option>
+</select>
+
+	<select name="formId" id="formId" onChange="checkInput()" style="visibility: hidden" />
+		<option value="1"></option>
 	<script>
-		// Initialize Firebase
-		var config = {
-			apiKey: "AIzaSyCa5_e0vkkiBXQxKcpvGKHyumnWyvQ_os8",
-			authDomain: "ucsd-psych.firebaseapp.com",
-			databaseURL: "https://ucsd-psych.firebaseio.com",
-			projectId: "ucsd-psych",
-			storageBucket: "ucsd-psych.appspot.com",
-			messagingSenderId: "325328536445"
-		};
-		firebase.initializeApp(config);
-
-		firebase.auth().onAuthStateChanged(function(user) {
-			if (user) {
-				redirect();
+			document.getElementsByTagName("body")[0].onload = function() {
+					firebase.auth().onAuthStateChanged(function(user) {
+						if (user) {
+							window.userId = user.uid;
+							firebase.database().ref("popup/" + window.userId + "/experiment type")
+								.once('value').then(function(snapshot) {
+									window.experimentType = snapshot.val();
+									//if (window.experimentType.includes("s")) {
+										//document.getElementById('standard').hidden = false;
+										//show button
+									initializeExperiment(window.experimentType);
+								});
+						} else {
+							window.location = '/debrief'
+						}
+					});
+				}
+		function initializeExperiment(expType){
+		let lineup = getPics(window.experimentType);
+		addPics(lineup);
+		window.radioSelected = false;
+		window.pictureSelected = false;
+		window.targetSelected = false;
+		makePicturesSelectable();
+	}
+	function makePicturesSelectable() {
+			let pictures = document.getElementsByTagName("img");
+			for (let picture in pictures) {
+				let curr_pic = pictures[picture];
+				curr_pic.onclick = function() {
+					selectedPicture(this);
+					checkIfTarget(this);
+					window.pictureSelected = true;
+					window.radioSelected = false;
+				}
 			}
-		});
-
-		function addLoader() {
-			document.getElementById('submits').innerHTML = `<div class="lds-ripple"><div></div><div></div></div>`;
 		}
-
-
-		function createNewUser() {
-			addLoader();
-			const database = firebase.database();
-			firebase.auth().signInAnonymously().then(function() {
-				firebase.auth().onAuthStateChanged(function(user) {
-					if (user) {
-						var isAnonymous = user.isAnonymous;
-						var uid = user.uid;
-						setDatabase(uid);
-						console.log(uid);
+	function selectedPicture(imgElement) {
+	clearSelectedPictures();
+	unselectBox();
+	imgElement.style["border"] = "5px solid red";
+}
+function checkIfTarget(imgElement) {
+	window.targetSelected = false;
+	if ((imgElement.src).includes("target")) {
+		window.targetSelected = true;
+	}
+}
+function unselectBox() {
+	document.getElementById("notPresentCheck").checked = false;
+}
+function clearSelectedPictures() {
+	let pictures = document.getElementsByTagName("img");
+	for (let picture in pictures) {
+		let curr_pic = pictures[picture];
+		if (curr_pic.style) {
+			curr_pic.style.border = "";
+		}
+	}
+}
+	// When the user clicks on <div>, open the popup
+	//function popup(mylink, windowname) {
+		//if (! window.focus)return true; var href;
+		//if (typeof(mylink) == 'string') href=mylink;
+		//else href=mylink.href;
+		//window.open(href, windowname, 'width=400,height=200,scrollbars=yes');
+		//return false; }
+		function showPopup() {
+		  var popup = document.getElementById("myPopup");
+		  popup.classList.toggle("show");
+		}
+			function shuffle(array) {
+				var currentIndex = array.length,
+					temporaryValue, randomIndex;
+				// While there remain elements to shuffle...
+				while (0 !== currentIndex) {
+					// Pick a remaining element...
+					randomIndex = Math.floor(Math.random() * currentIndex);
+					currentIndex -= 1;
+					// And swap it with the current element.
+					temporaryValue = array[currentIndex];
+					array[currentIndex] = array[randomIndex];
+					array[randomIndex] = temporaryValue;
+				}
+				return array;
+			}
+			function getPics(experimentType) {
+				let lineup = [];
+				let randomInt = [];
+				//if (experimentType.includes("tp")) {
+					//lineup.push("media/target.jpg");
+				//}
+				while (lineup.length < 6) {
+					lineup.push("media/fillers/" + Math.floor((Math.random() * 114) + 1) + ".jpg");
+				}
+				return shuffle(lineup);
+			}
+			function addPics(lineup) {
+				for (let pic in lineup) {
+					document.getElementById(pic).src = lineup[pic];
+				}
+			}
+			function checkInput() {
+				if (document.getElementById('formSelection').value != "N/A" && document.getElementById('formConfidence').value != "N/A") {
+					//check to see if
+					if (window.experimentType === "dtnp" || window.experimentType === "ddtnp") {
+						if (document.getElementById('formSure').value == 'No') {
+							window.correct = true;
+						}
 					} else {
-						document.getElementById("invalidID").hidden = false;
+						if (document.getElementById('formSure').value == 'No') {
+							window.correct = false;
+						}
 					}
-				});
-			}).catch(function(error) {
-				document.getElementById("invalidID").hidden = false;
-			});
-		}
-
-		function experimentType() {
-			let types = ["dtp", "dtnp", "ddtp", "ddtnp", "ddstp", "ddstnp"]
-			let type = types[Math.floor((Math.random() * 6))];
-			return type;
-		}
-
-		function getDate() {
-			var today = new Date();
-			var dd = today.getDate();
-			var mm = today.getMonth() + 1; //January is 0!
-
-			var yyyy = today.getFullYear();
-			if (dd < 10) {
-				dd = '0' + dd;
+					let conf = document.querySelector('#formConfidence');
+					let confidence = conf.options[conf.selectedIndex].value;
+					let sure = document.querySelector('#formSure');
+					let surety = sure.options[sure.selectedIndex].value;
+					const database = firebase.database();
+					let checked = "N/A"
+					database.ref('users/' + window.userId).update({
+						"correct": window.correct,
+						"confidence level": confidence,
+						"selected filler": window.placeholder,
+						"person selected from video": surety,
+						"checked 'not present'": (document.getElementById("notPresentCheck").checked) ? "true" : (window.experimentType.slice(2, 3) === "s") ? "false" : "N/A"
+					}).then((response) => {
+						redirect();
+					});
+				} else {
+					document.getElementById('Next').style.visibility = "hidden";
+				}
 			}
-			if (mm < 10) {
-				mm = '0' + mm;
+
+			function radioClicked() {
+				for (let i = 0; i < 6; i++) {
+					document.getElementById(i).setAttribute("style", "border : none");
+				}
+				//if (window.experimentType.slice(-2) === "tp") {
+					//window.correct = "false";
+				//} else {
+					window.correct = "true";
+				//}
+				window.placeholder = "false";
+				document.getElementById('formSelection').selectedIndex = 1;
+				showConf();
 			}
-			return mm + '/' + dd + '/' + yyyy;
-		}
+			function showConf() {
+				document.getElementById('confidence').classList.add("d-block");
+			}
+			function showPresent() {
+				document.getElementById('present').classList.add("d-block");
+			}
 
-		function setDatabase(uid) {
-			const database = firebase.database();
-			database.ref('popup/' + uid).set({
-				"ID": uid,
-				"experiment type": experimentType(),
-				"date_taken": getDate()
-			});
-			document.getElementById('submits').hidden = false;
-			document.getElementById('submits').disabled = false;
-		}
+			document.getElementById('next-button').addEventListener('click', function() {
+				confidence
+			}
 
-		function redirect() {
-			window.location.href = '/instructions';
-		}
-	</script>
+		</script>
+
 
 </body>
-
 
 </html>
