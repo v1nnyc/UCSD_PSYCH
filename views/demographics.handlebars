@@ -9,6 +9,11 @@
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
 	<link rel="stylesheet" href="css/styles.css" type="text/css" />
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+	<script src="js/firebae.js"></script>
+	<script src="js/userflowcontrol.js"></script>
+	<script>
+		requiresFirebase();
+	</script>
 </head>
 
 <body>
@@ -174,7 +179,7 @@
 						<option value="NR">Do not wish to state</option>
 					</select>
 				</div>
-				<button id="submit-btn" type="" class="btn btn-primary" onclick="submitForm()" disabled>Submit</button>
+				<button id="next-button" type="" class="btn btn-primary" onclick="submitForm()" disabled>Submit</button>
 			</div>
 			<div class="col-auto">
 				<img src="media/ucsd.jpg" width=150>
@@ -182,27 +187,6 @@
 		</div>
 	</div>
 	<script>
-		var config = {
-			apiKey: "AIzaSyCa5_e0vkkiBXQxKcpvGKHyumnWyvQ_os8",
-			authDomain: "ucsd-psych.firebaseapp.com",
-			databaseURL: "https://ucsd-psych.firebaseio.com",
-			projectId: "ucsd-psych",
-			storageBucket: "ucsd-psych.appspot.com",
-			messagingSenderId: "325328536445"
-		};
-
-		firebase.initializeApp(config);
-
-		window.onload = function() {
-			firebase.auth().onAuthStateChanged(function(user) {
-				if (user) {
-					window.userId = user.uid;
-				} else {
-					window.location = '/debrief'
-				}
-			});
-		}
-
 		function checkInput() {
 			let ageField = document.querySelector('#formAge');
 			let age = ageField.options[ageField.selectedIndex].value;
@@ -214,14 +198,12 @@
 			let ethnicity = ethnField.options[ethnField.selectedIndex].value;
 			let seenField = document.querySelector('#formSeen');
 			let seen = seenField.options[seenField.selectedIndex].value;
-
 			if (age && gender && education && ethnicity && seen) {
-				document.getElementById('submit-btn').disabled = false;
+				document.getElementById('next-button').disabled = false;
 			} else {
-				document.getElementById('submit-btn').disabled = true;
+				document.getElementById('next-button').disabled = true;
 			}
 		}
-
 		function submitForm() {
 			let ageField = document.querySelector('#formAge');
 			let age = ageField.options[ageField.selectedIndex].value;
@@ -233,21 +215,18 @@
 			let ethnicity = ethnField.options[ethnField.selectedIndex].value;
 			let seenField = document.querySelector('#formSeen');
 			let seen = seenField.options[seenField.selectedIndex].value;
-			const database = firebase.database();
-			database.ref('popup/' + window.userId + "/demographics").set({
-				"seen before": seen,
-				"age": age,
-				"education level": education,
-				"ethnicity": ethnicity,
-				"gender": gender,
-			}).then((response) => {
-				redirect();
+			setDatabase({
+				'path': `${window.userId}/demographics`,
+				'data': {
+					"seen before": seen,
+					"age": age,
+					"education level": education,
+					"ethnicity": ethnicity,
+					"gender": gender,
+				}
+			}).then(e => {
+				firebase.auth().signOut()
 			});
-		}
-
-		function redirect() {
-			window.location.href = '/debrief';
-			firebase.auth().signOut()
 		}
 	</script>
 </body>
