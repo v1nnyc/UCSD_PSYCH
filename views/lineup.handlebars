@@ -374,10 +374,9 @@
 				'data': {
 					"time": (window.experimentType.includes("s")) ? window.time : "N/A",
 					"selected filler": (window.experimentType.includes("s")) ? (!window.targetSelected && window.pictureSelected) : "N/A",
-					"checked 'not present'": (window.experimentType.includes("s")) ? window.radioSelected : "N/A",
-					"correct": (window.experimentType.includes("s")) ? ((window.experimentType.includes("tp")) ? window.targetSelected : window.radioSelected) : "N/A",
+					"checked 'not present'": (window.experimentType.includes("s")) ? window.radioSelected : "yes",
+					"correct": (window.experimentType.includes("s")) ? ((window.experimentType.includes("tp")) ? window.targetSelected : window.radioSelected) : "yes",
 					"confidence level": (window.experimentType.includes("s")) ? window.standardConfidence : "N/A",
-					"target confidence": (!window.experimentType.includes("s")) ? ((window.experimentType.includes("tp")) ? popup2_slider_value : "N/A") : "N/A",
 					"confidence ratings": (!(window.experimentType.includes("s"))) ? popup2_slider_value : "N/A"
 				}
 			});
