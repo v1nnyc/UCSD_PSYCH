@@ -11,7 +11,7 @@ p {
 body {
   /* background: #E2EFF7; */
 }
-/* Popup container */
+/* Popup 1 container */
 .popup {
   position: relative;
   display: inline-block;
@@ -53,6 +53,47 @@ body {
   animation: fadeIn 1s
 }
 
+/* Popup 2 container */
+.popup2 {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+/* The actual popup (appears on top) */
+.popup2 .popup2text {
+  visibility: hidden;
+  width: 80%;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  /*left: 50%;*/
+  margin-left: -80px;
+}
+
+/* Popup arrow */
+.popup2 .popup2text::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+/* Toggle this class when clicking on the popup container (hide and show the popup) */
+.popup2 .show {
+  visibility: visible;
+  -webkit-animation: fadeIn 1s;
+  animation: fadeIn 1s
+}
 /* Add animation (fade in the popup) */
 @-webkit-keyframes fadeIn {
   from {opacity: 0;}
@@ -74,7 +115,7 @@ body {
 }
 .slider {
   -webkit-appearance: none;
-  float: left;
+  float: center;
   margin-top: 1rem;
   width: 100%;
   height: 20px;
