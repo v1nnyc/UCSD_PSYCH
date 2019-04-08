@@ -75,19 +75,18 @@
 				<p id="not-selected">Value: <span id="confidence_slider-output"></span></p>
 			</div>
 	</div>
-
-<div class="popup" style= "margin-left:20px; height: 100%; width: 100%;">
+<!--radio button for target not present that when clicked, will call the popup -->
 	<div class="form-check mt-3" id="standard">
 		<input id="notPresentCheck" class="form-check-input" type="radio" onclick="radioClicked()"
 				style="width:20px; height: 20px; border-radius: 4px; background-color: lightgrey; " />
 		<label class="form-check-label mt-1" style="font-size: 1.25rem; margin-top: 0.4rem">Check here <strong>if the person is not present</strong></label>
 	</div>
+<!--Popup that displays the target suspect, if experiment type is tp or stp -->
+<div class="popup" style= "margin-left:20px; height: 100%; width: 100%;">
 	<div class ="container">
 	<span class="popuptext" id="myPopup">
-		<!--if target not present, image should not be target. if tp, image should be target STILL NEED TO FIX THIS-->
 		<div class="col-lg">
-			<!--<img src = getImage() style = "width:100%; height: 100"> -->
-			<img src='media/target.jpg' style="width: 100%; height: 100%;">
+			<img src='media/target.jpg' style="width: 80%; height: 80%;">
 			<h4 style="margin-bottom:25px;">
 				How certain are you that this is NOT the man from the video?
 			</h4>
@@ -101,18 +100,14 @@
 </div>
 </div>
 
-<div class="popup2" style= "margin-left:20px; height: 100%; width: 100%;">
-	<div class="form-check mt-3" id="standard">
-		<input id="notPresentCheck" class="form-check-input" type="radio" onclick="radioClicked()"
-				style="width:20px; height: 20px; border-radius: 4px; background-color: lightgrey; " />
-		<label class="form-check-label mt-1" style="font-size: 1.25rem; margin-top: 0.4rem">Check here <strong>if the person is not present</strong></label>
-	</div>
+<!--Popup that displays a filler suspect, if experiment type is tnp or stnp -->
+ <div class="popup2" style= "margin-left: 100px; height: 100%; width: 100%;">
 	<div class ="container">
 	<span class="popup2text" id="myPopup2">
 		<!--if target not present, image should not be target. if tp, image should be target STILL NEED TO FIX THIS-->
 		<div class="col-lg">
-			<!--<img src = getImage() style = "width:100%; height: 100"> -->
-			<img src='media/fillers/1.jpg' style="width: 100%; height: 100%;">
+			<img src = "media/fillers/1.jpg" style = "width:60%; height: 60%">
+			<!-- <img src='media/fillers/1.jpg' style="width: 80%; height: 80%;"> -->
 			<h4 style="margin-bottom:25px;">
 				How certain are you that this is NOT the man from the video?
 			</h4>
@@ -200,6 +195,7 @@
 				}
 	// When the user clicks on not present, open the popup
 		function showPopup() {
+			console.log(window.experimentType);
 			if(window.experimenetType ==="stp" || window.experimentType ==="tp"){
 		  	var popup = document.getElementById("myPopup");
 		  	popup.classList.toggle("show");
@@ -230,20 +226,20 @@
 			document.getElementById("next-button").hidden = false;
 			window.standardConfidence = element.value;
 		}
-		//function that changes the value of the slider in the popup element if popup is target
+		//function that changes the value of the slider in the popup element if popup is filler
 			function changeSliderInPopup2(element) {
-					let curr_output = document.getElementById('popup2_slider-output');
-					curr_output.innerHTML = element.value + "%";
-					curr_output.parentNode.id = "selected";
+					let curr_output2 = document.getElementById('popup2_slider-output');
+					curr_output2.innerHTML = element.value + "%";
+					curr_output2.parentNode.id = "selected";
 					document.getElementById("next-button2").hidden = false;
 					window.standardConfidence = element.value;
 				}
 		//function that changes the value of the slider for confidence of
 		//selection in lineup
 	function changeSlider(element) {
-		let curr_output = document.getElementById('confidence_slider-output');
-		curr_output.innerHTML = element.value + "%";
-		curr_output.parentNode.id = "selected";
+		let curr_output1 = document.getElementById('confidence_slider-output');
+		curr_output1.innerHTML = element.value + "%";
+		curr_output1.parentNode.id = "selected";
 		document.getElementById("next-button1").hidden = false;
 		window.standardConfidence = element.value;
 }
@@ -327,6 +323,21 @@
 						"confidence level": (window.experimentType.includes("s")) ? window.standardConfidence : "N/A",
 						"target confidence": (!window.experimentType.includes("s")) ? ((window.experimentType.includes("tp")) ? conf_slider_value : "N/A") : "N/A",
 						"confidence ratings": (!(window.experimentType.includes("s"))) ? conf_slider_value : "N/A"
+					}
+				});
+		});
+		document.getElementById('next-button2').addEventListener('click', function(){
+			let popup2_slider_value = document.getElementById("popup2_slider").value;
+			setDatabase({
+					'path': `${window.userId}/lineup`,
+					'data': {
+						"time": (window.experimentType.includes("s")) ? window.time : "N/A",
+						"selected filler": (window.experimentType.includes("s")) ? (!window.targetSelected && window.pictureSelected) : "N/A",
+						"checked 'not present'": (window.experimentType.includes("s")) ? window.radioSelected : "N/A",
+						"correct": (window.experimentType.includes("s")) ? ((window.experimentType.includes("tp")) ? window.targetSelected : window.radioSelected) : "N/A",
+						"confidence level": (window.experimentType.includes("s")) ? window.standardConfidence : "N/A",
+						"target confidence": (!window.experimentType.includes("s")) ? ((window.experimentType.includes("tp")) ? popup2_slider_value : "N/A") : "N/A",
+						"confidence ratings": (!(window.experimentType.includes("s"))) ? popup2_slider_value : "N/A"
 					}
 				});
 		});
