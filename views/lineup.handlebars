@@ -86,8 +86,8 @@
 	<span class="popuptext" id="myPopup">
 		<!--if target not present, image should not be target. if tp, image should be target STILL NEED TO FIX THIS-->
 		<div class="col-lg">
-			<img src = getImage() style = "width:100%; height: 100">
-			<!--<img src='media/target.jpg' style="width: 100%; height: 100%;"> -->
+			<!--<img src = getImage() style = "width:100%; height: 100"> -->
+			<img src='media/target.jpg' style="width: 100%; height: 100%;">
 			<h4 style="margin-bottom:25px;">
 				How certain are you that this is NOT the man from the video?
 			</h4>
@@ -100,6 +100,32 @@
 	</span>
 </div>
 </div>
+
+<div class="popup2" style= "margin-left:20px; height: 100%; width: 100%;">
+	<div class="form-check mt-3" id="standard">
+		<input id="notPresentCheck" class="form-check-input" type="radio" onclick="radioClicked()"
+				style="width:20px; height: 20px; border-radius: 4px; background-color: lightgrey; " />
+		<label class="form-check-label mt-1" style="font-size: 1.25rem; margin-top: 0.4rem">Check here <strong>if the person is not present</strong></label>
+	</div>
+	<div class ="container">
+	<span class="popup2text" id="myPopup2">
+		<!--if target not present, image should not be target. if tp, image should be target STILL NEED TO FIX THIS-->
+		<div class="col-lg">
+			<!--<img src = getImage() style = "width:100%; height: 100"> -->
+			<img src='media/fillers/1.jpg' style="width: 100%; height: 100%;">
+			<h4 style="margin-bottom:25px;">
+				How certain are you that this is NOT the man from the video?
+			</h4>
+		</div>
+		<div class="row" id="confidence-slider" style="margin-left:20px; margin-right: 20px;">
+						<input type="range" min="0" max="100" value="50" class="slider" id="popup2_slider" oninput="changeSliderInPopup2(this)">
+						<p id="not-selected">Value: <span id="popup2_slider-output"></span></p>
+		</div>
+			<input id="next-button2" class="btn btn-primary" type="submit" name="formSubmit" value ="Next" hidden/>
+	</span>
+</div>
+</div>
+
 
 	<div class="row">
 		<input id="next-button1" class="btn btn-primary" type="submit" name="formSubmit" value="Next" hidden />
@@ -144,18 +170,9 @@
 					}
 				}
 }
-		function getImage(){
-			let img;
-			if(window.experimentType === "stp" || window.experimentType ==="tp")
-				img = "media/target.jpg";
-			else {
-				img = "media/fillers/blank.png";
-			}
-		}
 		function showNonePresentButton() {
 			document.getElementById("standard").hidden = false;
 		}
-
 		function selectedPicture(imgElement) {
 					clearSelectedPictures();
 					unselectBox();
@@ -183,9 +200,16 @@
 				}
 	// When the user clicks on not present, open the popup
 		function showPopup() {
-		  var popup = document.getElementById("myPopup");
-		  popup.classList.toggle("show");
+			if(window.experimenetType ==="stp" || window.experimentType ==="tp"){
+		  	var popup = document.getElementById("myPopup");
+		  	popup.classList.toggle("show");
+			}
+			else{
+				var popup2 = document.getElementById("myPopup2");
+				popup2.classList.toggle("show");
+			}
 		}
+
 		function showConfidenceSlider() {
 				document.getElementById("confidence-slider").hidden = false;
 			}
@@ -198,7 +222,7 @@
 			stopTime();
 			//redirect();
 		}
-//function that changes the value of the slider in the popup element
+//function that changes the value of the slider in the popup element if popup is target
 	function changeSliderInPopup(element) {
 			let curr_output = document.getElementById('popup_slider-output');
 			curr_output.innerHTML = element.value + "%";
@@ -206,6 +230,14 @@
 			document.getElementById("next-button").hidden = false;
 			window.standardConfidence = element.value;
 		}
+		//function that changes the value of the slider in the popup element if popup is target
+			function changeSliderInPopup2(element) {
+					let curr_output = document.getElementById('popup2_slider-output');
+					curr_output.innerHTML = element.value + "%";
+					curr_output.parentNode.id = "selected";
+					document.getElementById("next-button2").hidden = false;
+					window.standardConfidence = element.value;
+				}
 		//function that changes the value of the slider for confidence of
 		//selection in lineup
 	function changeSlider(element) {
@@ -215,7 +247,6 @@
 		document.getElementById("next-button1").hidden = false;
 		window.standardConfidence = element.value;
 }
-
 				// used to shuffle array of mugshot pics
 				function shuffle(array) {
 					var currentIndex = array.length,
@@ -251,6 +282,15 @@
 					for (let pic in lineup) {
 						document.getElementById(pic).src = lineup[pic];
 					}
+				}
+				function getImage(){
+					let img;
+					if(window.experimentType === "stp" || window.experimentType ==="tp")
+						img = "media/target.jpg";
+					else {
+						img = "media/fillers/2.jpg";
+					}
+					return img;
 				}
 				// called when a choice has been made by a user
 				function stopTime() {
