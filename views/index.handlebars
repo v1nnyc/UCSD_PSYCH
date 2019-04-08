@@ -11,8 +11,8 @@
 	<script src="https://www.gstatic.com/firebasejs/5.7.2/firebase-database.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/5.7.2/firebase-firestore.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<script src="js/firebae.js"></script>
 	<script src="js/userflowcontrol.js"></script>
+  <script src="js/firebae.js"></script>
 	<script>
 		requiresFirebase();
 	</script>
@@ -151,6 +151,7 @@
 			document.getElementById('next-button').disabled = true;
 			document.getElementById('next-button').innerHTML = `<div class="lds-ripple"><div></div><div></div></div>`;
 			createNewUser().then(uid => {
+				console.log(uid)
 				setDatabase({
 					'path': window.userId,
 					'data': {

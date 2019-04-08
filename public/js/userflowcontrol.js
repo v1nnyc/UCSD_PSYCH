@@ -1,44 +1,48 @@
 /*
 Instructions:
-  include script in html headers (*AFTER* THE FIREBAE SCRIPT), then call
-  incrementFlow() to move to next page. That's it. super G-eazy.
+  include script in html headers (*BEFORE* THE FIREBAE SCRIPT).
+  MUST have a button of id "next-button" in HTML.
+  If button is hidden, call "clickNext()"
 */
+
+// while true, all page redirection in userflow is paused
+let redirectPaused = false;
 
 let flowObject = [{
     'hash': 'eee0e7f39c27094251da528777b601af',
-    'page': '/'
+    'path': '/'
   },
   {
     'hash': '27854c76cbca3908f89dec7c892481fc',
-    'page': '/instructions'
+    'path': '/instructions'
   },
   {
     'hash': '5d1fa2cf36a76cf9aaf00bfda1b3e11c',
-    'page': '/distractor'
+    'path': '/distractor'
   },
   {
     'hash': 'dd9bbc625b65c4f9cd90acae88e973a5',
-    'page': '/tetris'
+    'path': '/tetris'
   },
   {
     'hash': '8b1d40589e4bd30c997887c782316eb0',
-    'page': '/lineupinstructions'
+    'path': '/lineupinstructions'
   },
   {
     'hash': 'e4b8a9b6960a04ed4ec72a9d3c58d08f',
-    'page': '/lineup'
+    'path': '/lineup'
   },
   {
     'hash': 'e7ddcf0045e68bbc55be9ab368fdcb74',
-    'page': '/stimQuestions'
+    'path': '/stimQuestions'
   },
   {
     'hash': 'bafb037d3c1fbf836e0c695e486dd754',
-    'page': '/demographics'
+    'path': '/demographics'
   },
   {
     'hash': '2ed997101d1c0deadb96cdb0bf094b56',
-    'page': '/debrief'
+    'path': '/debrief'
   }
 ];
 
@@ -86,13 +90,13 @@ function getCurrentHash() {
 function getPathFromHash(hash) {
   for (var i in flowObject) {
     if (flowObject[i].hash == hash) {
-      return flowObject[i].page
+      return flowObject[i].path
     }
   }
   return null;
 }
 
-function getNextHash(currPage) {
+function getNextHash(currpath) {
   let currHash = getCurrentHash();
   for (var i in flowObject) {
     if (flowObject[i].hash == currHash) {
@@ -106,19 +110,28 @@ function setHash(hash) {
 }
 
 function redirect() {
-  if (firebaseInUse) {
+  if (redirectPaused) {
     window.setTimeout(redirect, 100);
   } else {
     window.location = getPathFromHash(getCurrentHash());
   }
 }
 
-// used on pages where there is no next button (video, 2048)
-function clickNext() {
-  document.getElementById("next-button").click();
+//helper functions for pausing and unpausing redirect
+function pauseRedirect() {
+  redirectPaused = true;
+}
+
+function resumeRedirect() {
+  redirectPaused = false
 }
 
 //my markup in my code LOL oh powell.
 window.onload = function() {
   document.getElementById("next-button").addEventListener("click", incrementFlow);
+}
+
+// used on pages where there is no next button (video, 2048)
+function clickNext() {
+  document.getElementById("next-button").click();
 }

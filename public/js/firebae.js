@@ -14,23 +14,11 @@ firebase.initializeApp(config);
 
 const database = firebase.database();
 
-function getUserData() {
-  return new Promise(function(resolve) {
-    firebase.auth().onAuthStateChanged(function(user) {
-      if (user) {
-        window.userId = user.uid;
-        firebase.database().ref("slider/" + window.userId + "/experiment type")
-          .once('value').then(function(snapshot) {
-            window.experimentType = snapshot.val();
-            resolve()
-          });
-      }
-    });
-  })
-}
+//change based on which branch you're on
+const experiment = 'slider/';
 
-//signifies that the current page requires firebase, should pause redirection
-let firebaseInUse;
+//signifies that the current page requires firebase,
+let firebaseInUse = false;
 
 // used to create a new user
 function createNewUser() {
@@ -46,9 +34,10 @@ function createNewUser() {
 }
 
 // helper function to put data into database
+// dataSet : {path: path to post to, data: data to post}
 function setDatabase(dataSet) {
   return new Promise(function(resolve, reject) {
-    database.ref('slider/' + dataSet.path).set(dataSet.data).then(e => {
+    database.ref(experiment + dataSet.path).set(dataSet.data).then(e => {
       firebaseCompleted();
     });
   });
@@ -57,9 +46,25 @@ function setDatabase(dataSet) {
 // setters for firebaseInUse
 function requiresFirebase() {
   getUserData();
-  firebaseInUse = true;
+  pauseRedirect();
 }
 
 function firebaseCompleted() {
-  firebaseInUse = false;
+  resumeRedirect();
+}
+
+// called when we know we'll need uid (or exptype) to put something into firebase
+function getUserData() {
+  return new Promise(function(resolve) {
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        window.userId = user.uid;
+        firebase.database().ref("slider/" + window.userId + "/experiment type")
+          .once('value').then(function(snapshot) {
+            window.experimentType = snapshot.val();
+            resolve()
+          });
+      }
+    });
+  })
 }
