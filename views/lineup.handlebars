@@ -140,7 +140,6 @@ getUserData().then(e => {
 })
 // initialize DOM based on exp type
 function initializeExperiment() {
-	window.experimentType = "tnp";
 	let lineup = getPics(window.experimentType);
 	addPics(lineup);
 	startTime = new Date();
@@ -203,10 +202,10 @@ function clearSelectedPictures() {
 // When the user clicks on not present, open the popup
 function showPopup() {
 	console.log(window.experimentType);
-	if (window.experimenetType === "stp" || window.experimentType === "tp") {
+	if (window.experimentType === "tp") {
 		var popup = document.getElementById("myPopup");
 		popup.classList.toggle("show");
-	} else {
+	} else if(window.experimentType === "tnp"){
 		var popup2 = document.getElementById("myPopup2");
 		popup2.classList.toggle("show");
 	}
@@ -316,13 +315,13 @@ document.getElementById('next-button').addEventListener('click', function() {
 	setDatabase({
 		'path': `${window.userId}/lineup`,
 		'data': {
-			"time": (window.experimentType.includes("s")) ? window.time : "N/A",
-			"selected filler": (window.experimentType.includes("s")) ? (!window.targetSelected && window.pictureSelected) : "N/A",
-			"checked 'not present'": (window.experimentType.includes("s")) ? window.radioSelected : "N/A",
-			"correct": (window.experimentType.includes("s")) ? ((window.experimentType.includes("tp")) ? window.targetSelected : window.radioSelected) : "N/A",
-			"confidence level": (window.experimentType.includes("s")) ? window.standardConfidence : "N/A",
-			"target confidence": (!window.experimentType.includes("s")) ? ((window.experimentType.includes("tp")) ? slider_value : "N/A") : "N/A",
-			"confidence ratings": (!(window.experimentType.includes("s"))) ? slider_value : "N/A"
+			"time": (window.experimentType.includes("s")) ? window.time : window.time,
+			"selected filler": (window.experimentType.includes("s")) ? (!window.targetSelected && window.pictureSelected) : "no",
+			"checked 'not present'": (window.experimentType.includes("s")) ? window.radioSelected : "yes",
+			"correct": (window.experimentType.includes("s")) ? ((window.experimentType.includes("tp")) ? window.targetSelected : window.radioSelected) : "no",
+			"selected target": (window.experimentType.includes("s")) ? (window.targetSelected) : window.targetSelected,
+			"confidence level": (window.experimentType.includes("s")) ? window.standardConfidence : slider_value,
+			//"target confidence": (!window.experimentType.includes("s")) ? ((window.experimentType.includes("tp")) ? slider_value : "N/A"),
 		}
 	});
 });
@@ -336,13 +335,12 @@ document.getElementById('next-button1').addEventListener('click', function() {
 	setDatabase({
 		'path': `${window.userId}/lineup`,
 		'data': {
-			"time": (window.experimentType.includes("s")) ? window.time : "N/A",
-			"selected filler": (window.experimentType.includes("s")) ? (!window.targetSelected && window.pictureSelected) : "N/A",
-			"checked 'not present'": (window.experimentType.includes("s")) ? window.radioSelected : "N/A",
-			"correct": (window.experimentType.includes("s")) ? ((window.experimentType.includes("tp")) ? window.targetSelected : window.radioSelected) : "N/A",
-			"confidence level": (window.experimentType.includes("s")) ? window.standardConfidence : "N/A",
-			"target confidence": (!window.experimentType.includes("s")) ? ((window.experimentType.includes("tp")) ? conf_slider_value : "N/A") : "N/A",
-			"confidence ratings": (!(window.experimentType.includes("s"))) ? conf_slider_value : "N/A"
+			"time": (window.experimentType.includes("s")) ? window.time : window.time,
+			"selected filler": (window.experimentType.includes("s")) ? (!window.targetSelected && window.pictureSelected) : !window.targetSelected,
+			"checked 'not present'": (window.experimentType.includes("s")) ? window.radioSelected : window.radioSelected,
+			"correct": (window.experimentType.includes("tp")) ? window.targetSelected : window.radioSelected,
+			"selected target": (window.experimentType.includes("tp")) ? window.targetSelected : "N/A",
+			"confidence level": (window.experimentType.includes("s")) ? (conf_slider_value): conf_slider_value,
 		}
 	});
 });
@@ -356,11 +354,11 @@ document.getElementById('next-button2').addEventListener('click', function() {
 	setDatabase({
 		'path': `${window.userId}/lineup`,
 		'data': {
-			"time": (window.experimentType.includes("s")) ? window.time : "N/A",
-			"selected filler": (window.experimentType.includes("s")) ? (!window.targetSelected && window.pictureSelected) : "N/A",
+			"time": (window.experimentType.includes("s")) ? window.time : window.time,
+			"selected filler": (window.experimentType.includes("s")) ? (!window.targetSelected && window.pictureSelected) : "no",
 			"checked 'not present'": (window.experimentType.includes("s")) ? window.radioSelected : "yes",
 			"correct": (window.experimentType.includes("s")) ? ((window.experimentType.includes("tp")) ? window.targetSelected : window.radioSelected) : "yes",
-			"confidence level": (window.experimentType.includes("s")) ? window.standardConfidence : "N/A",
+			"selected target": (window.experimentType.includes("s")) ? (window.targetSelected) : "N/A",
 			"confidence ratings": (!(window.experimentType.includes("s"))) ? popup2_slider_value : "N/A"
 		}
 	});
