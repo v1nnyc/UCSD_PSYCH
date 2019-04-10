@@ -72,8 +72,8 @@ function checkUserFlow() {
 
 // sets new hash in session storage and then redirects to that page
 function incrementFlow() {
-  setHash(getNextHash());
-  redirect();
+  // setHash(getNextHash());
+  // redirect();
 }
 
 
