@@ -8,6 +8,8 @@ Instructions:
 // while true, all page redirection in userflow is paused
 let redirectPaused = false;
 
+let debug = false;
+
 let flowObject = [{
     'hash': 'eee0e7f39c27094251da528777b601af',
     'path': '/'
@@ -76,8 +78,11 @@ function checkUserFlow() {
 
 // sets new hash in session storage and then redirects to that page
 function incrementFlow() {
-  setHash(getNextHash());
-  redirect();
+  if (!debug) {
+    setHash(getNextHash());
+    redirect();
+  }
+
 }
 
 
