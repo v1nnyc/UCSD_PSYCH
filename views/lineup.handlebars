@@ -83,8 +83,10 @@
 		</div>
 		<!--radio button for target not present that when clicked, will call the popup -->
 		<div class="form-check mt-3" id="standard">
-			<input id="notPresentCheck" class="form-check-input" type="radio" onclick="radioClicked()" data-toggle="modal" data-target="#exampleModalCenter" style="width:20px; height: 20px; border-radius: 4px; background-color: lightgrey; " />
-			<label class="form-check-label mt-1" style="font-size: 1.25rem; margin-top: 0.4rem">Check here <strong>if the person is not present</strong></label>
+			<div class="form-check mt-3">
+				<input id="notPresentCheck" class="form-check-input" type="checkbox" onclick="radioClicked()" data-toggle="modal" data-target="#exampleModalCenter" data-backdrop="static" data-keyboard="false" style="width:20px; height: 20px; border-radius: 4px; background-color: lightgrey; margin-top: 11px; " />
+				<label class="form-check-label mt-1" style="font-size: 1.25rem; margin-top: 0.4rem">Check here <strong>if the person is not present</strong></label>
+			</div>
 		</div>
 
 		<!-- next button to relocate to debrief -->
