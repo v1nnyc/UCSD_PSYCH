@@ -40,9 +40,8 @@
 <body>
 	<div class="container">
 		<div class="row">
-			<h5>Please rate how confident you are that the woman below is the woman in the video </h5>
+			<h5 id="instructions">If you see the man from the video, please click on his face. Otherwise, select the not present option below. </h5>
 			</br>
-			<h5> 0% - I guessed, 100% absolutely certain</h5>
 		</div>
 		<!-- Row 1, Col 1. -->
 		<div class="row justify-content-between">
@@ -107,7 +106,7 @@
 		</div>
 		<div class="row" id="confidence-slider" hidden>
 			<div class="form-check mt-3">
-				<h5>How certain are you?</h5>
+				<h5>How certain are you? (0% = completely unsure, 100% = completely sure) </h5>
 				<input type="range" min="0" max="100" value="50" class="slider" id="slider6" oninput="changeSlider(this)">
 				<p id="not-selected">Value: <span id="slider6-output"></span></p>
 			</div>
@@ -128,8 +127,8 @@
 
 		// initialize DOM based on exp type
 		function initializeExperiment() {
-			let lineup = getPics(window.experimentType);
-			addPics(lineup);
+			populateInstructions();
+			addPics(getPics(window.experimentType));
 			startTime = new Date();
 			window.radioSelected = false;
 			window.pictureSelected = false;
@@ -144,6 +143,16 @@
 				case false:
 					showSliders();
 					break;
+			}
+		}
+
+		function populateInstructions(){
+			let instructions = document.getElementById('instructions').innerHTML;
+			if(window.experimentType.includes('s')){
+				instructions = `If you see the man from the video, please click on his face. Otherwise, select the not present option below.`;
+			} else {
+				instructions = `For each face, please use the slider to provide a rating
+			(0% = definitely NOT the man from the video, 100% = definitely the man from the video)`
 			}
 		}
 
