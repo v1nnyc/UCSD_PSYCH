@@ -72,7 +72,9 @@ function initializeFlow() {
 // called at the beginning of each page to make sure the user is on the correct page
 function checkUserFlow() {
   if (window.location.pathname != getPathFromHash(getCurrentHash())) {
-    redirect();
+    if (!debug) {
+      redirect();
+    }
   }
 }
 
