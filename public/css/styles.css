@@ -21,6 +21,7 @@ body {
 /* The actual popup (appears on top) */
 .popup .popuptext {
   visibility: hidden;
+  height: 80%;
   width: 80%;
   background-color: #555;
   color: #fff;
@@ -29,7 +30,7 @@ body {
   padding: 8px 0;
   position: absolute;
   z-index: 1;
-  bottom: 125%;
+  bottom: 200%;
   /*left: 50%;*/
   margin-left: -80px;
 }
