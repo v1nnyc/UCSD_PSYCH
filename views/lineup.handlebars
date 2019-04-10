@@ -74,20 +74,21 @@
 				<img class="filler" id='5' src='media/fillers/blank.png'>
 			</div>
 		</div>
-		<div class="row" id="confidence-slider" hidden>
-			<div class="form-check mt-3">
-				<h5>How certain are you?</h5>
-				<input type="range" min="0" max="100" value="50" class="slider" id="confidence_slider" oninput="changeSlider(this)">
-				<p id="not-selected">Value: <span id="confidence_slider-output"></span></p>
-			</div>
-		</div>
 		<!--radio button for target not present that when clicked, will call the popup -->
 		<div class="form-check mt-3" id="standard">
 			<div class="form-check mt-3">
-				<input id="notPresentCheck" class="form-check-input" type="checkbox" onclick="radioClicked()" data-toggle="modal" data-target="#exampleModalCenter" data-backdrop="static" data-keyboard="false" style="width:20px; height: 20px; border-radius: 4px; background-color: lightgrey; margin-top: 11px; " />
+				<input id="notPresentCheck" class="form-check-input" type="checkbox" onclick="radioClicked()" style="width:20px; height: 20px; border-radius: 4px; background-color: lightgrey; margin-top: 11px; " />
 				<label class="form-check-label mt-1" style="font-size: 1.25rem; margin-top: 0.4rem">Check here <strong>if the person is not present</strong></label>
 			</div>
 		</div>
+		<div class="row" id="confidence-slider-div" hidden>
+			<div class="form-check mt-3">
+				<h5>How certain are you?</h5>
+				<input type="range" min="0" max="100" value="50" class="slider" id="confidence-slider" oninput="changeSlider(this)">
+				<p id="not-selected">Value: <span id="confidence-slider-output"></span></p>
+			</div>
+		</div>
+
 
 		<!-- next button to relocate to debrief -->
 		<div class="row">
@@ -95,7 +96,7 @@
 		</div>
 
 		<!-- Modal -->
-		<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+		<div class="modal fade" id="popup" tabindex="-1" role="dialog" aria-labelledby="popupTitle" aria-hidden="true" data-backdrop="static" data-keyboard="false">
 			<div class="modal-dialog modal-dialog-centered" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
@@ -107,12 +108,12 @@
 					<div class="modal-footer">
 						<div class="col-8">
 							<div class="row" id="confidence-slider" style="margin-left:20px; margin-right: 20px;">
-								<input type="range" min="0" max="100" value="50" class="slider" id="popup2_slider" oninput="changeSliderInPopup2(this)">
-								<p id="not-selected">Value: <span id="popup2_slider-output"></span></p>
+								<input type="range" min="0" max="100" value="50" class="slider" id="popup-slider" oninput="changeSlider(this)">
+								<p id="not-selected">Value: <span id="popup-slider-output"></span></p>
 							</div>
 						</div>
 						<div class="col-4">
-							<input id="next-button" class="btn btn-primary" type="submit" name="formSubmit" value="Next" hidden />
+							<input id="next-button1" onclick="incrementFlow()" class="btn btn-primary" type="submit" name="formSubmit" value="Next" style="width:100%" disabled />
 						</div>
 					</div>
 				</div>
@@ -127,6 +128,7 @@
 		getUserData().then(e => {
 			initializeExperiment();
 		})
+
 		// initialize DOM based on exp type
 		function initializeExperiment() {
 			let lineup = getPics(window.experimentType);
@@ -138,6 +140,10 @@
 			makePicturesSelectable();
 			showNonePresentButton();
 			pickPopupPic();
+			if(!window.experimentType.includes('s')){
+				$("#notPresentCheck").attr("data-toggle", "modal");
+				$("#notPresentCheck").attr("data-target", "#popup");
+			}
 		}
 
 		function pickPopupPic() {
@@ -197,11 +203,12 @@
 		}
 
 		function showConfidenceSlider() {
-			document.getElementById("confidence-slider").hidden = false;
+			document.getElementById("confidence-slider-div").hidden = false;
 		}
 
 		function radioClicked() {
 			clearSelectedPictures();
+			document.getElementById('next-button').hidden = true;
 			console.log(window.experimentType);
 			if (window.experimentType === "tp" || window.experimentType === "tnp") {
 				window.radioSelected = true;
@@ -216,29 +223,19 @@
 				stopTime();
 			}
 		}
-		//function that changes the value of the slider in the popup element if popup is target
-		function changeSliderInPopup(element) {
-			let curr_output = document.getElementById('popup_slider-output');
-			curr_output.innerHTML = element.value + "%";
-			curr_output.parentNode.id = "selected";
-			document.getElementById("next-button").hidden = false;
-			window.standardConfidence = element.value;
-		}
-		//function that changes the value of the slider in the popup element if popup is filler
-		function changeSliderInPopup2(element) {
-			let curr_output2 = document.getElementById('popup2_slider-output');
-			curr_output2.innerHTML = element.value + "%";
-			curr_output2.parentNode.id = "selected";
-			document.getElementById("next-button2").hidden = false;
-			window.standardConfidence = element.value;
-		}
 		//function that changes the value of the slider for confidence of
 		//selection in lineup
 		function changeSlider(element) {
-			let curr_output1 = document.getElementById('confidence_slider-output');
-			curr_output1.innerHTML = element.value + "%";
-			curr_output1.parentNode.id = "selected";
-			document.getElementById("next-button1").hidden = false;
+			let curr_output = document.getElementById(element.id + '-output');
+			curr_output.innerHTML = element.value + "%";
+			curr_output.parentNode.id = "selected";
+
+			if(element.id.includes("popup")){
+				element.parentNode.parentNode.parentNode.childNodes[3].childNodes[1].disabled = false;
+			} else {
+				document.getElementById("next-button").hidden = false;
+			}
+
 			window.standardConfidence = element.value;
 		}
 		// used to shuffle array of mugshot pics
@@ -299,8 +296,21 @@
 		/**the next button that is displayed if user checks 'not present' box
 		the popup that is displayed in this case is the target, so this executes
 		in "tp" experiments ONLY **/
+		document.getElementById('next-button1').addEventListener('click', function() {
+			set(document.getElementById("popup-slider").value);
+		});
+
+		/**the next button that is displayed if user selects an ID in ALL types of
+		experiments (tp, tnp, stp, and stnp), or if the user checks 'not present'
+		in the standard experiment (stp, stnp). In this case, no popup appears, and
+		the next button will only be displayed once the confidence slider has been
+		used.**/
 		document.getElementById('next-button').addEventListener('click', function() {
-			let slider_value = document.getElementById("popup_slider").value;
+			set(document.getElementById("confidence-slider").value);
+		});
+
+		function set(slider_value){
+			console.log(slider_value)
 			setDatabase({
 				'path': `${window.userId}/lineup`,
 				'data': {
@@ -313,45 +323,8 @@
 					//"target confidence": (!window.experimentType.includes("s")) ? ((window.experimentType.includes("tp")) ? slider_value : "N/A"),
 				}
 			});
-		});
-		/**the next button that is displayed if user selects an ID in ALL types of
-		experiments (tp, tnp, stp, and stnp), or if the user checks 'not present'
-		in the standard experiment (stp, stnp). In this case, no popup appears, and
-		the next button will only be displayed once the confidence slider has been
-		used.**/
-		document.getElementById('next-button1').addEventListener('click', function() {
-			let conf_slider_value = document.getElementById("confidence_slider").value;
-			setDatabase({
-				'path': `${window.userId}/lineup`,
-				'data': {
-					"time": (window.experimentType.includes("s")) ? window.time : window.time,
-					"selected filler": (window.experimentType.includes("s")) ? (!window.targetSelected && window.pictureSelected) : (!window.targetSelected && window.pictureSelected),
-					"checked 'not present'": (window.experimentType.includes("s")) ? window.radioSelected : window.radioSelected,
-					"correct": (window.experimentType.includes("tp")) ? window.targetSelected : window.radioSelected,
-					"selected target": (window.experimentType.includes("tp")) ? window.targetSelected : "N/A",
-					"confidence level": (window.experimentType.includes("s")) ? (conf_slider_value) : conf_slider_value,
-				}
-			});
-		});
-		/**the next button that is displayed if user checks 'not present' box
-		the popup that is displayed in this case is a random filler from the lineup.
-		so this executes in "tnp" experiments ONLY **/
-		document.getElementById('next-button2').addEventListener('click', function() {
-			/**stores the value of the slider in the popup (i.e. how confident the user
-			is that the filler in the popup was not the suspect) **/
-			let popup2_slider_value = document.getElementById("popup2_slider").value;
-			setDatabase({
-				'path': `${window.userId}/lineup`,
-				'data': {
-					"time": (window.experimentType.includes("s")) ? window.time : window.time,
-					"selected filler": (window.experimentType.includes("s")) ? (!window.targetSelected && window.pictureSelected) : (!window.targetSelected && window.pictureSelected),
-					"checked 'not present'": (window.experimentType.includes("s")) ? window.radioSelected : window.radioSelected,
-					"correct": (window.experimentType.includes("tp")) ? window.targetSelected : window.radioSelected,
-					"selected target": (window.experimentType.includes("s")) ? (window.targetSelected) : "N/A",
-					"confidence ratings": (window.experimentType.includes("s")) ? popup2_slider_value : popup2_slider_value,
-				}
-			});
-		});
+		}
+
 	</script>
 
 </body>
