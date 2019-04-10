@@ -1,370 +1,356 @@
-
 <html>
 <meta charset="utf-8">
 
 <head>
-<script src="https://www.gstatic.com/firebasejs/5.7.2/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/5.7.2/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/5.7.2/firebase-database.js"></script>
-<script src="https://www.gstatic.com/firebasejs/5.7.2/firebase-firestore.js"></script>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-<link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
-<link rel="stylesheet" href="css/styles.css" type="text/css" />
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
-<script src="js/firebae.js"></script>
-<script src="js/userflowcontrol.js"></script>
-<script>
-requiresFirebase();
-</script>
-<style>
-img {
-	width: 100%;
-}
-#not-selected {
-	font-size: 25px;
-	color: red;
-}
-#selected {
-	font-size: 15px;
-	color: black;
-}
-p span {
-	color: #64f24f;
-	font-size: 30px;
-}
-</style>
+	<script src="https://www.gstatic.com/firebasejs/5.7.2/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/5.7.2/firebase-auth.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/5.7.2/firebase-database.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/5.7.2/firebase-firestore.js"></script>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
+	<link rel="stylesheet" href="css/styles.css" type="text/css" />
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+	<script src="js/firebae.js"></script>
+	<script src="js/userflowcontrol.js"></script>
+	<script>
+		requiresFirebase();
+	</script>
+	<style>
+		img {
+			width: 100%;
+		}
+
+		#not-selected {
+			font-size: 25px;
+			color: red;
+		}
+
+		#selected {
+			font-size: 15px;
+			color: black;
+		}
+
+		p span {
+			color: #64f24f;
+			font-size: 30px;
+		}
+	</style>
 </head>
 
 <body>
-<div class="container">
-<div class="row">
-	<h5>Which of the following men is the man from the video? </h5>
-</div>
-<!-- Row 1, Col 1. -->
-<div class="row justify-content-between">
-	<div class="col-md-4">
-		<img class="filler" id='0' src='media/fillers/blank.png'>
-	</div>
-	<!-- Row 1, Col 2 -->
-	<div class="col-md-4">
-		<img class="filler" id='1' src='media/fillers/blank.png'>
-	</div>
-	<!-- Row 1, Col 3 -->
-	<div class="col-md-4">
-		<img class="filler" id='2' src='media/fillers/blank.png'>
-	</div>
-</div>
-</br>
-<!-- Row 2, Col 1 -->
-<div class="row justify-content-between">
-	<div class="col-md-4">
-		<img class="filler" id='3' src='media/fillers/blank.png'>
-	</div>
-	<!-- Row 2, Col 2 -->
-	<div class="col-md-4">
-		<img class="filler" id='4' src='media/fillers/blank.png'>
-	</div>
-	<!-- Row 2, Col 3 -->
-	<div class="col-md-4">
-		<img class="filler" id='5' src='media/fillers/blank.png'>
-	</div>
-</div>
-<div class="row" id="confidence-slider" hidden>
-	<div class="form-check mt-3">
-		<h5>How certain are you?</h5>
-		<input type="range" min="0" max="100" value="50" class="slider" id="confidence_slider" oninput="changeSlider(this)">
-		<p id="not-selected">Value: <span id="confidence_slider-output"></span></p>
-	</div>
-</div>
-<!--radio button for target not present that when clicked, will call the popup -->
-<div class="form-check mt-3" id="standard">
-	<input id="notPresentCheck" class="form-check-input" type="radio" onclick="radioClicked()" style="width:20px; height: 20px; border-radius: 4px; background-color: lightgrey; " />
-	<label class="form-check-label mt-1" style="font-size: 1.25rem; margin-top: 0.4rem">Check here <strong>if the person is not present</strong></label>
-</div>
-
-<!-- next button to relocate to debrief -->
-<div class="row">
-		<input id="next-button1" class="btn btn-primary" type="submit" name="formSubmit" value="Next" hidden />
-</div>
-
-<!--Popup that displays the target suspect, if experiment type is tp or stp -->
-<div class="popup" style="margin-left:100px; height: 130%; width: 100%;">
 	<div class="container">
-		<span class="popuptext" id="myPopup">
-			<div class="col-lg">
-				<img src='media/target.jpg' style="width: 50%; height: 75%;">
-				<h4 style="margin-bottom:25px;">
-					How certain are you that this is NOT the man from the video?
-				</h4>
+		<div class="row">
+			<h5>Which of the following men is the man from the video? </h5>
+		</div>
+		<!-- Row 1, Col 1. -->
+		<div class="row justify-content-between">
+			<div class="col-md-4">
+				<img class="filler" id='0' src='media/fillers/blank.png'>
 			</div>
-			<div class="row" id="confidence-slider" style="margin-left:20px; margin-right: 20px;">
-				<input type="range" min="0" max="100" value="50" class="slider" id="popup_slider" oninput="changeSliderInPopup(this)">
-				<p id="not-selected">Value: <span id="popup_slider-output"></span></p>
+			<!-- Row 1, Col 2 -->
+			<div class="col-md-4">
+				<img class="filler" id='1' src='media/fillers/blank.png'>
 			</div>
+			<!-- Row 1, Col 3 -->
+			<div class="col-md-4">
+				<img class="filler" id='2' src='media/fillers/blank.png'>
+			</div>
+		</div>
+		</br>
+		<!-- Row 2, Col 1 -->
+		<div class="row justify-content-between">
+			<div class="col-md-4">
+				<img class="filler" id='3' src='media/fillers/blank.png'>
+			</div>
+			<!-- Row 2, Col 2 -->
+			<div class="col-md-4">
+				<img class="filler" id='4' src='media/fillers/blank.png'>
+			</div>
+			<!-- Row 2, Col 3 -->
+			<div class="col-md-4">
+				<img class="filler" id='5' src='media/fillers/blank.png'>
+			</div>
+		</div>
+		<div class="row" id="confidence-slider" hidden>
+			<div class="form-check mt-3">
+				<h5>How certain are you?</h5>
+				<input type="range" min="0" max="100" value="50" class="slider" id="confidence_slider" oninput="changeSlider(this)">
+				<p id="not-selected">Value: <span id="confidence_slider-output"></span></p>
+			</div>
+		</div>
+		<!--radio button for target not present that when clicked, will call the popup -->
+		<div class="form-check mt-3" id="standard">
+			<input id="notPresentCheck" class="form-check-input" type="radio" onclick="radioClicked()" data-toggle="modal" data-target="#exampleModalCenter" style="width:20px; height: 20px; border-radius: 4px; background-color: lightgrey; " />
+			<label class="form-check-label mt-1" style="font-size: 1.25rem; margin-top: 0.4rem">Check here <strong>if the person is not present</strong></label>
+		</div>
+
+		<!-- next button to relocate to debrief -->
+		<div class="row">
 			<input id="next-button" class="btn btn-primary" type="submit" name="formSubmit" value="Next" hidden />
-		</span>
-	</div>
-</div>
+		</div>
 
-<!--Popup that displays a filler suspect, if experiment type is tnp or stnp -->
-<div class="popup2" style="margin-left: 100px; height: 130%; width: 100%;">
-	<div class="container">
-		<span class="popup2text" id="myPopup2">
-			<!--if target not present, image should not be target. -->
-			<div class="col-lg">
-				<img id="popup-pic" src="" style="width:50%; height: 75%">
-				<h4 style="margin-bottom:25px;">
-					How certain are you that this is NOT the man from the video?
-				</h4>
+		<!-- Modal -->
+		<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h6 class="modal-title" id="exampleModalLongTitle">How certain are you that this is NOT the man from the video?</h6>
+					</div>
+					<div class="modal-body">
+						<img id="popup-pic" src="media/fillers/1.jpg" class="rounded mx-auto d-block" style="width:60%; height: 60%">
+					</div>
+					<div class="modal-footer">
+						<div class="col-8">
+							<div class="row" id="confidence-slider" style="margin-left:20px; margin-right: 20px;">
+								<input type="range" min="0" max="100" value="50" class="slider" id="popup2_slider" oninput="changeSliderInPopup2(this)">
+								<p id="not-selected">Value: <span id="popup2_slider-output"></span></p>
+							</div>
+						</div>
+						<div class="col-4">
+							<input id="next-button" class="btn btn-primary" type="submit" name="formSubmit" value="Next" hidden />
+						</div>
+					</div>
+				</div>
 			</div>
-			<div class="row" id="confidence-slider" style="margin-left:20px; margin-right: 20px;">
-				<input type="range" min="0" max="100" value="50" class="slider" id="popup2_slider" oninput="changeSliderInPopup2(this)">
-				<p id="not-selected">Value: <span id="popup2_slider-output"></span></p>
-			</div>
-			<input id="next-button2" class="btn btn-primary" type="submit" name="formSubmit" value="Next" hidden />
-		</span>
+		</div>
+
 	</div>
-</div>
 
-</div>
-
-<script>
-function pickRandom(){
-	let pictures = document.getElementsByClassName('filler');
-	return pictures[Math.floor(Math.random()*pictures.length)].src;
-}
-// used for measuring time between pic render and choice
-let startTime;
-getUserData().then(e => {
-	initializeExperiment();
-})
-// initialize DOM based on exp type
-function initializeExperiment() {
-	let lineup = getPics(window.experimentType);
-	addPics(lineup);
-	startTime = new Date();
-	window.radioSelected = false;
-	window.pictureSelected = false;
-	window.targetSelected = false;
-	document.getElementById("popup-pic").src = pickRandom();
-	// check if standard exp
-	switch (window.experimentType.includes("s")) {
-		case true:
-			makePicturesSelectable();
-			showNonePresentButton();
-			break;
-		case false:
-			makePicturesSelectable();
-			showNonePresentButton();
-			break;
-	}
-}
-function makePicturesSelectable() {
-	let pictures = document.getElementsByTagName("img");
-	for (let picture in pictures) {
-		let curr_pic = pictures[picture];
-		curr_pic.onclick = function() {
-			selectedPicture(this);
-			checkIfTarget(this);
-			window.pictureSelected = true;
+	<script>
+		// used for measuring time between pic render and choice
+		let startTime;
+		getUserData().then(e => {
+			initializeExperiment();
+		})
+		// initialize DOM based on exp type
+		function initializeExperiment() {
+			let lineup = getPics(window.experimentType);
+			addPics(lineup);
+			startTime = new Date();
 			window.radioSelected = false;
+			window.pictureSelected = false;
+			window.targetSelected = false;
+			makePicturesSelectable();
+			showNonePresentButton();
+			pickPopupPic();
 		}
-	}
-}
-function showNonePresentButton() {
-	document.getElementById("standard").hidden = false;
-}
-function selectedPicture(imgElement) {
-	clearSelectedPictures();
-	unselectBox();
-	imgElement.style["border"] = "5px solid red";
-	showConfidenceSlider();
-	stopTime();
-}
-function checkIfTarget(imgElement) {
-	window.targetSelected = false;
-	if ((imgElement.src).includes("target")) {
-		window.targetSelected = true;
-	}
-}
-function unselectBox() {
-	document.getElementById("notPresentCheck").checked = false;
-}
-function clearSelectedPictures() {
-	let pictures = document.getElementsByTagName("img");
-	for (let picture in pictures) {
-		let curr_pic = pictures[picture];
-		if (curr_pic.style) {
-			curr_pic.style.border = "";
+
+		function pickPopupPic() {
+			let pic = document.getElementById("popup-pic");
+			if (window.experimentType.includes("np")) {
+				let pictures = document.getElementsByClassName('filler');
+				pic.src = pictures[Math.floor(Math.random() * pictures.length)].src;
+			} else {
+				pic.src = "media/target.jpg"
+			}
 		}
-	}
-}
-// When the user clicks on not present, open the popup
-function showPopup() {
-	console.log(window.experimentType);
-	if (window.experimentType === "tp") {
-		var popup = document.getElementById("myPopup");
-		popup.classList.toggle("show");
-	} else if(window.experimentType === "tnp"){
-		var popup2 = document.getElementById("myPopup2");
-		popup2.classList.toggle("show");
-	}
-}
-function showConfidenceSlider() {
-	document.getElementById("confidence-slider").hidden = false;
-}
-function radioClicked() {
-	clearSelectedPictures();
-	console.log(window.experimentType);
-	if (window.experimentType === "tp" || window.experimentType === "tnp") {
-		showPopup();
-		window.radioSelected = true;
-		window.pictureSelected = false;
-		window.targetSelected = false;
-		stopTime();
-	} else {
-		showConfidenceSlider();
-		window.radioSelected = true;
-		window.pictureSelected = false;
-		window.targetSelected = false;
-		stopTime();
-	}
-}
-//function that changes the value of the slider in the popup element if popup is target
-function changeSliderInPopup(element) {
-	let curr_output = document.getElementById('popup_slider-output');
-	curr_output.innerHTML = element.value + "%";
-	curr_output.parentNode.id = "selected";
-	document.getElementById("next-button").hidden = false;
-	window.standardConfidence = element.value;
-}
-//function that changes the value of the slider in the popup element if popup is filler
-function changeSliderInPopup2(element) {
-	let curr_output2 = document.getElementById('popup2_slider-output');
-	curr_output2.innerHTML = element.value + "%";
-	curr_output2.parentNode.id = "selected";
-	document.getElementById("next-button2").hidden = false;
-	window.standardConfidence = element.value;
-}
-//function that changes the value of the slider for confidence of
-//selection in lineup
-function changeSlider(element) {
-	let curr_output1 = document.getElementById('confidence_slider-output');
-	curr_output1.innerHTML = element.value + "%";
-	curr_output1.parentNode.id = "selected";
-	document.getElementById("next-button1").hidden = false;
-	window.standardConfidence = element.value;
-}
-// used to shuffle array of mugshot pics
-function shuffle(array) {
-	var currentIndex = array.length,
-		temporaryValue, randomIndex;
-	// While there remain elements to shuffle...
-	while (0 !== currentIndex) {
-		// Pick a remaining element...
-		randomIndex = Math.floor(Math.random() * currentIndex);
-		currentIndex -= 1;
-		// And swap it with the current element.
-		temporaryValue = array[currentIndex];
-		array[currentIndex] = array[randomIndex];
-		array[randomIndex] = temporaryValue;
-	}
-	return array;
-}
-// picks pictures for experiment
-function getPics(experimentType) {
-	let lineup = [];
-	if (experimentType.includes("tp")) {
-		lineup.push("media/target.jpg");
-	}
-	while (lineup.length < 6) {
-		let pic = "media/fillers/" + Math.floor((Math.random() * 60) + 1) + ".jpg";
-		// prevent duplicates by checking if pic is already in lineup
-		if (!lineup.includes(pic)) {
-			lineup.push(pic);
+
+		function makePicturesSelectable() {
+			let pictures = document.getElementsByTagName("img");
+			for (let picture in pictures) {
+				let curr_pic = pictures[picture];
+				curr_pic.onclick = function() {
+					selectedPicture(this);
+					checkIfTarget(this);
+					window.pictureSelected = true;
+					window.radioSelected = false;
+				}
+			}
 		}
-	}
-	return shuffle(lineup);
-}
-function addPics(lineup) {
-	for (let pic in lineup) {
-		document.getElementById(pic).src = lineup[pic];
-	}
-}
-function getImage() {
-	let img;
-	if (window.experimentType === "stp" || window.experimentType === "tp")
-		img = "media/target.jpg";
-	else {
-		img = "media/fillers/2.jpg";
-	}
-	return img;
-}
-// called when a choice has been made by a user
-function stopTime() {
-	endTime = new Date();
-	var seconds = endTime - startTime; //in ms
-	// strip the ms
-	seconds /= 1000;
-	window.time = seconds;
-}
-/**the next button that is displayed if user checks 'not present' box
-the popup that is displayed in this case is the target, so this executes
-in "tp" experiments ONLY **/
-document.getElementById('next-button').addEventListener('click', function() {
-	let slider_value = document.getElementById("popup_slider").value;
-	setDatabase({
-		'path': `${window.userId}/lineup`,
-		'data': {
-			"time": (window.experimentType.includes("s")) ? window.time : window.time,
-			"selected filler": (window.experimentType.includes("s")) ? (!window.targetSelected && window.pictureSelected) : (!window.targetSelected && window.pictureSelected),
-			"checked 'not present'": (window.experimentType.includes("s")) ? window.radioSelected : window.radioSelected,
-			"correct": (window.experimentType.includes("tp")) ? window.targetSelected : window.radioSelected,
-			"selected target": (window.experimentType.includes("s")) ? (window.targetSelected) : window.targetSelected,
-			"confidence level": (window.experimentType.includes("s")) ? window.standardConfidence : slider_value,
-			//"target confidence": (!window.experimentType.includes("s")) ? ((window.experimentType.includes("tp")) ? slider_value : "N/A"),
+
+		function showNonePresentButton() {
+			document.getElementById("standard").hidden = false;
 		}
-	});
-});
-/**the next button that is displayed if user selects an ID in ALL types of
-experiments (tp, tnp, stp, and stnp), or if the user checks 'not present'
-in the standard experiment (stp, stnp). In this case, no popup appears, and
-the next button will only be displayed once the confidence slider has been
-used.**/
-document.getElementById('next-button1').addEventListener('click', function() {
-	let conf_slider_value = document.getElementById("confidence_slider").value;
-	setDatabase({
-		'path': `${window.userId}/lineup`,
-		'data': {
-			"time": (window.experimentType.includes("s")) ? window.time : window.time,
-			"selected filler": (window.experimentType.includes("s")) ? (!window.targetSelected && window.pictureSelected) : (!window.targetSelected && window.pictureSelected),
-			"checked 'not present'": (window.experimentType.includes("s")) ? window.radioSelected : window.radioSelected,
-			"correct": (window.experimentType.includes("tp")) ? window.targetSelected : window.radioSelected,
-			"selected target": (window.experimentType.includes("tp")) ? window.targetSelected : "N/A",
-			"confidence level": (window.experimentType.includes("s")) ? (conf_slider_value): conf_slider_value,
+
+		function selectedPicture(imgElement) {
+			clearSelectedPictures();
+			unselectBox();
+			imgElement.style["border"] = "5px solid red";
+			showConfidenceSlider();
+			stopTime();
 		}
-	});
-});
-/**the next button that is displayed if user checks 'not present' box
-the popup that is displayed in this case is a random filler from the lineup.
-so this executes in "tnp" experiments ONLY **/
-document.getElementById('next-button2').addEventListener('click', function() {
-	/**stores the value of the slider in the popup (i.e. how confident the user
-	is that the filler in the popup was not the suspect) **/
-	let popup2_slider_value = document.getElementById("popup2_slider").value;
-	setDatabase({
-		'path': `${window.userId}/lineup`,
-		'data': {
-			"time": (window.experimentType.includes("s")) ? window.time : window.time,
-			"selected filler": (window.experimentType.includes("s")) ? (!window.targetSelected && window.pictureSelected) : (!window.targetSelected && window.pictureSelected),
-			"checked 'not present'": (window.experimentType.includes("s")) ? window.radioSelected : window.radioSelected,
-			"correct": (window.experimentType.includes("tp")) ? window.targetSelected : window.radioSelected,
-			"selected target": (window.experimentType.includes("s")) ? (window.targetSelected) : "N/A",
-			"confidence ratings": (window.experimentType.includes("s")) ? popup2_slider_value : popup2_slider_value,
+
+		function checkIfTarget(imgElement) {
+			window.targetSelected = false;
+			if ((imgElement.src).includes("target")) {
+				window.targetSelected = true;
+			}
 		}
-	});
-});
-</script>
+
+		function unselectBox() {
+			document.getElementById("notPresentCheck").checked = false;
+		}
+
+		function clearSelectedPictures() {
+			let pictures = document.getElementsByTagName("img");
+			for (let picture in pictures) {
+				let curr_pic = pictures[picture];
+				if (curr_pic.style) {
+					curr_pic.style.border = "";
+				}
+			}
+		}
+
+		function showConfidenceSlider() {
+			document.getElementById("confidence-slider").hidden = false;
+		}
+
+		function radioClicked() {
+			clearSelectedPictures();
+			console.log(window.experimentType);
+			if (window.experimentType === "tp" || window.experimentType === "tnp") {
+				window.radioSelected = true;
+				window.pictureSelected = false;
+				window.targetSelected = false;
+				stopTime();
+			} else {
+				showConfidenceSlider();
+				window.radioSelected = true;
+				window.pictureSelected = false;
+				window.targetSelected = false;
+				stopTime();
+			}
+		}
+		//function that changes the value of the slider in the popup element if popup is target
+		function changeSliderInPopup(element) {
+			let curr_output = document.getElementById('popup_slider-output');
+			curr_output.innerHTML = element.value + "%";
+			curr_output.parentNode.id = "selected";
+			document.getElementById("next-button").hidden = false;
+			window.standardConfidence = element.value;
+		}
+		//function that changes the value of the slider in the popup element if popup is filler
+		function changeSliderInPopup2(element) {
+			let curr_output2 = document.getElementById('popup2_slider-output');
+			curr_output2.innerHTML = element.value + "%";
+			curr_output2.parentNode.id = "selected";
+			document.getElementById("next-button2").hidden = false;
+			window.standardConfidence = element.value;
+		}
+		//function that changes the value of the slider for confidence of
+		//selection in lineup
+		function changeSlider(element) {
+			let curr_output1 = document.getElementById('confidence_slider-output');
+			curr_output1.innerHTML = element.value + "%";
+			curr_output1.parentNode.id = "selected";
+			document.getElementById("next-button1").hidden = false;
+			window.standardConfidence = element.value;
+		}
+		// used to shuffle array of mugshot pics
+		function shuffle(array) {
+			var currentIndex = array.length,
+				temporaryValue, randomIndex;
+			// While there remain elements to shuffle...
+			while (0 !== currentIndex) {
+				// Pick a remaining element...
+				randomIndex = Math.floor(Math.random() * currentIndex);
+				currentIndex -= 1;
+				// And swap it with the current element.
+				temporaryValue = array[currentIndex];
+				array[currentIndex] = array[randomIndex];
+				array[randomIndex] = temporaryValue;
+			}
+			return array;
+		}
+		// picks pictures for experiment
+		function getPics(experimentType) {
+			let lineup = [];
+			if (experimentType.includes("tp")) {
+				lineup.push("media/target.jpg");
+			}
+			while (lineup.length < 6) {
+				let pic = "media/fillers/" + Math.floor((Math.random() * 60) + 1) + ".jpg";
+				// prevent duplicates by checking if pic is already in lineup
+				if (!lineup.includes(pic)) {
+					lineup.push(pic);
+				}
+			}
+			return shuffle(lineup);
+		}
+
+		function addPics(lineup) {
+			for (let pic in lineup) {
+				document.getElementById(pic).src = lineup[pic];
+			}
+		}
+
+		function getImage() {
+			let img;
+			if (window.experimentType === "stp" || window.experimentType === "tp")
+				img = "media/target.jpg";
+			else {
+				img = "media/fillers/2.jpg";
+			}
+			return img;
+		}
+		// called when a choice has been made by a user
+		function stopTime() {
+			endTime = new Date();
+			var seconds = endTime - startTime; //in ms
+			// strip the ms
+			seconds /= 1000;
+			window.time = seconds;
+		}
+		/**the next button that is displayed if user checks 'not present' box
+		the popup that is displayed in this case is the target, so this executes
+		in "tp" experiments ONLY **/
+		document.getElementById('next-button').addEventListener('click', function() {
+			let slider_value = document.getElementById("popup_slider").value;
+			setDatabase({
+				'path': `${window.userId}/lineup`,
+				'data': {
+					"time": (window.experimentType.includes("s")) ? window.time : window.time,
+					"selected filler": (window.experimentType.includes("s")) ? (!window.targetSelected && window.pictureSelected) : (!window.targetSelected && window.pictureSelected),
+					"checked 'not present'": (window.experimentType.includes("s")) ? window.radioSelected : window.radioSelected,
+					"correct": (window.experimentType.includes("tp")) ? window.targetSelected : window.radioSelected,
+					"selected target": (window.experimentType.includes("s")) ? (window.targetSelected) : window.targetSelected,
+					"confidence level": (window.experimentType.includes("s")) ? window.standardConfidence : slider_value,
+					//"target confidence": (!window.experimentType.includes("s")) ? ((window.experimentType.includes("tp")) ? slider_value : "N/A"),
+				}
+			});
+		});
+		/**the next button that is displayed if user selects an ID in ALL types of
+		experiments (tp, tnp, stp, and stnp), or if the user checks 'not present'
+		in the standard experiment (stp, stnp). In this case, no popup appears, and
+		the next button will only be displayed once the confidence slider has been
+		used.**/
+		document.getElementById('next-button1').addEventListener('click', function() {
+			let conf_slider_value = document.getElementById("confidence_slider").value;
+			setDatabase({
+				'path': `${window.userId}/lineup`,
+				'data': {
+					"time": (window.experimentType.includes("s")) ? window.time : window.time,
+					"selected filler": (window.experimentType.includes("s")) ? (!window.targetSelected && window.pictureSelected) : (!window.targetSelected && window.pictureSelected),
+					"checked 'not present'": (window.experimentType.includes("s")) ? window.radioSelected : window.radioSelected,
+					"correct": (window.experimentType.includes("tp")) ? window.targetSelected : window.radioSelected,
+					"selected target": (window.experimentType.includes("tp")) ? window.targetSelected : "N/A",
+					"confidence level": (window.experimentType.includes("s")) ? (conf_slider_value) : conf_slider_value,
+				}
+			});
+		});
+		/**the next button that is displayed if user checks 'not present' box
+		the popup that is displayed in this case is a random filler from the lineup.
+		so this executes in "tnp" experiments ONLY **/
+		document.getElementById('next-button2').addEventListener('click', function() {
+			/**stores the value of the slider in the popup (i.e. how confident the user
+			is that the filler in the popup was not the suspect) **/
+			let popup2_slider_value = document.getElementById("popup2_slider").value;
+			setDatabase({
+				'path': `${window.userId}/lineup`,
+				'data': {
+					"time": (window.experimentType.includes("s")) ? window.time : window.time,
+					"selected filler": (window.experimentType.includes("s")) ? (!window.targetSelected && window.pictureSelected) : (!window.targetSelected && window.pictureSelected),
+					"checked 'not present'": (window.experimentType.includes("s")) ? window.radioSelected : window.radioSelected,
+					"correct": (window.experimentType.includes("tp")) ? window.targetSelected : window.radioSelected,
+					"selected target": (window.experimentType.includes("s")) ? (window.targetSelected) : "N/A",
+					"confidence ratings": (window.experimentType.includes("s")) ? popup2_slider_value : popup2_slider_value,
+				}
+			});
+		});
+	</script>
 
 </body>
 

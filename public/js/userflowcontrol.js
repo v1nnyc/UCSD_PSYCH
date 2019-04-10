@@ -121,6 +121,4 @@ function clickNext() {
 //my markup in my code LOL oh powell.
 window.onload = function() {
   document.getElementById("next-button").addEventListener("click", incrementFlow);
-  document.getElementById("next-button1").addEventListener("click", incrementFlow);
-  document.getElementById("next-button2").addEventListener("click", incrementFlow);
 }
