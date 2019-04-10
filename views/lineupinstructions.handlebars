@@ -11,6 +11,13 @@
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
   <script src="js/userflowcontrol.js"></script>
   <script src="js/firebae.js"></script>
+  <style>
+    img {
+      height: 350px !important;
+      margin-bottom: 50px;
+      margin-top: 15px;
+    }
+  </style>
 </head>
 
 <body>
@@ -22,19 +29,48 @@
         <p>
           <strong>Instructions for the Lineup Test:</strong>
         </p>
-        <ul>
-          <li>
-            You will now be asked about the person you saw in the video earlier.
-          </li>
-          <li>
-            Please click <b>continue</b> to begin.
-          </li>
-        </ul>
+        <div id="instruction-content">
+        </div>
+
         <button id="next-button" class="btn btn-primary">Continue</button>
 
       </div>
     </div>
   </div>
+
+  <script>
+    getUserData().then(e => {
+      if(!window.experimentType.includes('s')){
+        document.getElementById('instruction-content').innerHTML = `<ul>
+          <li>
+            You will now be asked about the person you saw in the video earlier.
+          </li>
+          <li>On the next screen, you will see 6 faces. (The man from the video may or may not one of them.)</li>
+          <li>Beneath each face will be a sliding scale ranging from 0% to 100%</li>
+          <li><b>0%</b> will represent there being a <b>0% chance it was him</b>. (In other words, you are <u>certain</u> it was NOT this person)</li>
+          <img class="img-thumbnail" src='media/examples/surenot.png'></img>
+          <li><b>100%</b> will represent there being a <b>100% chance it is was him</b>. (In other words, you are <u>certain</u> it WAS this person)</li>
+          <img class="img-thumbnail" src='media/examples/sureis.png'></img>
+          <li>The middle of the scale (50%) means that you are completely unsure if it was him or not.</li>
+          <img class="img-thumbnail" src='media/examples/guessing.png'></img>
+          <li>
+            <h3>Please note that you can use any number ranging from 0% to 100%.</h3>
+          </li>
+          <li>
+            Please click <b>continue</b> to begin.
+          </li>
+        </ul>`
+      } else {
+        document.getElementById('instruction-content').innerHTML =
+        `<ul>
+          <li>On the next screen, you will see a lineup of 6 faces. (The man from the video may or may not be one of them.)</li>
+          <li>After deciding whether or not he is in the lineup, you will
+            be asked to rate your confidence using a slider scale presented below the faces.</li>
+        </ul>`
+      }
+    })
+  </script>
+
 </body>
 
 </html>
