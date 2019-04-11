@@ -135,7 +135,10 @@ function resumeRedirect() {
 
 //my markup in my code LOL oh powell.
 window.onload = function() {
-  document.getElementById("next-button").addEventListener("click", incrementFlow);
+  document.getElementById("next-button").addEventListener("click", function(){
+    incrementFlow();
+    document.getElementById("next-button").disabled = true;
+  });
 }
 
 // used on pages where there is no next button (video, 2048)
