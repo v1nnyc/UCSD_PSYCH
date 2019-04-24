@@ -103,7 +103,7 @@
 						<h6 class="modal-title" id="exampleModalLongTitle">How certain are you that this is NOT the man from the video?</h6>
 					</div>
 					<div class="modal-body">
-						<img id="popup-pic" src="media/fillers/1.jpg" class="rounded mx-auto d-block" style="width:60%; height: 60%">
+						<img id="popup-pic" src="media/fillers/Picture1.jpg" class="rounded mx-auto d-block" style="width:60%; height: 60%">
 					</div>
 					<div class="modal-footer">
 						<div class="col-8">
@@ -261,7 +261,7 @@
 				lineup.push("media/target.jpg");
 			}
 			while (lineup.length < 6) {
-				let pic = "media/fillers/" + Math.floor((Math.random() * 60) + 1) + ".jpg";
+				let pic = "media/fillers/Picture" + Math.floor((Math.random() * 60) + 1) + ".jpg";
 				// prevent duplicates by checking if pic is already in lineup
 				if (!lineup.includes(pic)) {
 					lineup.push(pic);
@@ -281,7 +281,7 @@
 			if (window.experimentType === "stp" || window.experimentType === "tp")
 				img = "media/target.jpg";
 			else {
-				img = "media/fillers/2.jpg";
+				img = "media/fillers/Picture2.jpg";
 			}
 			return img;
 		}
