@@ -173,6 +173,8 @@
 		function selectedPicture(imgElement) {
 			clearSelectedPictures();
 			unselectBox();
+			hideNextButton();
+			resetSlider();
 			imgElement.style["border"] = "5px solid red";
 			showConfidenceSlider();
 			stopTime();
@@ -241,6 +243,8 @@
 		function radioClicked() {
 			clearSelectedPictures();
 			showConfidenceSlider();
+			hideNextButton();
+			resetSlider();
 			window.radioSelected = true;
 			window.pictureSelected = false;
 			window.targetSelected = false;
@@ -280,6 +284,17 @@
 				}
 			}
 			return shuffle(lineup);
+		}
+
+		function resetSlider() {
+			if (document.getElementById("selected")) {
+				document.getElementById("selected").innerHTML = `Value: <span id="slider6-output"></span>`;
+				document.getElementById("selected").id = "not-selected";
+			}
+		}
+
+		function hideNextButton() {
+			document.getElementById('next-button').hidden = true;
 		}
 
 		function addPics(lineup) {
