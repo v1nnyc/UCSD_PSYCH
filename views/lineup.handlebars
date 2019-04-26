@@ -176,6 +176,8 @@
 		function selectedPicture(imgElement) {
 			clearSelectedPictures();
 			unselectBox();
+			hideNextButton();
+			resetSlider();
 			imgElement.style["border"] = "5px solid red";
 			showConfidenceSlider();
 			stopTime();
@@ -202,13 +204,25 @@
 			}
 		}
 
+		function resetSlider(){
+			if(document.getElementById("selected")){
+				document.getElementById("selected").innerHTML = `Value: <span id="confidence-slider-output"></span>`;
+				document.getElementById("selected").id = "not-selected";
+			}
+		}
+
+		function hideNextButton(){
+			document.getElementById('next-button').hidden = true;
+		}
+
 		function showConfidenceSlider() {
 			document.getElementById("confidence-slider-div").hidden = false;
 		}
 
 		function radioClicked() {
 			clearSelectedPictures();
-			document.getElementById('next-button').hidden = true;
+			hideNextButton();
+			resetSlider();
 			console.log(window.experimentType);
 			if (window.experimentType === "tp" || window.experimentType === "tnp") {
 				window.radioSelected = true;
