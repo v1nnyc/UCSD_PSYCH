@@ -74,6 +74,21 @@
 				<img class="filler" id='5' src='media/fillers/blank.png'>
 			</div>
 		</div>
+		<br />
+		<!-- Row 3, Col 1 -->
+		<div class="row justify-content-between">
+			<div class="col-md-4">
+				<img class="filler" id='6' src='media/fillers/blank.png'>
+			</div>
+			<!-- Row 3, Col 2 -->
+			<div class="col-md-4">
+				<img class="filler" id='7' src='media/fillers/blank.png'>
+			</div>
+			<!-- Row 3, Col 3 -->
+			<div class="col-md-4">
+				<img class="filler" id='8' src='media/fillers/blank.png'>
+			</div>
+		</div>
 		<!--radio button for target not present that when clicked, will call the popup -->
 		<div class="form-check mt-3" id="standard">
 			<div class="form-check mt-3">
@@ -103,7 +118,7 @@
 						<h6 class="modal-title" id="exampleModalLongTitle">How certain are you that this is NOT the man from the video?</h6>
 					</div>
 					<div class="modal-body">
-						<img id="popup-pic" src="media/fillers/Picture1.jpg" class="rounded mx-auto d-block" style="width:60%; height: 60%">
+						<img id="popup-pic" src="media/fillers/Picture1.jpg" class="rounded mx-auto d-block" style="width:80%; height: 60%">
 					</div>
 					<div class="modal-footer">
 						<div class="col-8">
@@ -131,15 +146,21 @@
 
 		// initialize DOM based on exp type
 		function initializeExperiment() {
+			// populating pictures
 			let lineup = getPics(window.experimentType);
 			addPics(lineup);
+			// recording time
 			startTime = new Date();
+			// responsible for recording which user input was selected
 			window.radioSelected = false;
 			window.pictureSelected = false;
 			window.targetSelected = false;
+
 			makePicturesSelectable();
 			showNonePresentButton();
+
 			pickPopupPic();
+
 			if(!window.experimentType.includes('s')){
 				$("#notPresentCheck").attr("data-toggle", "modal");
 				$("#notPresentCheck").attr("data-target", "#popup");
@@ -271,10 +292,13 @@
 		// picks pictures for experiment
 		function getPics(experimentType) {
 			let lineup = [];
+			let lineupCount = 9;
+
 			if (experimentType.includes("tp")) {
 				lineup.push("media/target.jpg");
 			}
-			while (lineup.length < 6) {
+
+			while (lineup.length < lineupCount) {
 				let pic = "media/fillers/Picture" + Math.floor((Math.random() * 60) + 1) + ".jpg";
 				// prevent duplicates by checking if pic is already in lineup
 				if (!lineup.includes(pic)) {
