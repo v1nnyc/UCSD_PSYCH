@@ -39,7 +39,7 @@
 </head>
 
 <body>
-	<div class="container">
+	<div class="container" hidden>
 		<div class="row">
 			<h5 id="instructions"></h5>
 		</div>
@@ -131,20 +131,29 @@
 			window.radioSelected = false;
 			window.pictureSelected = false;
 			window.targetSelected = false;
-			// check if standard exp
-			switch (window.experimentType.includes("s")) {
-				case true:
+			// check if standard exp, stp, stnp
+			if (window.experimentType.includes("st")) {
+					//showLineup();
 					makePicturesSelectable();
 					showNonePresentButton();
-					break;
-				case false:
+				}
+				//case for experiments with 6 sliders (tp, tnp)
+			else if (!window.experimentType("s")){
+				//showLineup();
 					showSliders();
-					break;
+			}
+			//case for showup experiments, showuptp, showuptnp
+			else {
+				//displayShowup();
+				//showNonePresentButton(); ?????
 			}
 		}
 
 		function populateInstructions() {
-			if (window.experimentType.includes('s')) {
+			if (window.experimentType.includes("showup")){
+				document.getElementById('instructions').innerHTML = `Please use the slider to determine how certain you are that the man below is the one from the video.`;
+			}
+			else if (window.experimentType.includes('s')) {
 				document.getElementById('instructions').innerHTML = `If you see the man from the video, please click on his face. Otherwise, select the not present option below.`;
 			} else {
 				document.getElementById('instructions').innerHTML = `For each face, please use the slider to provide a rating
@@ -273,7 +282,18 @@
 		// picks pictures for experiment
 		function getPics(experimentType) {
 			let lineup = [];
-			if (experimentType.includes("tp")) {
+			if(window.experimentType.includes("showup")){
+				if(window.experimentType.includes("tp")){
+					lineup.push("media/target.jpg");
+					return;
+				}
+				else{
+					let pic = "media/fillers/Picture" + Math.floor((Math.random() * 60) + 1) + ".jpg";
+					lineup.push(pic);
+					return;
+				}
+			}
+			else if (experimentType.includes("tp") && !experimentType.includes("showup")) {
 				lineup.push("media/target.jpg");
 			}
 			while (lineup.length < 6) {
@@ -298,6 +318,8 @@
 		}
 
 		function addPics(lineup) {
+			//if experiment type is showup tp or showup tnp, lineup will just be a single face
+
 			for (let pic in lineup) {
 				document.getElementById(pic).src = lineup[pic];
 			}

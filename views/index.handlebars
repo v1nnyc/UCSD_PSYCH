@@ -127,8 +127,8 @@
 		function getExperimentType() {
 			// target present and target not present are for sliders
 			// standard target present/not present are for selecting a face
-			let types = ["tp", "tnp", "stp", "stnp"]
-			let type = types[Math.floor((Math.random() * 4))];
+			let types = ["tp", "tnp", "stp", "stnp", "showuptp", "showuptnp"]
+			let type = types[Math.floor((Math.random() * 6))];
 			return type;
 		}
 
@@ -156,7 +156,8 @@
 					'path': window.userId,
 					'data': {
 						"ID": uid,
-						"experiment type": getExperimentType(),
+						"experiment type" : "showuptp",
+						//"experiment type": getExperimentType(),
 						"date_taken": getDate()
 					}
 				});
