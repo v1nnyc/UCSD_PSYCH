@@ -41,9 +41,7 @@
       storageBucket: "ucsd-psych.appspot.com",
       messagingSenderId: "325328536445"
     };
-
     firebase.initializeApp(config);
-
     window.onload = function() {
       firebase.auth().onAuthStateChanged(function(user) {
         if (user) {} else {
@@ -65,8 +63,6 @@ document.getElementById('instructions-stuff').innerHTML = ``;
 document.getElementById('video').play();
 window.setTimeout(clickNext, 31000);
 }
-
-
   </script>
 </body>
 

@@ -1,0 +1,364 @@
+<html>
+<meta charset="utf-8">
+
+<head>
+	<script src="https://www.gstatic.com/firebasejs/5.7.2/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/5.7.2/firebase-auth.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/5.7.2/firebase-database.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/5.7.2/firebase-firestore.js"></script>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
+	<link rel="stylesheet" href="css/styles.css" type="text/css" />
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+	<script src="js/userflowcontrol.js"></script>
+	<script src="js/firebae.js"></script>
+	<script>
+		requiresFirebase();
+	</script>
+	<style>
+		img {
+			width: 100%;
+			margin-bottom: 10px;
+		}
+
+		#not-selected {
+			font-size: 25px;
+			color: red;
+		}
+
+		#selected {
+			font-size: 15px;
+			color: black;
+		}
+
+		p span {
+			color: #64f24f;
+			font-size: 30px;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container">
+		<div class="row">
+			<h5 id="instructions"></h5>
+		</div>
+		<!-- Row 1, Col 1. -->
+		<div class="row justify-content-between">
+			<div class="col-md-4">
+				<img id='0' src='media/fillers/blank.png'>
+				<div class="slidecontainer">
+					<input type="range" min="0" max="100" value="50" class="slider" id="slider0" hidden>
+					<p id="not-selected" hidden>Value: <span id="slider0-output"></span></p>
+				</div>
+			</div>
+			<!-- Row 1, Col 2 -->
+			<div class="col-md-4">
+				<img id='1' src='media/fillers/blank.png'>
+				<div class="slidecontainer">
+					<input type="range" min="0" max="100" value="50" class="slider" id="slider1" hidden>
+					<p id="not-selected" hidden>Value: <span id="slider1-output"></span></p>
+				</div>
+			</div>
+			<!-- Row 1, Col 3 -->
+			<div class="col-md-4">
+				<img id='2' src='media/fillers/blank.png'>
+				<div class="slidecontainer">
+					<input type="range" min="0" max="100" value="50" class="slider" id="slider2" hidden>
+					<p id="not-selected" hidden>Value: <span id="slider2-output"></span></p>
+				</div>
+			</div>
+		</div>
+		</br>
+		<!-- Row 2, Col 1 -->
+		<div class="row justify-content-between">
+			<div class="col-md-4">
+				<img id='3' src='media/fillers/blank.png'>
+				<div class="slidecontainer">
+					<input type="range" min="0" max="100" value="50" class="slider" id="slider3" hidden>
+					<p id="not-selected" hidden>Value: <span id="slider3-output"></span></p>
+				</div>
+			</div>
+			<!-- Row 2, Col 2 -->
+			<div class="col-md-4">
+				<img id='4' src='media/fillers/blank.png'>
+				<div class="slidecontainer">
+					<input type="range" min="0" max="100" value="50" class="slider" id="slider4" hidden>
+					<p id="not-selected" hidden>Value: <span id="slider4-output"></span></p>
+				</div>
+			</div>
+
+			<!-- Row 2, Col 3 -->
+			<div class="col-md-4">
+				<img id='5' src='media/fillers/blank.png'>
+				<div class="slidecontainer">
+					<input type="range" min="0" max="100" value="50" class="slider" id="slider5" hidden>
+					<p id="not-selected" hidden>Value: <span id="slider5-output"></span></p>
+				</div>
+			</div>
+		</div>
+		<div class="row" id="standard" hidden>
+			<div class="form-check mt-3">
+				<input id="notPresentCheck" class="form-check-input" type="checkbox" onclick="radioClicked()" style="width:20px; height: 20px; border-radius: 4px; background-color: lightgrey; margin-top: 11px; " />
+				<label class="form-check-label mt-1" style="font-size: 1.25rem; margin-top: 0.4rem">Check here <strong>if the person is not present</strong></label>
+			</div>
+
+		</div>
+		<div class="row" id="confidence-slider" hidden>
+			<div class="form-check mt-3">
+				<h5>How certain are you? (0% = completely unsure, 100% = completely sure) </h5>
+				<input type="range" min="0" max="100" value="50" class="slider" id="slider6" oninput="changeSlider(this)">
+				<p id="not-selected">Value: <span id="slider6-output"></span></p>
+			</div>
+		</div>
+
+		<div class="row">
+			<input id="next-button" class="btn btn-primary" type="submit" name="formSubmit" value="Next" hidden />
+		</div>
+	</div>
+
+	<script>
+		// used for measuring time between pic render and choice
+		let startTime;
+		getUserData().then(e => {
+			initializeExperiment();
+		})
+		// initialize DOM based on exp type
+		function initializeExperiment() {
+			populateInstructions();
+			addPics(getPics(window.experimentType));
+			startTime = new Date();
+			window.radioSelected = false;
+			window.pictureSelected = false;
+			window.targetSelected = false;
+			// check if standard exp, stp, stnp
+			if (window.experimentType.includes("st")) {
+					//showLineup();
+					makePicturesSelectable();
+					showNonePresentButton();
+				}
+				//case for experiments with 6 sliders (tp, tnp)
+			else if (!window.experimentType("s")){
+				//showLineup();
+					showSliders();
+			}
+			//case for showup experiments, showuptp, showuptnp
+			else {
+				//displayShowup();
+				//showNonePresentButton(); ?????
+			}
+		}
+
+		function populateInstructions() {
+			if (window.experimentType.includes("showup")){
+				document.getElementById('instructions').innerHTML = `Please use the slider to determine how certain you are that the man below is the one from the video.`;
+			}
+			else if (window.experimentType.includes('s')) {
+				document.getElementById('instructions').innerHTML = `If you see the man from the video, please click on his face. Otherwise, select the not present option below.`;
+			} else {
+				document.getElementById('instructions').innerHTML = `For each face, please use the slider to provide a rating
+			(0% = definitely NOT the man from the video, 100% = definitely the man from the video)`
+			}
+		}
+		// will change code to allow pictures to be selected for standard lineup
+		function makePicturesSelectable() {
+			let pictures = document.getElementsByTagName("img");
+			for (let picture in pictures) {
+				let curr_pic = pictures[picture];
+				curr_pic.onclick = function() {
+					selectedPicture(this);
+					checkIfTarget(this);
+					window.pictureSelected = true;
+					window.radioSelected = false;
+				}
+			}
+		}
+
+		function showNonePresentButton() {
+			document.getElementById("standard").hidden = false;
+		}
+		// handles putting border around image and  keeping track of which image is
+		// selected and clearing other borders
+		function selectedPicture(imgElement) {
+			clearSelectedPictures();
+			unselectBox();
+			hideNextButton();
+			resetSlider();
+			imgElement.style["border"] = "5px solid red";
+			showConfidenceSlider();
+			stopTime();
+		}
+
+		function checkIfTarget(imgElement) {
+			window.targetSelected = false;
+			if ((imgElement.src).includes("target")) {
+				window.targetSelected = true;
+			}
+		}
+
+		function unselectBox() {
+			document.getElementById("notPresentCheck").checked = false;
+		}
+
+		function clearSelectedPictures() {
+			let pictures = document.getElementsByTagName("img");
+			for (let picture in pictures) {
+				let curr_pic = pictures[picture];
+				if (curr_pic.style) {
+					curr_pic.style.border = "";
+				}
+			}
+		}
+		// will change sliders and values to be visible and will also add logic to sliders
+		function showSliders() {
+			/* code for slider logic */
+			let sliders = document.getElementsByClassName("slider")
+			for (var slider in sliders) {
+				let curr_slider = sliders[slider];
+				// show slider
+				curr_slider.hidden = false;
+				let curr_output = document.getElementById(curr_slider.id + "-output");
+				if (curr_output) {
+					curr_output.parentNode.hidden = false;
+				}
+				sliders[slider].oninput = function() {
+					curr_output.innerHTML = this.value + "%";
+					curr_output.parentNode.id = "selected";
+					inputted(this);
+				}
+			}
+		}
+
+		function changeSlider(element) {
+			let curr_output = document.getElementById('slider6-output');
+			curr_output.innerHTML = element.value + "%";
+			curr_output.parentNode.id = "selected";
+			document.getElementById("next-button").hidden = false;
+			window.standardConfidence = element.value;
+		}
+		// logic for checking if all 6 slider inputs have been inputted
+		let inputs = {};
+
+		function inputted(element) {
+			if (!(element.id in inputs)) {
+				inputs[element.id] = true;
+			}
+			if (Object.keys(inputs).length == 6) {
+				//show next-button button
+				document.getElementById("next-button").hidden = false;
+			}
+		}
+		// logic for when radio button is clicked
+		function radioClicked() {
+			clearSelectedPictures();
+			showConfidenceSlider();
+			hideNextButton();
+			resetSlider();
+			window.radioSelected = true;
+			window.pictureSelected = false;
+			window.targetSelected = false;
+			stopTime();
+		}
+
+		function showConfidenceSlider() {
+			document.getElementById("confidence-slider").hidden = false;
+		}
+		// used to shuffle array of mugshot pics
+		function shuffle(array) {
+			var currentIndex = array.length,
+				temporaryValue, randomIndex;
+			// While there remain elements to shuffle...
+			while (0 !== currentIndex) {
+				// Pick a remaining element...
+				randomIndex = Math.floor(Math.random() * currentIndex);
+				currentIndex -= 1;
+				// And swap it with the current element.
+				temporaryValue = array[currentIndex];
+				array[currentIndex] = array[randomIndex];
+				array[randomIndex] = temporaryValue;
+			}
+			return array;
+		}
+		// picks pictures for experiment
+		function getPics(experimentType) {
+			let lineup = [];
+			if(window.experimentType.includes("showup")){
+				if(window.experimentType.includes("tp")){
+					lineup.push("media/target.jpg");
+					return;
+				}
+				else{
+					let pic = "media/fillers/Picture" + Math.floor((Math.random() * 60) + 1) + ".jpg";
+					lineup.push(pic);
+					return;
+				}
+			}
+			else if (experimentType.includes("tp") && !experimentType.includes("showup")) {
+				lineup.push("media/target.jpg");
+			}
+			while (lineup.length < 6) {
+				let pic = "media/fillers/Picture" + Math.floor((Math.random() * 60) + 1) + ".jpg";
+				// prevent duplicates by checking if pic is already in lineup
+				if (!lineup.includes(pic)) {
+					lineup.push(pic);
+				}
+			}
+			return shuffle(lineup);
+		}
+
+		function resetSlider() {
+			if (document.getElementById("selected")) {
+				document.getElementById("selected").innerHTML = `Value: <span id="slider6-output"></span>`;
+				document.getElementById("selected").id = "not-selected";
+			}
+		}
+
+		function hideNextButton() {
+			document.getElementById('next-button').hidden = true;
+		}
+
+		function addPics(lineup) {
+			//if experiment type is showup tp or showup tnp, lineup will just be a single face
+
+			for (let pic in lineup) {
+				document.getElementById(pic).src = lineup[pic];
+			}
+		}
+		// called when a choice has been made by a user
+		function stopTime() {
+			endTime = new Date();
+			var seconds = endTime - startTime; //in ms
+			// strip the ms
+			seconds /= 1000;
+			window.time = seconds;
+		}
+		document.getElementById('next-button').addEventListener('click', function() {
+			let slider_values = [];
+			let imgs = document.getElementsByTagName("img");
+			let index;
+			for (let i = 0; i < 6; i++) {
+				// get confidence scores from sliders
+				slider_values.push(document.getElementById("slider" + i).value);
+				/* get index of target picture */
+				if (imgs[i].src.includes("target")) {
+					index = i;
+				}
+			}
+			setDatabase({
+				'path': `${window.userId}/lineup`,
+				'data': {
+					"time": (window.experimentType.includes("s")) ? window.time : "N/A",
+					"selected filler": (window.experimentType.includes("s")) ? (!window.targetSelected && window.pictureSelected) : "N/A",
+					"checked 'not present'": (window.experimentType.includes("s")) ? window.radioSelected : "N/A",
+					"correct": (window.experimentType.includes("s")) ? ((window.experimentType.includes("tp")) ? window.targetSelected : window.radioSelected) : "N/A",
+					"confidence level": (window.experimentType.includes("s")) ? window.standardConfidence : "N/A",
+					"target confidence": (!window.experimentType.includes("s")) ? ((window.experimentType.includes("tp")) ? slider_values[index] : "N/A") : "N/A",
+					"confidence ratings": (!(window.experimentType.includes("s"))) ? slider_values : "N/A"
+				}
+			});
+		});
+	</script>
+
+</body>
+
+</html>

@@ -22,17 +22,14 @@
 		img {
 			width: 100%;
 		}
-
 		#not-selected {
 			font-size: 25px;
 			color: red;
 		}
-
 		#selected {
 			font-size: 15px;
 			color: black;
 		}
-
 		p span {
 			color: #64f24f;
 			font-size: 30px;
@@ -143,7 +140,6 @@
 		getUserData().then(e => {
 			initializeExperiment();
 		})
-
 		// initialize DOM based on exp type
 		function initializeExperiment() {
 			// populating pictures
@@ -155,18 +151,14 @@
 			window.radioSelected = false;
 			window.pictureSelected = false;
 			window.targetSelected = false;
-
 			makePicturesSelectable();
 			showNonePresentButton();
-
 			pickPopupPic();
-
 			if (!window.experimentType.includes('s')) {
 				$("#notPresentCheck").attr("data-toggle", "modal");
 				$("#notPresentCheck").attr("data-target", "#popup");
 			}
 		}
-
 		function pickPopupPic() {
 			let pic = document.getElementById("popup-pic");
 			if (window.experimentType.includes("np")) {
@@ -176,7 +168,6 @@
 				pic.src = "media/target.jpg"
 			}
 		}
-
 		function makePicturesSelectable() {
 			let pictures = document.getElementsByTagName("img");
 			for (let picture in pictures) {
@@ -189,11 +180,9 @@
 				}
 			}
 		}
-
 		function showNonePresentButton() {
 			document.getElementById("standard").hidden = false;
 		}
-
 		function selectedPicture(imgElement) {
 			clearSelectedPictures();
 			unselectBox();
@@ -203,18 +192,15 @@
 			showConfidenceSlider();
 			stopTime();
 		}
-
 		function checkIfTarget(imgElement) {
 			window.targetSelected = false;
 			if ((imgElement.src).includes("target")) {
 				window.targetSelected = true;
 			}
 		}
-
 		function unselectBox() {
 			document.getElementById("notPresentCheck").checked = false;
 		}
-
 		function clearSelectedPictures() {
 			let pictures = document.getElementsByTagName("img");
 			for (let picture in pictures) {
@@ -224,22 +210,18 @@
 				}
 			}
 		}
-
 		function resetSlider() {
 			if (document.getElementById("selected")) {
 				document.getElementById("selected").innerHTML = `Value: <span id="confidence-slider-output"></span>`;
 				document.getElementById("selected").id = "not-selected";
 			}
 		}
-
 		function hideNextButton() {
 			document.getElementById('next-button').hidden = true;
 		}
-
 		function showConfidenceSlider() {
 			document.getElementById("confidence-slider-div").hidden = false;
 		}
-
 		function radioClicked() {
 			clearSelectedPictures();
 			hideNextButton();
@@ -264,13 +246,11 @@
 			let curr_output = document.getElementById(element.id + '-output');
 			curr_output.innerHTML = element.value + "%";
 			curr_output.parentNode.id = "selected";
-
 			if (element.id.includes("popup")) {
 				element.parentNode.parentNode.parentNode.childNodes[3].childNodes[1].disabled = false;
 			} else {
 				document.getElementById("next-button").hidden = false;
 			}
-
 			window.standardConfidence = element.value;
 		}
 		// used to shuffle array of mugshot pics
@@ -293,11 +273,9 @@
 		function getPics(experimentType) {
 			let lineup = [];
 			let lineupCount = 9;
-
 			if (experimentType.includes("tp")) {
 				lineup.push("media/target.jpg");
 			}
-
 			while (lineup.length < lineupCount) {
 				let pic = "media/fillers/Picture" + Math.floor((Math.random() * 60) + 1) + ".jpg";
 				// prevent duplicates by checking if pic is already in lineup
@@ -307,13 +285,11 @@
 			}
 			return shuffle(lineup);
 		}
-
 		function addPics(lineup) {
 			for (let pic in lineup) {
 				document.getElementById(pic).src = lineup[pic];
 			}
 		}
-
 		function getImage() {
 			let img;
 			if (window.experimentType === "stp" || window.experimentType === "tp")
@@ -337,7 +313,6 @@
 		document.getElementById('next-button1').addEventListener('click', function() {
 			set(document.getElementById("popup-slider").value);
 		});
-
 		/**the next button that is displayed if user selects an ID in ALL types of
 		experiments (tp, tnp, stp, and stnp), or if the user checks 'not present'
 		in the standard experiment (stp, stnp). In this case, no popup appears, and
@@ -346,7 +321,6 @@
 		document.getElementById('next-button').addEventListener('click', function() {
 			set(document.getElementById("confidence-slider").value);
 		});
-
 		function set(slider_value) {
 			console.log(slider_value)
 			setDatabase({
