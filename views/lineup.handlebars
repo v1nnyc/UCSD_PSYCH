@@ -121,7 +121,7 @@
 						<h6 class="modal-title" id="exampleModalLongTitle">How certain are you that this is NOT the man from the video?</h6>
 					</div>
 					<div class="modal-body">
-						<img id="popup-pic" src="media/fillers/Picture1.jpg" class="rounded mx-auto d-block" style="width:80%; height: 60%">
+						<img id="popup-pic" src="media/fillers/Picture1.jpg" class="rounded mx-auto d-block" style="width:auto; height: 33%">
 					</div>
 					<div class="modal-footer">
 						<div class="col-8">
@@ -149,6 +149,7 @@
 		// initialize DOM based on exp type
 		function initializeExperiment() {
 			// populating pictures
+			//window.experimentType = "tp";
 			let lineup = getPics(window.experimentType);
 			addPics(lineup);
 			// recording time
@@ -232,7 +233,7 @@
 			clearSelectedPictures();
 			hideNextButton();
 			resetSlider();
-			console.log(window.experimentType);
+			//console.log(window.experimentType);
 			if (window.experimentType === "tp" || window.experimentType === "tnp") {
 				window.radioSelected = true;
 				window.pictureSelected = false;
@@ -347,4 +348,3 @@
 </body>
 
 </html>
-
