@@ -19,14 +19,9 @@
 		requiresFirebase();
 	</script>
 	<style>
-
-
 		img {
-			width: auto;
-			height: 33%;
-
+			width: 100%;
 		}
-
 		#not-selected {
 			font-size: 25px;
 			color: red;
@@ -39,14 +34,13 @@
 			color: #64f24f;
 			font-size: 30px;
 		}
-
 	</style>
 </head>
 
 <body>
 	<div class="container">
 		<div class="row">
-			<h5>Of the nine faces, if you see the man from the video, select him. Otherwise, select the 'not present' option below.</h5>
+			<h5>If you see the man from the video, select him. Otherwise, select the 'not present' option below.</h5>
 		</div>
 		<!-- Row 1, Col 1. -->
 		<div class="row justify-content-between">
@@ -121,7 +115,7 @@
 						<h6 class="modal-title" id="exampleModalLongTitle">How certain are you that this is NOT the man from the video?</h6>
 					</div>
 					<div class="modal-body">
-						<img id="popup-pic" src="media/fillers/Picture1.jpg" class="rounded mx-auto d-block" style="width:auto; height: 33%">
+						<img id="popup-pic" src="media/fillers/Picture1.jpg" class="rounded mx-auto d-block" style="width:62.5s%">
 					</div>
 					<div class="modal-footer">
 						<div class="col-8">
@@ -149,7 +143,7 @@
 		// initialize DOM based on exp type
 		function initializeExperiment() {
 			// populating pictures
-			//window.experimentType = "tp";
+			window.experimentType = "tp";
 			let lineup = getPics(window.experimentType);
 			addPics(lineup);
 			// recording time
@@ -233,7 +227,7 @@
 			clearSelectedPictures();
 			hideNextButton();
 			resetSlider();
-			//console.log(window.experimentType);
+			console.log(window.experimentType);
 			if (window.experimentType === "tp" || window.experimentType === "tnp") {
 				window.radioSelected = true;
 				window.pictureSelected = false;
