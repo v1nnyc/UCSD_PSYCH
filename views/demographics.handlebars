@@ -31,7 +31,7 @@
 						<option value="No">No</option>
 					</select>
 				</div>
-				<div class = "form-group row">
+			 <div class = "form-group row">
 					<label class = "col-6"> How did you view this experiment?</label>
 					<select class="form-control col-3" id="formHowTaken" onchange="checkInput()">
 						<option value="" disabled selected>Select answer</option>
@@ -208,13 +208,16 @@
 			let ethnicity = ethnField.options[ethnField.selectedIndex].value;
 			let seenField = document.querySelector('#formSeen');
 			let seen = seenField.options[seenField.selectedIndex].value;
-			if (age && gender && education && ethnicity && seen) {
+			let howTakenField = document.querySelector('#formHowTaken');
+			let howTaken = howTakenField.options[howTakenField.selectedIndex].value;
+			if (age && gender && education && ethnicity && seen && howTaken) {
 				document.getElementById('next-button').disabled = false;
 			} else {
 				document.getElementById('next-button').disabled = true;
 			}
 		}
 		function submitForm() {
+			console.log("next selected");
 			let ageField = document.querySelector('#formAge');
 			let age = ageField.options[ageField.selectedIndex].value;
 			let genderField = document.querySelector('#formGender');
@@ -226,7 +229,7 @@
 			let seenField = document.querySelector('#formSeen');
 			let seen = seenField.options[seenField.selectedIndex].value;
 			let howTakenField = document.querySelector('#formHowTaken');
-			let howTaken = document.options[howTakenField.selectedIndex].value;
+			let howTaken = howTakenField.options[howTakenField.selectedIndex].value;
 			setDatabase({
 				'path': `${window.userId}/demographics`,
 				'data': {
@@ -235,7 +238,7 @@
 					"age": age,
 					"education level": education,
 					"ethnicity": ethnicity,
-					"gender": gender,
+					"gender": gender
 				}
 			}).then(e => {
 				firebase.auth().signOut()
