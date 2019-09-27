@@ -146,11 +146,12 @@
 		function submit(){
 			document.getElementById('next-button').disabled = true;
 			document.getElementById('next-button').innerHTML = `<div class="lds-ripple"><div></div><div></div></div>`;
+
 			createNewUser().then(uid => {
 				setDatabase({
 					'path': window.userId,
 					'data': {
-						"ID": uid,
+						"ID": window.userId,
 						"experiment type": getExperimentType(),
 						"date_taken": getDate()
 					}
