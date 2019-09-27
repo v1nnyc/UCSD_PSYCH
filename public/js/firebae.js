@@ -18,10 +18,9 @@ function getUserData() {
   return new Promise(function(resolve) {
     firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
-        window.userId = makeUserID(25);
-        //user.uid = window.userId;
-        //console.log(window.userId);
-        //window.userId = user.uid;
+        window.userId = user.uid;
+        //let tempId = makeUserID(3);
+        //window.userId = tempId;
         firebase.database().ref("popup/" + window.userId + "/experiment type")
           .once('value').then(function(snapshot) {
             window.experimentType = snapshot.val();
@@ -41,10 +40,9 @@ function createNewUser() {
     firebase.auth().signInAnonymously().then(function() {
       firebase.auth().onAuthStateChanged(function(user) {
         if (user) {
-          //resolve(user.uid)
-          //user.uid = makeUserID(20);
-          //console.log(user.uid);
-          resolve(user.uid);
+        window.userId = makeUserID(5);
+          //window.userId = user.uid;
+          resolve(window.userId);
         }
       });
     });
@@ -68,6 +66,7 @@ function makeUserID(length){
    }
    return result;
 }
+
 // setters for firebaseInUse
 function requiresFirebase() {
   getUserData();
