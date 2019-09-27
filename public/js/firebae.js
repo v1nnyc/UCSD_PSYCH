@@ -40,7 +40,7 @@ function createNewUser() {
     firebase.auth().signInAnonymously().then(function() {
       firebase.auth().onAuthStateChanged(function(user) {
         if (user) {
-        window.userId = makeUserID(5);
+        window.userId = makeUserID(25);
           //window.userId = user.uid;
           resolve(window.userId);
         }
